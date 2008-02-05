@@ -22,6 +22,12 @@ pygtk.require('2.0')
 import gtk
 import gtk.glade
 
+
+match_criteria=["window_name", "window_role", "window_class", "window_xid", "application_name", "window_property", "window_workspace"]
+
+print match_criteria
+
+
 class gdevilspie:
   def __init__(self):
     print "Welcome"
@@ -33,19 +39,37 @@ class gdevilspie:
     self.RulesList = self.wTreeList.get_widget("RulesList")
     self.RuleEdit = self.wTreeEdit.get_widget("RuleEdit")
     self.RulesTree = self.wTreeList.get_widget("RulesTree")
-
+    self.MatchTree = self.wTreeEdit.get_widget("MatchTree")
+    
     self.wTreeList.signal_autoconnect (self)
     self.wTreeEdit.signal_autoconnect (self)
 
     self.rules_list_store = gtk.ListStore(str)
+    self.match_list_store = gtk.ListStore(bool, str)
+    
     self.RulesTree.set_model(self.rules_list_store)
+    self.MatchTree.set_model(self.match_list_store)
 
-    self.column1=gtk.TreeViewColumn('Rule Name')
-    self.RulesTree.append_column(self.column1)
-    self.cell=gtk.CellRendererText()
-    self.column1.pack_start(self.cell,expand=True)
+    self.RulesFilesNames=gtk.TreeViewColumn('Rule Name')
+    self.RulesTree.append_column(self.RulesFilesNames)
+    self.RuleFileName=gtk.CellRendererText()
+    self.RulesFilesNames.pack_start(self.RuleFileName,expand=True)
+    self.RulesFilesNames.add_attribute(self.RuleFileName, 'text', 0)
+    
+    self.MatchPropertyNames=gtk.TreeViewColumn('Property')
+    self.MatchPropertyEnable=gtk.TreeViewColumn('')
+    self.MatchTree.append_column(self.MatchPropertyEnable)
+    self.MatchTree.append_column(self.MatchPropertyNames)
+    self.MatchPropertyName=gtk.CellRendererText()
+    self.MatchPropertyEnable=gtk.CellRendererToggle()
+    
+    self.MatchPropertyNames.pack_start(self.MatchPropertyEnable,expand=False)
+    self.MatchPropertyNames.pack_start(self.MatchPropertyName,expand=True)
 
-    self.column1.add_attribute(self.cell, 'text', 0)
+    self.MatchPropertyNames.add_attribute(self.MatchPropertyEnable, 'active', 0)    
+    self.MatchPropertyNames.add_attribute(self.MatchPropertyName, 'text', 1)
+    for MatchProperty in match_criteria:
+        self.match_list_store.append([0, MatchProperty])
 
     self.RulesList.show_all()
 
@@ -80,11 +104,11 @@ class gdevilspie:
     dir = os.path.expanduser("~/.devilspie")
     if (os.path.exists(dir)):
       if (os.path.isdir(dir)):
-	  rulefileslist = os.listdir(dir)
-    	  for rulefile in rulefileslist:
-	    if (rulefile.endswith(".ds")):
-	      rulefile=rulefile.replace(".ds","")
-	      self.rules_list_store.append([rulefile])
+        rulefileslist = os.listdir(dir)
+        for rulefile in rulefileslist:
+            if (rulefile.endswith(".ds")):
+                rulefile=rulefile.replace(".ds","")
+                self.rules_list_store.append([rulefile])
       else:
           print "~/.devilspie is a file, please remove it"
     else:
