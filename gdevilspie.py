@@ -25,9 +25,6 @@ import gtk.glade
 
 match_criteria=["window_name", "window_role", "window_class", "window_xid", "application_name", "window_property", "window_workspace"]
 
-print match_criteria
-
-
 class gdevilspie:
   def __init__(self):
     print "Welcome"
@@ -40,6 +37,7 @@ class gdevilspie:
     self.RuleEdit = self.wTreeEdit.get_widget("RuleEdit")
     self.RulesTree = self.wTreeList.get_widget("RulesTree")
     self.MatchTree = self.wTreeEdit.get_widget("MatchTree")
+    self.MatchPropertyParameters_notebook = self.wTreeEdit.get_widget("MatchOptions_NoteBook1")
     
     self.wTreeList.signal_autoconnect (self)
     self.wTreeEdit.signal_autoconnect (self)
@@ -62,17 +60,28 @@ class gdevilspie:
     self.MatchTree.append_column(self.MatchPropertyNames)
     self.MatchPropertyName=gtk.CellRendererText()
     self.MatchPropertyEnable=gtk.CellRendererToggle()
+    self.MatchPropertyEnable.set_property("activatable", 1)
     
     self.MatchPropertyNames.pack_start(self.MatchPropertyEnable,expand=False)
     self.MatchPropertyNames.pack_start(self.MatchPropertyName,expand=True)
 
-    self.MatchPropertyNames.add_attribute(self.MatchPropertyEnable, 'active', 0)    
+    self.MatchPropertyNames.add_attribute(self.MatchPropertyEnable, 'active', False)
     self.MatchPropertyNames.add_attribute(self.MatchPropertyName, 'text', 1)
     for MatchProperty in match_criteria:
         self.match_list_store.append([0, MatchProperty])
-
+    
+    self.MatchPropertyEnable.connect("toggled", self.MatchPropertyEnable_toggle)
     self.RulesList.show_all()
 
+  def MatchPropertyEnable_toggle(self, widget, path):
+    self.MatchPropertyParameters_notebook.set_current_page(int(path))
+    iter = self.match_list_store.get_iter_from_string(path)
+    CurrentState = self.match_list_store.get_value(iter, 0)
+    if(CurrentState == False):
+        self.match_list_store.set_value(iter, 0 , True)
+    else:
+        self.match_list_store.set_value(iter, 0, False)
+    
   def on_RulesList_destroy(self,widget):
     gtk.main_quit()
 
