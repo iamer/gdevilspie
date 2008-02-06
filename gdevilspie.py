@@ -77,10 +77,7 @@ class gdevilspie:
     self.MatchPropertyParameters_notebook.set_current_page(int(path))
     iter = self.match_list_store.get_iter_from_string(path)
     CurrentState = self.match_list_store.get_value(iter, 0)
-    if(CurrentState == False):
-        self.match_list_store.set_value(iter, 0 , True)
-    else:
-        self.match_list_store.set_value(iter, 0, False)
+    self.match_list_store.set_value(iter, 0 , not CurrentState )
     
   def on_RulesList_destroy(self,widget):
     gtk.main_quit()
