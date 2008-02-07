@@ -16,21 +16,27 @@
 # You should have received a copy of the GNU General Public License along
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import os
-import pygtk
-pygtk.require('2.0')
-import gtk
-import gtk.glade
-
+try:
+    import os
+    import pygtk
+    pygtk.require('2.0')
+    import gtk
+    import gtk.glade
+except:
+    print "pyGTK is not correctly installed, exiting."
+    quit()
 
 match_criteria=["window_name", "window_role", "window_class", "window_xid", "application_name", "window_property", "window_workspace"]
 
 class gdevilspie:
   def __init__(self):
-    print "Welcome"
     self.gladefile="gdevilspie.glade"
+    try:
+        self.wTreeList = gtk.glade.XML (self.gladefile, "RulesList")
+    except:
+        print "Glade file not found, exiting."
+        quit()
     
-    self.wTreeList = gtk.glade.XML (self.gladefile, "RulesList")
     self.wTreeEdit = gtk.glade.XML (self.gladefile, "RuleEdit")
 
     self.RulesList = self.wTreeList.get_widget("RulesList")
@@ -71,8 +77,9 @@ class gdevilspie:
         self.match_list_store.append([0, MatchProperty])
     
     self.MatchPropertyEnable.connect("toggled", self.MatchPropertyEnable_toggle)
-    self.RulesList.show_all()
-
+    
+    self.RulesList.show_all()  
+  
   def MatchPropertyEnable_toggle(self, widget, path):
     self.MatchPropertyParameters_notebook.set_current_page(int(path))
     iter = self.match_list_store.get_iter_from_string(path)
