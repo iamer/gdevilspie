@@ -18,6 +18,7 @@
 
 try:
     import os
+    import gobject
     import pygtk
     pygtk.require('2.0')
     import gtk
@@ -120,6 +121,7 @@ class gdevilspie:
         rulefileslist = os.listdir(dir)
         for rulefile in rulefileslist:
             if (rulefile.endswith(".ds")):
+                rulefile=gobject.filename_display_name(rulefile)
                 rulefile=rulefile.replace(".ds","")
                 self.rules_list_store.append([rulefile])
       else:
