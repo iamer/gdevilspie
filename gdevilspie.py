@@ -34,7 +34,7 @@ class gdevilspie:
     try:
         self.wTreeList = gtk.glade.XML (self.gladefile, "RulesList")
     except:
-        print "Glade file not found, exiting."
+        gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, "Glade file not found, exiting.").run()
         quit()
     
     self.wTreeEdit = gtk.glade.XML (self.gladefile, "RuleEdit")
