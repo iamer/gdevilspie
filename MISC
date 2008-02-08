@@ -1,3 +1,12 @@
+- found something deep hidden in the python libs that does sexp parsing, it's pretty useless code, it seems to blank the file object after doing any process on it though. This won't be useful without 
+much hacking. perhaps we should write a proper parser with SimpleParser instead?...  some test code:
+
+import parser
+
+foo = open('test.ds')
+z = parser.parse_file(foo)
+print z
+
 - why did .ds switch to s-expressions from xml, xml parsing is builtin 
 python libs, s-expression is almost non-existant without extra debs. :(
 
