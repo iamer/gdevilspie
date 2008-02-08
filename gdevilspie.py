@@ -29,6 +29,8 @@ except:
 
 match_criteria=["window_name", "window_role", "window_class", "window_xid", "application_name", "window_property", "window_workspace"]
 
+actions=["geometry", "fullscreen", "focus center", "maximize", "maximize_vertically", "maximize_horizontally", "unmaximize", "minimize", "unminimize", "shade", "unshade", "close", "pin", "unpin", "stick", "unstick", "set_workspace", "set_viewport", "skip_pager", "skip_tasklist", "above", "below", "decorate", "undecorate", "wintype", "opacity spawn_async", "spawn_sync"]
+
 class gdevilspie:
   def __init__(self):
     self.gladefile="gdevilspie.glade"
@@ -44,6 +46,7 @@ class gdevilspie:
     self.RuleEdit = self.wTreeEdit.get_widget("RuleEdit")
     self.RulesTree = self.wTreeList.get_widget("RulesTree")
     self.MatchTree = self.wTreeEdit.get_widget("MatchTree")
+    self.ActionsTree = self.wTreeEdit.get_widget("ActionsTreeList")
     self.MatchPropertyParameters_notebook = self.wTreeEdit.get_widget("MatchOptions_NoteBook1")
     
     self.wTreeList.signal_autoconnect (self)
@@ -51,9 +54,11 @@ class gdevilspie:
 
     self.rules_list_store = gtk.ListStore(str)
     self.match_list_store = gtk.ListStore(bool, str)
+    self.actions_list_store = gtk.ListStore(bool,str)
     
     self.RulesTree.set_model(self.rules_list_store)
     self.MatchTree.set_model(self.match_list_store)
+    self.ActionsTree.set_model(self.actions_list_store)
 
     self.RulesFilesNames=gtk.TreeViewColumn('Rule Name')
     self.RulesTree.append_column(self.RulesFilesNames)
@@ -61,28 +66,62 @@ class gdevilspie:
     self.RulesFilesNames.pack_start(self.RuleFileName,expand=True)
     self.RulesFilesNames.add_attribute(self.RuleFileName, 'text', 0)
     
-    self.MatchPropertyNames=gtk.TreeViewColumn('Property')
-    self.MatchPropertyEnable=gtk.TreeViewColumn('')
-    self.MatchTree.append_column(self.MatchPropertyEnable)
-    self.MatchTree.append_column(self.MatchPropertyNames)
-    self.MatchPropertyName=gtk.CellRendererText()
-    self.MatchPropertyEnable=gtk.CellRendererToggle()
-    self.MatchPropertyEnable.set_property("activatable", 1)
+    self.ActionsNames_column=gtk.TreeViewColumn('Action')
+    self.ActionsEnable_column=gtk.TreeViewColumn('')
+    self.ActionsTree.append_column(self.ActionsEnable_column)
+    self.ActionsTree.append_column(self.ActionsNames_column)
+    self.ActionsNames_cell=gtk.CellRendererText()
+    self.ActionsEnable_cell=gtk.CellRendererToggle()
+    self.ActionsEnable_cell.set_property("activatable", 1)
     
-    self.MatchPropertyNames.pack_start(self.MatchPropertyEnable,expand=False)
-    self.MatchPropertyNames.pack_start(self.MatchPropertyName,expand=True)
+    self.ActionsEnable_column.pack_start(self.ActionsEnable_cell, expand=True)
+    self.ActionsNames_column.pack_start(self.ActionsNames_cell, expand=True)
+    
+    self.ActionsNames_column.add_attribute(self.ActionsNames_cell, 'text', 1)
+    self.ActionsEnable_column.add_attribute(self.ActionsEnable_cell, 'active', False)
+    for Action in actions:
+    	self.actions_list_store.append([0, Action])
+    	
+    self.ActionsEnable_cell.connect("toggled", self.ActionsEnable_toggle)
+    
+    self.MatchPropertyNames_column=gtk.TreeViewColumn('Property')
+    self.MatchPropertyEnable_column=gtk.TreeViewColumn('')
+    self.MatchTree.append_column(self.MatchPropertyEnable_column)
+    self.MatchTree.append_column(self.MatchPropertyNames_column)
+    self.MatchPropertyName_cell=gtk.CellRendererText()
+    self.MatchPropertyEnable_cell=gtk.CellRendererToggle()
+    self.MatchPropertyEnable_cell.set_property("activatable", 1)
+    
+    self.MatchPropertyEnable_column.pack_start(self.MatchPropertyEnable_cell,expand=True)
+    self.MatchPropertyNames_column.pack_start(self.MatchPropertyName_cell,expand=True)
 
-    self.MatchPropertyNames.add_attribute(self.MatchPropertyEnable, 'active', False)
-    self.MatchPropertyNames.add_attribute(self.MatchPropertyName, 'text', 1)
+    self.MatchPropertyEnable_column.add_attribute(self.MatchPropertyEnable_cell, 'active', False)
+    self.MatchPropertyNames_column.add_attribute(self.MatchPropertyName_cell, 'text', 1)
     for MatchProperty in match_criteria:
         self.match_list_store.append([0, MatchProperty])
     
-    self.MatchPropertyEnable.connect("toggled", self.MatchPropertyEnable_toggle)
+    self.MatchPropertyEnable_cell.connect("toggled", self.MatchPropertyEnable_toggle)
+    self.MatchTree.connect("cursor-changed", self.MatchPropertyRow_selected)
     
     self.RulesList.show_all()  
   
-  def MatchPropertyEnable_toggle(self, widget, path):
+  def Actions_selected(self,widget, path):
+    #self.ActionsParameters_notebook.set_current_page(int(path))
+    pass
+    
+  def ActionsEnable_toggle(self, widget, path):
+    iter = self.actions_list_store.get_iter_from_string(path)
+    CurrentState = self.actions_list_store.get_value(iter, 0)
+    self.actions_list_store.set_value(iter, 0 , not CurrentState)
+  
+  def MatchPropertyRow_selected(self, widget):
+    selected_row = self.MatchTree.get_selection()
+    (model, iter) = selected_row.get_selected()
+    if (iter != None):
+      path = model.get_string_from_iter(iter)
     self.MatchPropertyParameters_notebook.set_current_page(int(path))
+  
+  def MatchPropertyEnable_toggle(self, widget, path):
     iter = self.match_list_store.get_iter_from_string(path)
     CurrentState = self.match_list_store.get_value(iter, 0)
     self.match_list_store.set_value(iter, 0 , not CurrentState )
