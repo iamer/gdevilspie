@@ -1,0 +1,28 @@
+- why did .ds switch to s-expressions from xml, xml parsing is builtin 
+python libs, s-expression is almost non-existant without extra debs. :(
+
+- the wnck stuff:
+
+import wnck
+
+screen = wnck.screen_get_default()
+
+def winlistgen(screenname=screen):
+	screenname.force_update()
+	return screenname.get_windows()
+
+def allwindows():
+         print "List of windows:"
+         print "----------------\n"
+	 for i in winlistgen():
+		print i.get_name() + " of application " + 
+i.get_application().get_name()
+		if i.get_workspace() != None:
+                        print "It is on workspace " + 
+i.get_workspace().get_name()
+		print "At coords " + str(i.get_geometry()[0:2]) + " of 
+width " + str(i.get_geometry()[2]) + " and height " + 
+str(i.get_geometry()[3]) + "."
+		print "\n"
+allwindows()
+
