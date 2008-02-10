@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.1 on Sun Feb 10 12:24:01 2008 -->
+<!--Generated with glade3 3.4.1 on Mon Feb 11 01:03:10 2008 -->
 <glade-interface>
   <widget class="GtkDialog" id="RulesList">
     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -183,7 +183,37 @@
       <widget class="GtkVBox" id="dialog-vbox2">
         <property name="visible">True</property>
         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-        <property name="spacing">2</property>
+        <child>
+          <widget class="GtkHBox" id="hbox1">
+            <property name="visible">True</property>
+            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+            <child>
+              <widget class="GtkLabel" id="label1">
+                <property name="visible">True</property>
+                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                <property name="label" translatable="yes">&lt;b&gt;Create a new rule named :              &lt;/b&gt;</property>
+                <property name="use_markup">True</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkEntry" id="RuleName_entry">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+              </widget>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="expand">False</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
         <child>
           <widget class="GtkNotebook" id="notebook1">
             <property name="visible">True</property>
@@ -221,49 +251,11 @@
                         <property name="n_rows">3</property>
                         <property name="n_columns">2</property>
                         <child>
-                          <widget class="GtkCheckButton" id="window_name_matches_checkbox1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="label" translatable="yes">matches</property>
-                            <property name="response_id">0</property>
-                            <property name="draw_indicator">True</property>
-                          </widget>
-                        </child>
-                        <child>
-                          <widget class="GtkCheckButton" id="window_name_contains_checkbox1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="label" translatable="yes">contains</property>
-                            <property name="response_id">0</property>
-                            <property name="draw_indicator">True</property>
-                          </widget>
-                          <packing>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkCheckButton" id="window_name_is_checkbox1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="label" translatable="yes">is</property>
-                            <property name="response_id">0</property>
-                            <property name="draw_indicator">True</property>
-                          </widget>
-                          <packing>
-                            <property name="top_attach">2</property>
-                            <property name="bottom_attach">3</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkComboBoxEntry" id="window_name_matches_comboboxentry1">
+                          <widget class="GtkComboBoxEntry" id="window_name_is_comboboxentry1">
                             <property name="visible">True</property>
                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                             <child internal-child="entry">
-                              <widget class="GtkEntry" id="comboboxentry-entry22">
+                              <widget class="GtkEntry" id="comboboxentry-entry24">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -273,6 +265,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
+                            <property name="top_attach">2</property>
+                            <property name="bottom_attach">3</property>
                             <property name="x_options"></property>
                             <property name="y_options"></property>
                           </packing>
@@ -299,11 +293,11 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkComboBoxEntry" id="window_name_is_comboboxentry1">
+                          <widget class="GtkComboBoxEntry" id="window_name_matches_comboboxentry1">
                             <property name="visible">True</property>
                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                             <child internal-child="entry">
-                              <widget class="GtkEntry" id="comboboxentry-entry24">
+                              <widget class="GtkEntry" id="comboboxentry-entry22">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -313,11 +307,47 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
-                            <property name="top_attach">2</property>
-                            <property name="bottom_attach">3</property>
                             <property name="x_options"></property>
                             <property name="y_options"></property>
                           </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkCheckButton" id="window_name_is_checkbox1">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                            <property name="label" translatable="yes">is</property>
+                            <property name="response_id">0</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
+                          <packing>
+                            <property name="top_attach">2</property>
+                            <property name="bottom_attach">3</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkCheckButton" id="window_name_contains_checkbox1">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                            <property name="label" translatable="yes">contains</property>
+                            <property name="response_id">0</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
+                          <packing>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkCheckButton" id="window_name_matches_checkbox1">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                            <property name="label" translatable="yes">matches</property>
+                            <property name="response_id">0</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
                         </child>
                       </widget>
                     </child>
@@ -339,49 +369,11 @@
                         <property name="n_rows">3</property>
                         <property name="n_columns">2</property>
                         <child>
-                          <widget class="GtkCheckButton" id="window_role_matches_checkbox1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="label" translatable="yes">matches</property>
-                            <property name="response_id">0</property>
-                            <property name="draw_indicator">True</property>
-                          </widget>
-                        </child>
-                        <child>
-                          <widget class="GtkCheckButton" id="window_role_contains_checkbox1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="label" translatable="yes">contains</property>
-                            <property name="response_id">0</property>
-                            <property name="draw_indicator">True</property>
-                          </widget>
-                          <packing>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkCheckButton" id="window_role_is_checkbox1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="label" translatable="yes">is</property>
-                            <property name="response_id">0</property>
-                            <property name="draw_indicator">True</property>
-                          </widget>
-                          <packing>
-                            <property name="top_attach">2</property>
-                            <property name="bottom_attach">3</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkComboBoxEntry" id="window_role_matches_comboboxentry1">
+                          <widget class="GtkComboBoxEntry" id="window_role_is_comboboxentry1">
                             <property name="visible">True</property>
                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                             <child internal-child="entry">
-                              <widget class="GtkEntry" id="comboboxentry-entry25">
+                              <widget class="GtkEntry" id="comboboxentry-entry27">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -391,6 +383,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
+                            <property name="top_attach">2</property>
+                            <property name="bottom_attach">3</property>
                             <property name="x_options"></property>
                             <property name="y_options"></property>
                           </packing>
@@ -417,11 +411,11 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkComboBoxEntry" id="window_role_is_comboboxentry1">
+                          <widget class="GtkComboBoxEntry" id="window_role_matches_comboboxentry1">
                             <property name="visible">True</property>
                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                             <child internal-child="entry">
-                              <widget class="GtkEntry" id="comboboxentry-entry27">
+                              <widget class="GtkEntry" id="comboboxentry-entry25">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -431,11 +425,47 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
-                            <property name="top_attach">2</property>
-                            <property name="bottom_attach">3</property>
                             <property name="x_options"></property>
                             <property name="y_options"></property>
                           </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkCheckButton" id="window_role_is_checkbox1">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                            <property name="label" translatable="yes">is</property>
+                            <property name="response_id">0</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
+                          <packing>
+                            <property name="top_attach">2</property>
+                            <property name="bottom_attach">3</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkCheckButton" id="window_role_contains_checkbox1">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                            <property name="label" translatable="yes">contains</property>
+                            <property name="response_id">0</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
+                          <packing>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkCheckButton" id="window_role_matches_checkbox1">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                            <property name="label" translatable="yes">matches</property>
+                            <property name="response_id">0</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
                         </child>
                       </widget>
                       <packing>
@@ -461,49 +491,11 @@
                         <property name="n_rows">3</property>
                         <property name="n_columns">2</property>
                         <child>
-                          <widget class="GtkCheckButton" id="window_class_matches_checkbox1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="label" translatable="yes">matches</property>
-                            <property name="response_id">0</property>
-                            <property name="draw_indicator">True</property>
-                          </widget>
-                        </child>
-                        <child>
-                          <widget class="GtkCheckButton" id="window_class_contains_checkbox1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="label" translatable="yes">contains</property>
-                            <property name="response_id">0</property>
-                            <property name="draw_indicator">True</property>
-                          </widget>
-                          <packing>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkCheckButton" id="window_class_is_checkbox1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="label" translatable="yes">is</property>
-                            <property name="response_id">0</property>
-                            <property name="draw_indicator">True</property>
-                          </widget>
-                          <packing>
-                            <property name="top_attach">2</property>
-                            <property name="bottom_attach">3</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkComboBoxEntry" id="window_class_matches_comboboxentry1">
+                          <widget class="GtkComboBoxEntry" id="window_class_contains_comboboxentry1">
                             <property name="visible">True</property>
                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                             <child internal-child="entry">
-                              <widget class="GtkEntry" id="comboboxentry-entry28">
+                              <widget class="GtkEntry" id="comboboxentry-entry30">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -513,6 +505,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
                             <property name="x_options"></property>
                             <property name="y_options"></property>
                           </packing>
@@ -539,11 +533,11 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkComboBoxEntry" id="window_class_contains_comboboxentry1">
+                          <widget class="GtkComboBoxEntry" id="window_class_matches_comboboxentry1">
                             <property name="visible">True</property>
                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                             <child internal-child="entry">
-                              <widget class="GtkEntry" id="comboboxentry-entry30">
+                              <widget class="GtkEntry" id="comboboxentry-entry28">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -553,11 +547,47 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
                             <property name="x_options"></property>
                             <property name="y_options"></property>
                           </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkCheckButton" id="window_class_is_checkbox1">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                            <property name="label" translatable="yes">is</property>
+                            <property name="response_id">0</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
+                          <packing>
+                            <property name="top_attach">2</property>
+                            <property name="bottom_attach">3</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkCheckButton" id="window_class_contains_checkbox1">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                            <property name="label" translatable="yes">contains</property>
+                            <property name="response_id">0</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
+                          <packing>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkCheckButton" id="window_class_matches_checkbox1">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                            <property name="label" translatable="yes">matches</property>
+                            <property name="response_id">0</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
                         </child>
                       </widget>
                       <packing>
@@ -583,49 +613,11 @@
                         <property name="n_rows">3</property>
                         <property name="n_columns">2</property>
                         <child>
-                          <widget class="GtkCheckButton" id="window_xid_matches_checkbox1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="label" translatable="yes">matches</property>
-                            <property name="response_id">0</property>
-                            <property name="draw_indicator">True</property>
-                          </widget>
-                        </child>
-                        <child>
-                          <widget class="GtkCheckButton" id="window_xid_contains_checkbox1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="label" translatable="yes">contains</property>
-                            <property name="response_id">0</property>
-                            <property name="draw_indicator">True</property>
-                          </widget>
-                          <packing>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkCheckButton" id="window_xid_is_checkbox1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="label" translatable="yes">is</property>
-                            <property name="response_id">0</property>
-                            <property name="draw_indicator">True</property>
-                          </widget>
-                          <packing>
-                            <property name="top_attach">2</property>
-                            <property name="bottom_attach">3</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkComboBoxEntry" id="window_xid_matches_comboboxentry1">
+                          <widget class="GtkComboBoxEntry" id="window_xid_contains_comboboxentry1">
                             <property name="visible">True</property>
                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                             <child internal-child="entry">
-                              <widget class="GtkEntry" id="comboboxentry-entry31">
+                              <widget class="GtkEntry" id="comboboxentry-entry33">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -635,6 +627,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
                             <property name="x_options"></property>
                             <property name="y_options"></property>
                           </packing>
@@ -661,11 +655,11 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkComboBoxEntry" id="window_xid_contains_comboboxentry1">
+                          <widget class="GtkComboBoxEntry" id="window_xid_matches_comboboxentry1">
                             <property name="visible">True</property>
                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                             <child internal-child="entry">
-                              <widget class="GtkEntry" id="comboboxentry-entry33">
+                              <widget class="GtkEntry" id="comboboxentry-entry31">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -675,11 +669,47 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
                             <property name="x_options"></property>
                             <property name="y_options"></property>
                           </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkCheckButton" id="window_xid_is_checkbox1">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                            <property name="label" translatable="yes">is</property>
+                            <property name="response_id">0</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
+                          <packing>
+                            <property name="top_attach">2</property>
+                            <property name="bottom_attach">3</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkCheckButton" id="window_xid_contains_checkbox1">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                            <property name="label" translatable="yes">contains</property>
+                            <property name="response_id">0</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
+                          <packing>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkCheckButton" id="window_xid_matches_checkbox1">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                            <property name="label" translatable="yes">matches</property>
+                            <property name="response_id">0</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
                         </child>
                       </widget>
                       <packing>
@@ -705,49 +735,11 @@
                         <property name="n_rows">3</property>
                         <property name="n_columns">2</property>
                         <child>
-                          <widget class="GtkCheckButton" id="application_name_matches_checkbox1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="label" translatable="yes">matches</property>
-                            <property name="response_id">0</property>
-                            <property name="draw_indicator">True</property>
-                          </widget>
-                        </child>
-                        <child>
-                          <widget class="GtkCheckButton" id="application_name_contains_checkbox1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="label" translatable="yes">contains</property>
-                            <property name="response_id">0</property>
-                            <property name="draw_indicator">True</property>
-                          </widget>
-                          <packing>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkCheckButton" id="application_name_is_checkbox1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="label" translatable="yes">is</property>
-                            <property name="response_id">0</property>
-                            <property name="draw_indicator">True</property>
-                          </widget>
-                          <packing>
-                            <property name="top_attach">2</property>
-                            <property name="bottom_attach">3</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkComboBoxEntry" id="application_name_matches_comboboxentry1">
+                          <widget class="GtkComboBoxEntry" id="application_name_contains_comboboxentry1">
                             <property name="visible">True</property>
                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                             <child internal-child="entry">
-                              <widget class="GtkEntry" id="comboboxentry-entry34">
+                              <widget class="GtkEntry" id="comboboxentry-entry36">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -757,6 +749,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
                             <property name="x_options"></property>
                             <property name="y_options"></property>
                           </packing>
@@ -783,11 +777,11 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkComboBoxEntry" id="application_name_contains_comboboxentry1">
+                          <widget class="GtkComboBoxEntry" id="application_name_matches_comboboxentry1">
                             <property name="visible">True</property>
                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                             <child internal-child="entry">
-                              <widget class="GtkEntry" id="comboboxentry-entry36">
+                              <widget class="GtkEntry" id="comboboxentry-entry34">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -797,11 +791,47 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
                             <property name="x_options"></property>
                             <property name="y_options"></property>
                           </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkCheckButton" id="application_name_is_checkbox1">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                            <property name="label" translatable="yes">is</property>
+                            <property name="response_id">0</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
+                          <packing>
+                            <property name="top_attach">2</property>
+                            <property name="bottom_attach">3</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkCheckButton" id="application_name_contains_checkbox1">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                            <property name="label" translatable="yes">contains</property>
+                            <property name="response_id">0</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
+                          <packing>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkCheckButton" id="application_name_matches_checkbox1">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                            <property name="label" translatable="yes">matches</property>
+                            <property name="response_id">0</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
                         </child>
                       </widget>
                       <packing>
@@ -827,49 +857,11 @@
                         <property name="n_rows">3</property>
                         <property name="n_columns">2</property>
                         <child>
-                          <widget class="GtkCheckButton" id="window_property_matches_checkbox1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="label" translatable="yes">matches</property>
-                            <property name="response_id">0</property>
-                            <property name="draw_indicator">True</property>
-                          </widget>
-                        </child>
-                        <child>
-                          <widget class="GtkCheckButton" id="window_property_contains_checkbox1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="label" translatable="yes">contains</property>
-                            <property name="response_id">0</property>
-                            <property name="draw_indicator">True</property>
-                          </widget>
-                          <packing>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkCheckButton" id="window_property_is_checkbox1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="label" translatable="yes">is</property>
-                            <property name="response_id">0</property>
-                            <property name="draw_indicator">True</property>
-                          </widget>
-                          <packing>
-                            <property name="top_attach">2</property>
-                            <property name="bottom_attach">3</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkComboBoxEntry" id="window_property_matches_comboboxentry1">
+                          <widget class="GtkComboBoxEntry" id="window_property_contains_comboboxentry1">
                             <property name="visible">True</property>
                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                             <child internal-child="entry">
-                              <widget class="GtkEntry" id="comboboxentry-entry37">
+                              <widget class="GtkEntry" id="comboboxentry-entry39">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -879,6 +871,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
                             <property name="x_options"></property>
                             <property name="y_options"></property>
                           </packing>
@@ -905,11 +899,11 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkComboBoxEntry" id="window_property_contains_comboboxentry1">
+                          <widget class="GtkComboBoxEntry" id="window_property_matches_comboboxentry1">
                             <property name="visible">True</property>
                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                             <child internal-child="entry">
-                              <widget class="GtkEntry" id="comboboxentry-entry39">
+                              <widget class="GtkEntry" id="comboboxentry-entry37">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -919,11 +913,47 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
                             <property name="x_options"></property>
                             <property name="y_options"></property>
                           </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkCheckButton" id="window_property_is_checkbox1">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                            <property name="label" translatable="yes">is</property>
+                            <property name="response_id">0</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
+                          <packing>
+                            <property name="top_attach">2</property>
+                            <property name="bottom_attach">3</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkCheckButton" id="window_property_contains_checkbox1">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                            <property name="label" translatable="yes">contains</property>
+                            <property name="response_id">0</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
+                          <packing>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkCheckButton" id="window_property_matches_checkbox1">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                            <property name="label" translatable="yes">matches</property>
+                            <property name="response_id">0</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
                         </child>
                       </widget>
                       <packing>
@@ -949,35 +979,25 @@
                         <property name="n_rows">3</property>
                         <property name="n_columns">2</property>
                         <child>
-                          <widget class="GtkCheckButton" id="window_workspace_matches_checkbox1">
+                          <widget class="GtkCheckButton" id="window_workspace_contains_checkbox1">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="label" translatable="yes">matches</property>
-                            <property name="response_id">0</property>
-                            <property name="draw_indicator">True</property>
-                          </widget>
-                        </child>
-                        <child>
-                          <widget class="GtkCheckButton" id="window_workspace_is_checkbox1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="label" translatable="yes">is</property>
+                            <property name="label" translatable="yes">contains</property>
                             <property name="response_id">0</property>
                             <property name="draw_indicator">True</property>
                           </widget>
                           <packing>
-                            <property name="top_attach">2</property>
-                            <property name="bottom_attach">3</property>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkComboBoxEntry" id="window_workspace_matches_comboboxentry1">
+                          <widget class="GtkComboBoxEntry" id="window_workspace_is_comboboxentry1">
                             <property name="visible">True</property>
                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                             <child internal-child="entry">
-                              <widget class="GtkEntry" id="comboboxentry-entry40">
+                              <widget class="GtkEntry" id="comboboxentry-entry42">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -987,6 +1007,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
+                            <property name="top_attach">2</property>
+                            <property name="bottom_attach">3</property>
                             <property name="x_options"></property>
                             <property name="y_options"></property>
                           </packing>
@@ -1013,11 +1035,11 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkComboBoxEntry" id="window_workspace_is_comboboxentry1">
+                          <widget class="GtkComboBoxEntry" id="window_workspace_matches_comboboxentry1">
                             <property name="visible">True</property>
                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                             <child internal-child="entry">
-                              <widget class="GtkEntry" id="comboboxentry-entry42">
+                              <widget class="GtkEntry" id="comboboxentry-entry40">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -1027,25 +1049,33 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
-                            <property name="top_attach">2</property>
-                            <property name="bottom_attach">3</property>
                             <property name="x_options"></property>
                             <property name="y_options"></property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="window_workspace_contains_checkbox1">
+                          <widget class="GtkCheckButton" id="window_workspace_is_checkbox1">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="label" translatable="yes">contains</property>
+                            <property name="label" translatable="yes">is</property>
                             <property name="response_id">0</property>
                             <property name="draw_indicator">True</property>
                           </widget>
                           <packing>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
+                            <property name="top_attach">2</property>
+                            <property name="bottom_attach">3</property>
                           </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkCheckButton" id="window_workspace_matches_checkbox1">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                            <property name="label" translatable="yes">matches</property>
+                            <property name="response_id">0</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
                         </child>
                       </widget>
                       <packing>
@@ -1141,7 +1171,7 @@
             </child>
           </widget>
           <packing>
-            <property name="position">1</property>
+            <property name="position">2</property>
           </packing>
         </child>
         <child internal-child="action_area">

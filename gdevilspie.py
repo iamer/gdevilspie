@@ -1,14 +1,14 @@
 #!/usr/bin/python
 #
-# main.py
+# gdevilspie.py
 # Copyright (C) Islam Amer 2008 <iamer@open-craft.com>
 # 
-# main.py is free software: you can redistribute it and/or modify it
+# gdevilspie.py is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the
 # Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 # 
-# main.py is distributed in the hope that it will be useful, but
+# gdevilspie.py is distributed in the hope that it will be useful, but
 # WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
@@ -79,6 +79,7 @@ class gdevilspie:
     self.ActionsTree = self.wTreeEdit.get_widget("ActionsTreeList")
     self.MatchPropertyParameters_notebook = self.wTreeEdit.get_widget("MatchOptions_NoteBook1")
     self.ActionsParameters_notebook = self.wTreeEdit.get_widget("ActionsParameters_notebook")
+    self.RuleName_entry = self.wTreeEdit.get_widget("RuleName_entry")
     
     self.wTreeList.signal_autoconnect (self)
     self.wTreeEdit.signal_autoconnect (self)
@@ -144,7 +145,7 @@ class gdevilspie:
     (model, iter) = selected_row.get_selected()
     if (iter != None):
       path = model.get_string_from_iter(iter)
-    self.ActionsParameters_notebook.set_current_page(int(path))
+      self.ActionsParameters_notebook.set_current_page(int(path))
     
   def ActionsEnable_toggle(self, widget, path):
     iter = self.actions_list_store.get_iter_from_string(path)
@@ -177,9 +178,20 @@ class gdevilspie:
 
   def on_Cancel_clicked(self,widget):
     self.RuleEdit.hide()
-
+    
   def on_Save_clicked(self,widget):
+   str = self.RuleName_entry.get_text()
+   self.Save_Rule(str)
    self.RuleEdit.hide()
+
+  def Save_Rule(self, str):
+    #do stuff to generate the rule.
+    path = os.path.expanduser("~/.devilspie/")
+    new_Rule_file_name = path + str + ".ds"
+    f = open( new_Rule_file_name, 'w' )
+    f.write( "# " + str )
+    f.close()
+    self.update_rules_list()
 
   def on_DeleteRule_clicked(self,widget):
    SelectedRow = self.RulesTree.get_selection()
@@ -190,16 +202,23 @@ class gdevilspie:
      os.remove(RuleFile)
      self.rules_list_store.remove(iter)
 
+  def update_rules_list(self):
+    self.rules_list_store.clear()
+    self.fill_rules_list()
+    
+  def fill_rules_list(self):
+    rulefileslist = os.listdir(self.dir)
+    for rulefile in rulefileslist:
+      if (rulefile.endswith(".ds")):
+        rulefile=gobject.filename_display_name(rulefile)
+        rulefile=rulefile.replace(".ds","")
+        self.rules_list_store.append([rulefile])
+
   def main(self):
-    dir = os.path.expanduser("~/.devilspie")
-    if (os.path.exists(dir)):
-      if (os.path.isdir(dir)):
-        rulefileslist = os.listdir(dir)
-        for rulefile in rulefileslist:
-            if (rulefile.endswith(".ds")):
-                rulefile=gobject.filename_display_name(rulefile)
-                rulefile=rulefile.replace(".ds","")
-                self.rules_list_store.append([rulefile])
+    self.dir = os.path.expanduser("~/.devilspie")
+    if (os.path.exists(self.dir)):
+      if (os.path.isdir(self.dir)):
+        self.fill_rules_list()
       else:
           print "~/.devilspie is a file, please remove it"
     else:
