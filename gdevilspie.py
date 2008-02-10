@@ -29,7 +29,37 @@ except:
 
 match_criteria=["window_name", "window_role", "window_class", "window_xid", "application_name", "window_property", "window_workspace"]
 
-actions=["geometry", "fullscreen", "focus center", "maximize", "maximize_vertically", "maximize_horizontally", "unmaximize", "minimize", "unminimize", "shade", "unshade", "close", "pin", "unpin", "stick", "unstick", "set_workspace", "set_viewport", "skip_pager", "skip_tasklist", "above", "below", "decorate", "undecorate", "wintype", "opacity spawn_async", "spawn_sync"]
+actions=["geometry", "fullscreen", "focus", "center", "maximize", "maximize_vertically", "maximize_horizontally", "unmaximize", "minimize", "unminimize", "shade", "unshade", "close", "pin", "unpin", "stick", "unstick", "set_workspace", "set_viewport", "skip_pager", "skip_tasklist", "above", "below", "decorate", "undecorate", "wintype", "opacity", "spawn_async", "spawn_sync"]
+
+actions_dict={"geometry" : None,
+"fullscreen" : None,
+"focus": None,
+"center": None,
+"maximize": None,
+"maximize_vertically": None,
+"maximize_horizontally": None,
+"unmaximize": None,
+"minimize": None,
+"unminimize": None,
+"shade": None,
+"unshade": None,
+"close": None,
+"pin": None,
+"unpin": None,
+"stick": None,
+"unstick": None,
+"set_workspace": None,
+"set_viewport": None,
+"skip_pager": None,
+"skip_tasklist": None,
+"above": None,
+"below": None,
+"decorate": None,
+"undecorate": None,
+"wintype": None,
+"opacity": None,
+"spawn_async": None,
+"spawn_sync": None}
 
 class gdevilspie:
   def __init__(self):
@@ -48,6 +78,7 @@ class gdevilspie:
     self.MatchTree = self.wTreeEdit.get_widget("MatchTree")
     self.ActionsTree = self.wTreeEdit.get_widget("ActionsTreeList")
     self.MatchPropertyParameters_notebook = self.wTreeEdit.get_widget("MatchOptions_NoteBook1")
+    self.ActionsParameters_notebook = self.wTreeEdit.get_widget("ActionsParameters_notebook")
     
     self.wTreeList.signal_autoconnect (self)
     self.wTreeEdit.signal_autoconnect (self)
@@ -80,9 +111,12 @@ class gdevilspie:
     self.ActionsNames_column.add_attribute(self.ActionsNames_cell, 'text', 1)
     self.ActionsEnable_column.add_attribute(self.ActionsEnable_cell, 'active', False)
     for Action in actions:
-    	self.actions_list_store.append([0, Action])
-    	
+      self.actions_list_store.append([0, Action])
+      actions_dict[Action] = gtk.Label(Action)
+      self.ActionsParameters_notebook.insert_page(actions_dict[Action], None)
+    
     self.ActionsEnable_cell.connect("toggled", self.ActionsEnable_toggle)
+    self.ActionsTree.connect("cursor-changed", self.Actions_selected)
     
     self.MatchPropertyNames_column=gtk.TreeViewColumn('Property')
     self.MatchPropertyEnable_column=gtk.TreeViewColumn('')
@@ -92,8 +126,8 @@ class gdevilspie:
     self.MatchPropertyEnable_cell=gtk.CellRendererToggle()
     self.MatchPropertyEnable_cell.set_property("activatable", 1)
     
-    self.MatchPropertyEnable_column.pack_start(self.MatchPropertyEnable_cell,expand=True)
-    self.MatchPropertyNames_column.pack_start(self.MatchPropertyName_cell,expand=True)
+    self.MatchPropertyEnable_column.pack_start(self.MatchPropertyEnable_cell, expand=True)
+    self.MatchPropertyNames_column.pack_start(self.MatchPropertyName_cell, expand=True)
 
     self.MatchPropertyEnable_column.add_attribute(self.MatchPropertyEnable_cell, 'active', False)
     self.MatchPropertyNames_column.add_attribute(self.MatchPropertyName_cell, 'text', 1)
@@ -105,9 +139,12 @@ class gdevilspie:
     
     self.RulesList.show_all()  
   
-  def Actions_selected(self,widget, path):
-    #self.ActionsParameters_notebook.set_current_page(int(path))
-    pass
+  def Actions_selected(self, widget):
+    selected_row = self.ActionsTree.get_selection()
+    (model, iter) = selected_row.get_selected()
+    if (iter != None):
+      path = model.get_string_from_iter(iter)
+    self.ActionsParameters_notebook.set_current_page(int(path))
     
   def ActionsEnable_toggle(self, widget, path):
     iter = self.actions_list_store.get_iter_from_string(path)
@@ -133,7 +170,7 @@ class gdevilspie:
     gtk.main_quit()
 
   def on_AddRule_clicked(self,widget):
-    self.RuleEdit.show()
+    self.RuleEdit.show_all()
 
   def on_RuleEdit_destroy(self,widget):
     self.RuleEdit.hide()
