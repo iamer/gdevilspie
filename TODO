@@ -11,4 +11,8 @@ when needed only.
 * Add an optional alternate action notebook page, to allow for if -- then -- else rule creation.
 * Possibililty to edit already available rules files. ( parser )
 * Handle system wide rules, shown read only. Add unlock button for password entry to edit the system wide rules.
-
+* Show deamon status and ability to start / stop it.
+* tray icon, blinks when rule is matched.
+* Help text all over the place.
+* raw view of the to be generated rule.
+* Text box at the top to name the rule / file.
