@@ -1,10 +1,11 @@
 * Finish GUI of rules creation dialog.
 * Make main gdevilspie object that creates the main dialog, and create the rules editor dialog
 when needed only.
-* Refresh on rule creation dialog exit. Add refresh button to the rules list. Later on we can use inotify to automatcially refresh.
-* Confirmation dialog for rule deletion.
-* Fill the action and match selection trees.
-* Change the properties notebook page on tree selection change in action and match trees.
+* Refresh on rule creation dialog exit. DONE
+* Later on we can use inotify to automatcially refresh.
+* Confirmation dialog for rule deletion. 
+* Fill the action and match selection trees. DONE
+* Change the properties notebook page on tree selection change in action and match trees. DONE
 * Add negation checkbox to match property notebook pages.
 * Fill up relevant comboboxes with data from libwnck to allow for easy selection of properties of currently open windows.
 * Button to retrieve data from a currently open window using target cursor.
@@ -15,4 +16,4 @@ when needed only.
 * tray icon, blinks when rule is matched.
 * Help text all over the place.
 * raw view of the to be generated rule.
-* Text box at the top to name the rule / file.
+* Text box at the top to name the rule / file. DONE
