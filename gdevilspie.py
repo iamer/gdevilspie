@@ -34,32 +34,32 @@ except:
 # List of possible match criteria
 match_criteria={
 "window_name" : { 
-"description" : "<b>Match the title of any window that</b>", "widget" : None, 
-"list_store_is" : None, "list_store_contains" : None, "list_store_matches" : None,
+"description" : "<b>Any window whose name</b>", "widget" : None, 
+"entry_is" : None, "entry_contains" : None, "entry_matches" : None,
 "is_not" : False, "contains_not" : False, "matches_not" : False }, 
 
-"window_role" : { "description" : "<b>Match the role of any window that</b>", "widget" : None, 
-"list_store_is" : None, "list_store_contains" : None, "list_store_matches" : None ,
+"window_role" : { "description" : "<b>Any window whose role</b>", "widget" : None, 
+"entry_is" : None, "entry_contains" : None, "entry_matches" : None ,
 "is_not" : False, "contains_not" : False, "matches_not" : False }, 
 
-"window_class" : { "description" : "<b>Match the class of any window that</b>", "widget" : None, 
-"list_store_is" : None, "list_store_contains" : None, "list_store_matches" : None ,
+"window_class" : { "description" : "<b>Any window whose class</b>", "widget" : None, 
+"entry_is" : None, "entry_contains" : None, "entry_matches" : None ,
 "is_not" : False, "contains_not" : False, "matches_not" : False }, 
 
-"window_xid" : { "description" : "<b>Match the xid of any window that</b>", "widget" : None, 
-"list_store_is" : None, "list_store_contains" : None, "list_store_matches" : None ,
+"window_xid" : { "description" : "<b>Any window whose xid</b>", "widget" : None, 
+"entry_is" : None, "entry_contains" : None, "entry_matches" : None ,
 "is_not" : False, "contains_not" : False, "matches_not" : False }, 
 
-"application_name" : { "description" : "<b>Match the application name of any window that</b>", "widget" : None,
-"list_store_is" : None, "list_store_contains" : None, "list_store_matches" : None ,
+"application_name" : { "description" : "<b>Any window whose application name</b>", "widget" : None,
+"entry_is" : None, "entry_contains" : None, "entry_matches" : None ,
 "is_not" : False, "contains_not" : False, "matches_not" : False }, 
 
-"window_property" : { "description" : "<b>Match the property of any window that</b>", "widget" : None, 
-"list_store_is" : None, "list_store_contains" : None, "list_store_matches" : None ,
+"window_property" : { "description" : "<b>Any window whose property</b>", "widget" : None, 
+"entry_is" : None, "entry_contains" : None, "entry_matches" : None ,
 "is_not" : False, "contains_not" : False, "matches_not" : False }, 
 
-"window_workspace" : { "description" : "<b>Match the workspace of any window that</b>", "widget" : None, 
-"list_store_is" : None, "list_store_contains" : None, "list_store_matches" : None ,
+"window_workspace" : { "description" : "<b>Any window whose workspace</b>", "widget" : None, 
+"entry_is" : None, "entry_contains" : None, "entry_matches" : None ,
 "is_not" : False, "contains_not" : False, "matches_not" : False } 
 }
 
@@ -85,33 +85,32 @@ def create_match_parameters_page(match_criteria_name):
     negate_checkbox_contains.connect("toggled", toggle_this, "contains", match_criteria_name)
     negate_checkbox_matches.connect("toggled", toggle_this, "matches", match_criteria_name)
        
-    # Three list stores
-    match_criteria[match_criteria_name]["list_store_is"] = gtk.ListStore(gobject.TYPE_STRING)
-    match_criteria[match_criteria_name]["list_store_contains"] = gtk.ListStore(gobject.TYPE_STRING)
-    match_criteria[match_criteria_name]["list_store_matches"] = gtk.ListStore(gobject.TYPE_STRING)
+    # Three text entries
+    match_criteria[match_criteria_name]["entry_is"] = gtk.Entry()
+    match_criteria[match_criteria_name]["entry_contains"] = gtk.Entry()
+    match_criteria[match_criteria_name]["entry_matches"] = gtk.Entry()
 
-    # Three combo box entries    
-    names_comboboxentry_is = gtk.ComboBoxEntry(match_criteria[match_criteria_name]["list_store_is"], 0)
-    names_comboboxentry_contains = gtk.ComboBoxEntry(match_criteria[match_criteria_name]["list_store_contains"], 0)
-    names_comboboxentry_matches = gtk.ComboBoxEntry(match_criteria[match_criteria_name]["list_store_matches"], 0)
-    
+    entry_is = match_criteria[match_criteria_name]["entry_is"]
+    entry_contains = match_criteria[match_criteria_name]["entry_contains"]
+    entry_matches = match_criteria[match_criteria_name]["entry_matches"]
+
     # Three labels
-    MatchMethod_text_is=gtk.Label("equal  ")
-    MatchMethod_text_contains=gtk.Label("contain  ")
-    MatchMethod_text_matches=gtk.Label("match  ")
+    MatchMethod_text_is=gtk.Label("equals")
+    MatchMethod_text_contains=gtk.Label("contains")
+    MatchMethod_text_matches=gtk.Label("matches")
     
     # Pack the triads
     hbox_is.pack_start(negate_checkbox_is, False, False)
     hbox_contains.pack_start(negate_checkbox_contains, False, False)
     hbox_matches.pack_start(negate_checkbox_matches, False, False)
     
-    hbox_is.pack_end(names_comboboxentry_is, False, False)
-    hbox_contains.pack_end(names_comboboxentry_contains, False, False)
-    hbox_matches.pack_end(names_comboboxentry_matches, False, False)
+    hbox_is.pack_end(entry_is, False, False)
+    hbox_contains.pack_end(entry_contains, False, False)
+    hbox_matches.pack_end(entry_matches, False, False)
     
-    hbox_is.pack_end(MatchMethod_text_is, False, False)
-    hbox_contains.pack_end(MatchMethod_text_contains, False, False)
-    hbox_matches.pack_end(MatchMethod_text_matches, False, False)
+    hbox_is.pack_end(MatchMethod_text_is, True, False)
+    hbox_contains.pack_end(MatchMethod_text_contains, True, False)
+    hbox_matches.pack_end(MatchMethod_text_matches, True, False)
     
     # pack the rows
     vbox.pack_start(hbox_is, True, False)
