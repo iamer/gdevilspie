@@ -31,13 +31,34 @@ except:
     sys.exit(1)
 
 # List of possible match criteria
-match_criteria={"window_name" : None, 
-"window_role" : None, 
-"window_class" : None, 
-"window_xid" : None, 
-"application_name" : None, 
-"window_property" : None, 
-"window_workspace" : None}
+match_criteria={
+"window_name" : { 
+"description" : "<b>this will match the title of the window</b>", "widget" : None, "list_store" : None }, 
+"window_role" : { "description" : "<b>this will match the role of the window</b>", "widget" : None, "list_store" : None }, 
+"window_class" : { "description" : "<b>this will match the class of the window</b>", "widget" : None, "list_store" : None }, 
+"window_xid" : { "description" : "<b>this will match the xid of the window</b>", "widget" : None, "list_store" : None }, 
+"application_name" : { "description" : "<b>this will match the application name of the window</b>", "widget" : None, "list_store" : None }, 
+"window_property" : { "description" : "<b>this will match the property of the window</b>", "widget" : None, "list_store" : None }, 
+"window_workspace" : { "description" : "<b>this will match the workspace of the window</b>", "widget" : None, "list_store" : None } 
+}
+
+def create_match_parameters_page(match_criteria_name):
+    vbox = gtk.VBox()
+    str = match_criteria[match_criteria_name]["description"]
+    description_text = gtk.Label(str)
+    description_text.set_use_markup(True)
+    description_text.set_line_wrap(True)
+    vbox.pack_start(description_text)
+    hbox = gtk.HBox()
+    negate_checkbox = gtk.CheckButton("Not")
+    match_criteria[match_criteria_name]["list_store"] = gtk.ListStore(gobject.TYPE_STRING)
+    names_comboboxentry = gtk.ComboBoxEntry(match_criteria[match_criteria_name]["list_store"], 0)
+    hbox.pack_start(negate_checkbox)
+    hbox.pack_start(names_comboboxentry)
+    vbox.pack_end(hbox)
+    return vbox
+    
+
 
 # List of possible actions
 #actions=["geometry", "fullscreen", "focus", "center", "maximize", "maximize_vertically", "maximize_horizontally", "unmaximize", "minimize", "unminimize", "shade", "unshade", "close", "pin", "unpin", "stick", "unstick", "set_workspace", "set_viewport", "skip_pager", "skip_tasklist", "above", "below", "decorate", "undecorate", "wintype", "opacity", "spawn_async", "spawn_sync"]
@@ -241,8 +262,9 @@ class RuleEditorWindow():
     # Fill up the actions list store from the dictionary and create notebook pages for their parameters
     for MatchProperty in match_criteria:
         self.match_list_store.append([0, MatchProperty])
-        match_criteria[MatchProperty] = gtk.Label(MatchProperty)
-        self.MatchPropertyParameters_notebook.insert_page(match_criteria[MatchProperty], None)
+        #match_criteria[MatchProperty] = gtk.Label(MatchProperty)
+        match_criteria[MatchProperty]["widget"] = create_match_parameters_page(MatchProperty)
+        self.MatchPropertyParameters_notebook.insert_page(match_criteria[MatchProperty]["widget"], None)
     
     self.MatchPropertyEnable_cell.connect("toggled", self.MatchPropertyEnable_toggle)
     self.MatchTree.connect("cursor-changed", self.MatchPropertyRow_selected)
