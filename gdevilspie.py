@@ -35,26 +35,37 @@ except:
 match_criteria={
 "window_name" : { 
 "description" : "<b>Match the title of any window that</b>", "widget" : None, 
-"list_store_is" : None, "list_store_contains" : None, "list_store_matches" : None }, 
+"list_store_is" : None, "list_store_contains" : None, "list_store_matches" : None,
+"is_not" : False, "contains_not" : False, "matches_not" : False }, 
 
 "window_role" : { "description" : "<b>Match the role of any window that</b>", "widget" : None, 
-"list_store_is" : None, "list_store_contains" : None, "list_store_matches" : None }, 
+"list_store_is" : None, "list_store_contains" : None, "list_store_matches" : None ,
+"is_not" : False, "contains_not" : False, "matches_not" : False }, 
 
 "window_class" : { "description" : "<b>Match the class of any window that</b>", "widget" : None, 
-"list_store_is" : None, "list_store_contains" : None, "list_store_matches" : None }, 
+"list_store_is" : None, "list_store_contains" : None, "list_store_matches" : None ,
+"is_not" : False, "contains_not" : False, "matches_not" : False }, 
 
 "window_xid" : { "description" : "<b>Match the xid of any window that</b>", "widget" : None, 
-"list_store_is" : None, "list_store_contains" : None, "list_store_matches" : None }, 
+"list_store_is" : None, "list_store_contains" : None, "list_store_matches" : None ,
+"is_not" : False, "contains_not" : False, "matches_not" : False }, 
 
 "application_name" : { "description" : "<b>Match the application name of any window that</b>", "widget" : None,
-"list_store_is" : None, "list_store_contains" : None, "list_store_matches" : None }, 
+"list_store_is" : None, "list_store_contains" : None, "list_store_matches" : None ,
+"is_not" : False, "contains_not" : False, "matches_not" : False }, 
 
 "window_property" : { "description" : "<b>Match the property of any window that</b>", "widget" : None, 
-"list_store_is" : None, "list_store_contains" : None, "list_store_matches" : None }, 
+"list_store_is" : None, "list_store_contains" : None, "list_store_matches" : None ,
+"is_not" : False, "contains_not" : False, "matches_not" : False }, 
 
 "window_workspace" : { "description" : "<b>Match the workspace of any window that</b>", "widget" : None, 
-"list_store_is" : None, "list_store_contains" : None, "list_store_matches" : None } 
+"list_store_is" : None, "list_store_contains" : None, "list_store_matches" : None ,
+"is_not" : False, "contains_not" : False, "matches_not" : False } 
 }
+
+def toggle_this(widget, str, match_criteria_name):
+    match_criteria[match_criteria_name][str+"_not"]= not match_criteria[match_criteria_name][str+"_not"]
+    return
 
 def create_match_parameters_page(match_criteria_name):
     vbox = gtk.VBox()
@@ -67,9 +78,13 @@ def create_match_parameters_page(match_criteria_name):
     # three hboxes
     hbox_is, hbox_contains, hbox_matches = gtk.HBox(), gtk.HBox(), gtk.HBox()
 
-    #FIXME: store the negation value somewhere
+    # Three Check boxes for negation
     negate_checkbox_is, negate_checkbox_contains, negate_checkbox_matches = gtk.CheckButton("does not"), gtk.CheckButton("does not"), gtk.CheckButton("does not")
-    
+    # We have to reflect the check box state somewhere
+    negate_checkbox_is.connect("toggled", toggle_this, "is", match_criteria_name)
+    negate_checkbox_contains.connect("toggled", toggle_this, "contains", match_criteria_name)
+    negate_checkbox_matches.connect("toggled", toggle_this, "matches", match_criteria_name)
+       
     # Three list stores
     match_criteria[match_criteria_name]["list_store_is"] = gtk.ListStore(gobject.TYPE_STRING)
     match_criteria[match_criteria_name]["list_store_contains"] = gtk.ListStore(gobject.TYPE_STRING)
@@ -80,10 +95,12 @@ def create_match_parameters_page(match_criteria_name):
     names_comboboxentry_contains = gtk.ComboBoxEntry(match_criteria[match_criteria_name]["list_store_contains"], 0)
     names_comboboxentry_matches = gtk.ComboBoxEntry(match_criteria[match_criteria_name]["list_store_matches"], 0)
     
+    # Three labels
     MatchMethod_text_is=gtk.Label("equal  ")
     MatchMethod_text_contains=gtk.Label("contain  ")
     MatchMethod_text_matches=gtk.Label("match  ")
     
+    # Pack the triads
     hbox_is.pack_start(negate_checkbox_is, False, False)
     hbox_contains.pack_start(negate_checkbox_contains, False, False)
     hbox_matches.pack_start(negate_checkbox_matches, False, False)
@@ -96,15 +113,15 @@ def create_match_parameters_page(match_criteria_name):
     hbox_contains.pack_end(MatchMethod_text_contains, False, False)
     hbox_matches.pack_end(MatchMethod_text_matches, False, False)
     
+    # pack the rows
     vbox.pack_start(hbox_is, True, False)
     vbox.pack_start(hbox_contains, True, False)
     vbox.pack_start(hbox_matches, True, False)
+    
+    # return the vbox we built so it gets packed into the property page 
     return vbox
     
 
-
-# List of possible actions
-#actions=["geometry", "fullscreen", "focus", "center", "maximize", "maximize_vertically", "maximize_horizontally", "unmaximize", "minimize", "unminimize", "shade", "unshade", "close", "pin", "unpin", "stick", "unstick", "set_workspace", "set_viewport", "skip_pager", "skip_tasklist", "above", "below", "decorate", "undecorate", "wintype", "opacity", "spawn_async", "spawn_sync"]
 
 # Dictionary of the actions for each of which we store a dictionary of help text and widgets
 actions_dict={"geometry" : None,
@@ -229,7 +246,7 @@ class RulesListWindow:
         self.rules_list_store.append([rulefile])
 
 # This is the rule creator window
-class RuleEditorWindow():
+class RuleEditorWindow:
   def __init__(self):
   # try to get our widgets from the gladefile
     try:
@@ -376,3 +393,4 @@ class RuleEditorWindow():
 
 MainWindow = RulesListWindow()
 gtk.main()
+
