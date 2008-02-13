@@ -30,16 +30,30 @@ except:
     print "pyGTK is not correctly installed, exiting."
     sys.exit(1)
 
+
 # List of possible match criteria
 match_criteria={
 "window_name" : { 
-"description" : "<b>this will match the title of the window</b>", "widget" : None, "list_store" : None }, 
-"window_role" : { "description" : "<b>this will match the role of the window</b>", "widget" : None, "list_store" : None }, 
-"window_class" : { "description" : "<b>this will match the class of the window</b>", "widget" : None, "list_store" : None }, 
-"window_xid" : { "description" : "<b>this will match the xid of the window</b>", "widget" : None, "list_store" : None }, 
-"application_name" : { "description" : "<b>this will match the application name of the window</b>", "widget" : None, "list_store" : None }, 
-"window_property" : { "description" : "<b>this will match the property of the window</b>", "widget" : None, "list_store" : None }, 
-"window_workspace" : { "description" : "<b>this will match the workspace of the window</b>", "widget" : None, "list_store" : None } 
+"description" : "<b>Match the title of any window that</b>", "widget" : None, 
+"list_store_is" : None, "list_store_contains" : None, "list_store_matches" : None }, 
+
+"window_role" : { "description" : "<b>Match the role of any window that</b>", "widget" : None, 
+"list_store_is" : None, "list_store_contains" : None, "list_store_matches" : None }, 
+
+"window_class" : { "description" : "<b>Match the class of any window that</b>", "widget" : None, 
+"list_store_is" : None, "list_store_contains" : None, "list_store_matches" : None }, 
+
+"window_xid" : { "description" : "<b>Match the xid of any window that</b>", "widget" : None, 
+"list_store_is" : None, "list_store_contains" : None, "list_store_matches" : None }, 
+
+"application_name" : { "description" : "<b>Match the application name of any window that</b>", "widget" : None,
+"list_store_is" : None, "list_store_contains" : None, "list_store_matches" : None }, 
+
+"window_property" : { "description" : "<b>Match the property of any window that</b>", "widget" : None, 
+"list_store_is" : None, "list_store_contains" : None, "list_store_matches" : None }, 
+
+"window_workspace" : { "description" : "<b>Match the workspace of any window that</b>", "widget" : None, 
+"list_store_is" : None, "list_store_contains" : None, "list_store_matches" : None } 
 }
 
 def create_match_parameters_page(match_criteria_name):
@@ -48,14 +62,43 @@ def create_match_parameters_page(match_criteria_name):
     description_text = gtk.Label(str)
     description_text.set_use_markup(True)
     description_text.set_line_wrap(True)
-    vbox.pack_start(description_text)
-    hbox = gtk.HBox()
-    negate_checkbox = gtk.CheckButton("Not")
-    match_criteria[match_criteria_name]["list_store"] = gtk.ListStore(gobject.TYPE_STRING)
-    names_comboboxentry = gtk.ComboBoxEntry(match_criteria[match_criteria_name]["list_store"], 0)
-    hbox.pack_start(negate_checkbox)
-    hbox.pack_start(names_comboboxentry)
-    vbox.pack_end(hbox)
+    vbox.pack_start(description_text, False, False)
+    
+    # three hboxes
+    hbox_is, hbox_contains, hbox_matches = gtk.HBox(), gtk.HBox(), gtk.HBox()
+
+    #FIXME: store the negation value somewhere
+    negate_checkbox_is, negate_checkbox_contains, negate_checkbox_matches = gtk.CheckButton("does not"), gtk.CheckButton("does not"), gtk.CheckButton("does not")
+    
+    # Three list stores
+    match_criteria[match_criteria_name]["list_store_is"] = gtk.ListStore(gobject.TYPE_STRING)
+    match_criteria[match_criteria_name]["list_store_contains"] = gtk.ListStore(gobject.TYPE_STRING)
+    match_criteria[match_criteria_name]["list_store_matches"] = gtk.ListStore(gobject.TYPE_STRING)
+
+    # Three combo box entries    
+    names_comboboxentry_is = gtk.ComboBoxEntry(match_criteria[match_criteria_name]["list_store_is"], 0)
+    names_comboboxentry_contains = gtk.ComboBoxEntry(match_criteria[match_criteria_name]["list_store_contains"], 0)
+    names_comboboxentry_matches = gtk.ComboBoxEntry(match_criteria[match_criteria_name]["list_store_matches"], 0)
+    
+    MatchMethod_text_is=gtk.Label("equal  ")
+    MatchMethod_text_contains=gtk.Label("contain  ")
+    MatchMethod_text_matches=gtk.Label("match  ")
+    
+    hbox_is.pack_start(negate_checkbox_is, False, False)
+    hbox_contains.pack_start(negate_checkbox_contains, False, False)
+    hbox_matches.pack_start(negate_checkbox_matches, False, False)
+    
+    hbox_is.pack_end(names_comboboxentry_is, False, False)
+    hbox_contains.pack_end(names_comboboxentry_contains, False, False)
+    hbox_matches.pack_end(names_comboboxentry_matches, False, False)
+    
+    hbox_is.pack_end(MatchMethod_text_is, False, False)
+    hbox_contains.pack_end(MatchMethod_text_contains, False, False)
+    hbox_matches.pack_end(MatchMethod_text_matches, False, False)
+    
+    vbox.pack_start(hbox_is, True, False)
+    vbox.pack_start(hbox_contains, True, False)
+    vbox.pack_start(hbox_matches, True, False)
     return vbox
     
 
