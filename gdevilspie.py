@@ -31,10 +31,16 @@ except:
     sys.exit(1)
 
 # List of possible match criteria
-match_criteria=["window_name", "window_role", "window_class", "window_xid", "application_name", "window_property", "window_workspace"]
+match_criteria={"window_name" : None, 
+"window_role" : None, 
+"window_class" : None, 
+"window_xid" : None, 
+"application_name" : None, 
+"window_property" : None, 
+"window_workspace" : None}
 
 # List of possible actions
-actions=["geometry", "fullscreen", "focus", "center", "maximize", "maximize_vertically", "maximize_horizontally", "unmaximize", "minimize", "unminimize", "shade", "unshade", "close", "pin", "unpin", "stick", "unstick", "set_workspace", "set_viewport", "skip_pager", "skip_tasklist", "above", "below", "decorate", "undecorate", "wintype", "opacity", "spawn_async", "spawn_sync"]
+#actions=["geometry", "fullscreen", "focus", "center", "maximize", "maximize_vertically", "maximize_horizontally", "unmaximize", "minimize", "unminimize", "shade", "unshade", "close", "pin", "unpin", "stick", "unstick", "set_workspace", "set_viewport", "skip_pager", "skip_tasklist", "above", "below", "decorate", "undecorate", "wintype", "opacity", "spawn_async", "spawn_sync"]
 
 # Dictionary of the actions for each of which we store a dictionary of help text and widgets
 actions_dict={"geometry" : None,
@@ -75,28 +81,37 @@ dir = os.path.expanduser("~/.devilspie")
 
 # The main class which creates the main window where we list the rules
 class RulesListWindow:
+# Initialization of the class
   def __init__(self):
     try:
+    # try to get our widgets from the gladefile
 	wTreeList = gtk.glade.XML (gladefile, "RulesList")
     except:
+    #inform the user there was an error and exit
         gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, "Glade file not found, exiting.").run()
         quit()
 
+    # Get the widgets that we will work with RulesList is the window, and RulesTree is the tree list of rules
     self.RulesList = wTreeList.get_widget("RulesList")
     self.RulesTree = wTreeList.get_widget("RulesTree")
     
+    # connect the signals to callbacks
     wTreeList.signal_autoconnect (self)
 
+    # create a liststore model which takes one string, the rule name
     self.rules_list_store = gtk.ListStore(str)
 
+    # connect the model to the tree view
     self.RulesTree.set_model(self.rules_list_store)
 
+    # pack a single column that has a text cell into the tree view
     self.RulesFilesNames=gtk.TreeViewColumn('Rule Name')
     self.RulesTree.append_column(self.RulesFilesNames)
     self.RuleFileName=gtk.CellRendererText()
     self.RulesFilesNames.pack_start(self.RuleFileName,expand=True)
     self.RulesFilesNames.add_attribute(self.RuleFileName, 'text', 0)
     
+    # if we have a config dir list the files inside otherwise try to create it
     if (os.path.exists(dir)):
       if (os.path.isdir(dir)):
         self.fill_rules_list()
@@ -104,31 +119,43 @@ class RulesListWindow:
           print "~/.devilspie is a file, please remove it"
     else:
           os.makedirs(dir)
-    
+
+    # display the main window
     self.RulesList.show_all()  
-  
+
+  # handle exiting the program  
   def on_RulesList_destroy(self,widget):
     gtk.main_quit()
 
   def on_Quit_clicked(self, widget):
     gtk.main_quit()
 
+  # make a rule creator instance
   def on_AddRule_clicked(self,widget):
     RuleEdit = RuleEditorWindow()
-    
+  
+  # used to delete a rule
   def on_DeleteRule_clicked(self,widget):
    SelectedRow = self.RulesTree.get_selection()
    (model, iter) = SelectedRow.get_selected()
    if (iter != None):
      SelectedRule = self.rules_list_store.get(iter, 0)
      RuleFile = os.path.expanduser("~/.devilspie/") + SelectedRule[0] + '.ds'
-     os.remove(RuleFile)
-     self.rules_list_store.remove(iter)
-
+     if (os.path.exists(RuleFile)):
+       try:
+         os.remove(RuleFile)
+         self.rules_list_store.remove(iter)
+       except:
+         error_dialog = gtk.MessageDialog(self.RuleEdit, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_CANCEL, "Could not save the rule, please check file permissions and try again.")
+         response = error_dialog.run()
+         error_dialog.destroy()
+  
+  # used to update the list after a delete or add  
   def update_rules_list(self):
     self.rules_list_store.clear()
     self.fill_rules_list()
-    
+  
+  # fill up the rules list with the names of the files that end with .ds  
   def fill_rules_list(self):
     rulefileslist = os.listdir(dir)
     for rulefile in rulefileslist:
@@ -137,28 +164,40 @@ class RulesListWindow:
         rulefile=rulefile.replace(".ds","")
         self.rules_list_store.append([rulefile])
 
+# This is the rule creator window
 class RuleEditorWindow():
   def __init__(self):
+  # try to get our widgets from the gladefile
     try:
 	wTreeEdit = gtk.glade.XML (gladefile, "RuleEdit")
     except:
         gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, "Glade file not found, exiting.").run()
         quit()
-    
-    self.RuleEdit = wTreeEdit.get_widget("RuleEdit")
-    self.ActionsTree = wTreeEdit.get_widget("ActionsTreeList")
-    self.MatchPropertyParameters_notebook = wTreeEdit.get_widget("MatchOptions_NoteBook1")
-    self.ActionsParameters_notebook = wTreeEdit.get_widget("ActionsParameters_notebook")
-    self.RuleName_entry = wTreeEdit.get_widget("RuleName_entry")
-    self.MatchTree = wTreeEdit.get_widget("MatchTree")
 
+    # get the widgets that we use
+    # the window
+    self.RuleEdit = wTreeEdit.get_widget("RuleEdit")
+    # Match tree
+    self.MatchTree = wTreeEdit.get_widget("MatchTree")
+    # Actions tree
+    self.ActionsTree = wTreeEdit.get_widget("ActionsTreeList")
+    # Match parameters notebook
+    self.MatchPropertyParameters_notebook = wTreeEdit.get_widget("MatchPropertyParameters_notebook")
+    # Action parameters notebook
+    self.ActionsParameters_notebook = wTreeEdit.get_widget("ActionsParameters_notebook")
+    # rule name text box
+    self.RuleName_entry = wTreeEdit.get_widget("RuleName_entry")
+
+    # Connect to our signals
     wTreeEdit.signal_autoconnect (self)
 
+    # create list stores and connect the models to the tree views
     self.match_list_store = gtk.ListStore(bool, str)
     self.actions_list_store = gtk.ListStore(bool,str)
     self.MatchTree.set_model(self.match_list_store)
     self.ActionsTree.set_model(self.actions_list_store)
 
+    # Action tree has two columns with two cells. One cell is a checkbox and the other is text
     self.ActionsNames_column=gtk.TreeViewColumn('Action')
     self.ActionsEnable_column=gtk.TreeViewColumn('')
     self.ActionsTree.append_column(self.ActionsEnable_column)
@@ -172,14 +211,19 @@ class RuleEditorWindow():
     
     self.ActionsNames_column.add_attribute(self.ActionsNames_cell, 'text', 1)
     self.ActionsEnable_column.add_attribute(self.ActionsEnable_cell, 'active', False)
-    for Action in actions:
+    
+    # Fill up the actions list store from the dictionary and create notebook pages for their parameters
+    for Action in actions_dict:
       self.actions_list_store.append([0, Action])
       actions_dict[Action] = gtk.Label(Action)
       self.ActionsParameters_notebook.insert_page(actions_dict[Action], None)
     
+    # Reflect the checkbox state in the model
     self.ActionsEnable_cell.connect("toggled", self.ActionsEnable_toggle)
+    # Flip the notebook pages when the selection changes
     self.ActionsTree.connect("cursor-changed", self.Actions_selected)
     
+    # Match tree has two columns with two cells. One cell is a checkbox and the other is text
     self.MatchPropertyNames_column=gtk.TreeViewColumn('Property')
     self.MatchPropertyEnable_column=gtk.TreeViewColumn('')
     self.MatchTree.append_column(self.MatchPropertyEnable_column)
@@ -193,8 +237,12 @@ class RuleEditorWindow():
 
     self.MatchPropertyEnable_column.add_attribute(self.MatchPropertyEnable_cell, 'active', False)
     self.MatchPropertyNames_column.add_attribute(self.MatchPropertyName_cell, 'text', 1)
+
+    # Fill up the actions list store from the dictionary and create notebook pages for their parameters
     for MatchProperty in match_criteria:
         self.match_list_store.append([0, MatchProperty])
+        match_criteria[MatchProperty] = gtk.Label(MatchProperty)
+        self.MatchPropertyParameters_notebook.insert_page(match_criteria[MatchProperty], None)
     
     self.MatchPropertyEnable_cell.connect("toggled", self.MatchPropertyEnable_toggle)
     self.MatchTree.connect("cursor-changed", self.MatchPropertyRow_selected)
