@@ -95,9 +95,9 @@ def create_match_parameters_page(match_criteria_name):
     entry_matches = match_criteria[match_criteria_name]["entry_matches"]
 
     # Three labels
-    MatchMethod_text_is=gtk.Label("equals")
-    MatchMethod_text_contains=gtk.Label("contains")
-    MatchMethod_text_matches=gtk.Label("matches")
+    MatchMethod_text_is=gtk.Label("equal(s)")
+    MatchMethod_text_contains=gtk.Label("contain(s)")
+    MatchMethod_text_matches=gtk.Label("match(es)")
     
     # Pack the triads
     hbox_is.pack_start(negate_checkbox_is, False, False)
@@ -123,35 +123,48 @@ def create_match_parameters_page(match_criteria_name):
 
 
 # Dictionary of the actions for each of which we store a dictionary of help text and widgets
-actions_dict={"geometry" : None,
-"fullscreen" : None,
-"focus": None,
-"center": None,
-"maximize": None,
-"maximize_vertically": None,
-"maximize_horizontally": None,
-"unmaximize": None,
-"minimize": None,
-"unminimize": None,
-"shade": None,
-"unshade": None,
-"close": None,
-"pin": None,
-"unpin": None,
-"stick": None,
-"unstick": None,
-"set_workspace": None,
-"set_viewport": None,
-"skip_pager": None,
-"skip_tasklist": None,
-"above": None,
-"below": None,
-"decorate": None,
-"undecorate": None,
-"wintype": None,
-"opacity": None,
-"spawn_async": None,
-"spawn_sync": None }
+actions_dict={
+"geometry" : {"description" : "<b>Set position and size of window</b>", "widget" : None},
+"fullscreen" : {"description" : "<b>Make the window fullscreen</b>", "widget" : None},
+"focus": {"description" : "<b>Focus the window</b>", "widget" : None},
+"center": {"description" : "<b>Center the position of the window</b>", "widget" : None},
+"maximize": {"description" : "<b>Maximize the window</b>", "widget" : None},
+"maximize_vertically": {"description" : "<b>Maximize the window vertically only</b>", "widget" : None},
+"maximize_horizontally": {"description" : "<b>Maximize the window horizontally only</b>", "widget" : None},
+"unmaximize": {"description" : "<b>Unmaximize the window</b>", "widget" : None},
+"minimize": {"description" : "<b>Minimize the window</b>", "widget" : None},
+"unminimize": {"description" : "<b>Unminimize the window</b>", "widget" : None},
+"shade": {"description" : "<b>Roll up the window</b>", "widget" : None},
+"unshade": {"description" : "<b>Roll down the window</b>", "widget" : None},
+"close": {"description" : "<b>Close the window</b>", "widget" : None},
+"pin": {"description" : "<b>Pin the window to all workspaces</b>", "widget" : None},
+"unpin": {"description" : "<b>Unpin the window from all workspaces</b>", "widget" : None},
+"stick": {"description" : "<b>Stick the window to all viewports</b>", "widget" : None},
+"unstick": {"description" : "<b>Unstick the window from all viewports</b>", "widget" : None},
+"set_workspace": {"description" : "<b>Move the window to a specific workspace number</b>", "widget" : None},
+"set_viewport": {"description" : "<b>Move the window to a specific viewport number</b>", "widget" : None},
+"skip_pager": {"description" : "<b>Remove the window from the window list</b>", "widget" : None},
+"skip_tasklist": {"description" : "<b>Remove the window from the pager</b>", "widget" : None},
+"above": {"description" : "<b>Set  the  current window to be above all normal windows</b>", "widget" : None},
+"below": {"description" : "<b>Set the current window to be below all normal  windows</b>", "widget" : None},
+"decorate": {"description" : "<b>Add  the  window  manager  decorations  to  the window</b>", "widget" : None},
+"undecorate": {"description" : "<b>Remove the window manager decorations from  the window</b>", "widget" : None},
+"wintype": {"description" : "<b>Set  the  window  type  of the window</b>", "widget" : None},
+"opacity": {"description" : "<b>Change  the  opacity level of the widnow</b>", "widget" : None},
+"spawn_async": {"description" : "<b>Execute a command in the background</b>", "widget" : None},
+"spawn_sync": {"description" : "<b>Execute a command in the foreground</b>", "widget" : None}
+}
+
+def create_action_parameters_page(action_name):
+    vbox = gtk.VBox()
+    str = actions_dict[action_name]["description"]
+    description_text = gtk.Label(str)
+    description_text.set_use_markup(True)
+    description_text.set_line_wrap(True)
+    vbox.pack_start(description_text, True, False)
+    
+    return vbox
+
 
 # Glade file used in all classes
 gladefile="gdevilspie.glade"
@@ -295,8 +308,9 @@ class RuleEditorWindow:
     # Fill up the actions list store from the dictionary and create notebook pages for their parameters
     for Action in actions_dict:
       self.actions_list_store.append([0, Action])
-      actions_dict[Action] = gtk.Label(Action)
-      self.ActionsParameters_notebook.insert_page(actions_dict[Action], None)
+      #actions_dict[Action] = gtk.Label(Action)
+      actions_dict[Action]["widget"] = create_action_parameters_page(Action)
+      self.ActionsParameters_notebook.insert_page(actions_dict[Action]["widget"], None)
     
     # Reflect the checkbox state in the model
     self.ActionsEnable_cell.connect("toggled", self.ActionsEnable_toggle)
@@ -321,7 +335,6 @@ class RuleEditorWindow:
     # Fill up the actions list store from the dictionary and create notebook pages for their parameters
     for MatchProperty in match_criteria:
         self.match_list_store.append([0, MatchProperty])
-        #match_criteria[MatchProperty] = gtk.Label(MatchProperty)
         match_criteria[MatchProperty]["widget"] = create_match_parameters_page(MatchProperty)
         self.MatchPropertyParameters_notebook.insert_page(match_criteria[MatchProperty]["widget"], None)
     
@@ -370,22 +383,23 @@ class RuleEditorWindow:
     path = os.path.expanduser("~/.devilspie/")
     new_Rule_file_name = str + ".ds"
     rulefileslist = os.listdir(dir)
+    response = gtk.RESPONSE_YES
     if ( new_Rule_file_name in rulefileslist ):
       error_dialog = gtk.MessageDialog(self.RuleEdit, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_QUESTION, gtk.BUTTONS_YES_NO, "The rule name you entered is already in use, do you want to overwrite it?")
       response = error_dialog.run()
       error_dialog.destroy()
-      if ( response == gtk.RESPONSE_YES ):
-        try:
-          new_Rule_file_name = path + new_Rule_file_name
-          f = open( new_Rule_file_name, 'w' )
-          f.write( "# " + str )
-          f.close()
-          MainWindow.update_rules_list()
-          self.RuleEdit.destroy()
-        except:
-          error_dialog = gtk.MessageDialog(self.RuleEdit, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_CANCEL, "Could not save the rule, please check file permissions and try again.")
-          response = error_dialog.run()
-          error_dialog.destroy()
+    if ( response == gtk.RESPONSE_YES ):
+      try:
+        new_Rule_file_name = path + new_Rule_file_name
+        f = open( new_Rule_file_name, 'w' )
+        f.write( "# " + str )
+        f.close()
+        MainWindow.update_rules_list()
+        self.RuleEdit.destroy()
+      except:
+        error_dialog = gtk.MessageDialog(self.RuleEdit, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_CANCEL, "Could not save the rule, please check file permissions and try again.")
+        response = error_dialog.run()
+        error_dialog.destroy()
       else:
         pass
 
