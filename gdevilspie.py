@@ -435,26 +435,29 @@ class FillerWindow:
     self.FillerDialog.connect("destroy", self.on_FillerDialog_destroy)
     self.window_liststore = gtk.ListStore(gobject.TYPE_STRING)
     self.window_name_cell = gtk.CellRendererText()
-    self.window_names_column = gtk.TreeViewColumn("Available Windows", self.window_name_cell)
+    self.window_names_column = gtk.TreeViewColumn("Available Windows")
+    self.window_names_column.pack_start(self.window_name_cell, expand=True)
+    self.window_names_column.add_attribute(self.window_name_cell, 'text', 0)
     
+    self.window_tree.append_column(self.window_names_column)
+    self.window_tree.set_model(self.window_liststore)
+    windowlist, namelist = filler.Get_Windowname_List()
+    if ("gDevilspie" in namelist): 
+      namelist.remove("gDevilspie")
+    if ("Rule Editor" in namelist):
+      namelist.remove("Rule Editor")
+    for name in namelist:
+      self.window_liststore.append([name])
     
     self.FillerDialog.show_all()
 
-    #wFillerList.signal_autoconnect (self.FillerDialog) why isn't this working
-
-    def on_Filler_Apply_clicked(self, widget):
-	    print "Apply_clicked"
+  def on_Filler_Apply_clicked(self, widget):
 	    self.FillerDialog.destroy()
 
-    def on_FillerDialog_destroy(self, widget):
+  def on_FillerDialog_destroy(self, widget):
            self.FillerDialog.destroy()
            
-    def on_Filler_Cancel_clicked(self, widget):
-	   print "self destruction!"
-	   self.FillerDialog.destroy()
-	   
-    def on_FillerWindow_destroy(self, widget):
-	   print "self destruction!"
+  def on_Filler_Cancel_clicked(self, widget):
 	   self.FillerDialog.destroy()
 
 
