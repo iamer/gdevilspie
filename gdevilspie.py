@@ -121,10 +121,11 @@ def create_match_parameters_page(match_criteria_name):
     return vbox
     
 
+window_types=["normal", "dialog", "menu", "toolbar", "splash-screen", "utility", "dock", "desktop"]
 
 # Dictionary of the actions for each of which we store a dictionary of help text and widgets
 actions_dict={
-"geometry" : {"description" : "<b>Set position and size of window</b>", "widget" : None},
+		"geometry" : {"description" : "<b>Set position and size of window</b>", "widget" : None, "input" : { "xposition" : 0, "yposition" : 0, "width" : 0, "height" : 0 } },
 "fullscreen" : {"description" : "<b>Make the window fullscreen</b>", "widget" : None},
 "focus": {"description" : "<b>Focus the window</b>", "widget" : None},
 "center": {"description" : "<b>Center the position of the window</b>", "widget" : None},
@@ -141,18 +142,18 @@ actions_dict={
 "unpin": {"description" : "<b>Unpin the window from all workspaces</b>", "widget" : None},
 "stick": {"description" : "<b>Stick the window to all viewports</b>", "widget" : None},
 "unstick": {"description" : "<b>Unstick the window from all viewports</b>", "widget" : None},
-"set_workspace": {"description" : "<b>Move the window to a specific workspace number</b>", "widget" : None},
-"set_viewport": {"description" : "<b>Move the window to a specific viewport number</b>", "widget" : None},
+"set_workspace": {"description" : "<b>Move the window to a specific workspace number</b>", "widget" : None, "input" : { "workspace" : 0 } },
+"set_viewport": {"description" : "<b>Move the window to a specific viewport number</b>", "widget" : None, "input" : { "viewport" : 0 } },
 "skip_pager": {"description" : "<b>Remove the window from the window list</b>", "widget" : None},
 "skip_tasklist": {"description" : "<b>Remove the window from the pager</b>", "widget" : None},
 "above": {"description" : "<b>Set  the  current window to be above all normal windows</b>", "widget" : None},
 "below": {"description" : "<b>Set the current window to be below all normal  windows</b>", "widget" : None},
 "decorate": {"description" : "<b>Add  the  window  manager  decorations  to  the window</b>", "widget" : None},
 "undecorate": {"description" : "<b>Remove the window manager decorations from  the window</b>", "widget" : None},
-"wintype": {"description" : "<b>Set  the  window  type  of the window</b>", "widget" : None},
-"opacity": {"description" : "<b>Change  the  opacity level of the widnow</b>", "widget" : None},
-"spawn_async": {"description" : "<b>Execute a command in the background</b>", "widget" : None},
-"spawn_sync": {"description" : "<b>Execute a command in the foreground</b>", "widget" : None}
+"wintype": {"description" : "<b>Set  the  window  type  of the window</b>", "widget" : None, "input" : { "type" : window_types } },
+"opacity": {"description" : "<b>Change  the  opacity level of the widnow</b>", "widget" : None, "input" : { "opacity" : 100 } },
+"spawn_async": {"description" : "<b>Execute a command in the background</b>", "widget" : None, "input" : { "command" : "str" } },
+"spawn_sync": {"description" : "<b>Execute a command in the foreground</b>", "widget" : None, "input" : { "command" : "str" } }
 }
 
 def create_action_parameters_page(action_name):
@@ -162,7 +163,14 @@ def create_action_parameters_page(action_name):
     description_text.set_use_markup(True)
     description_text.set_line_wrap(True)
     vbox.pack_start(description_text, True, False)
-    
+    if ( actions_dict[action_name].has_key("input") ):
+      for key in actions_dict[action_name]["input"]:
+	  hbox = gtk.HBox()
+          label = gtk.Label(key)
+	  entry = gtk.Entry()
+	  hbox.pack_start(label, False, False)
+	  hbox.pack_end(entry, False, False)
+	  vbox.pack_start(hbox, True, True)
     return vbox
 
 
@@ -371,6 +379,9 @@ class RuleEditorWindow:
   def on_RuleEdit_destroy(self,widget):
     self.RuleEdit.destroy()
     
+  def on_Fill_clicked(self,widget):
+    filler = FillerWindow()
+
   def on_Cancel_clicked(self,widget):
     self.RuleEdit.destroy()
     
@@ -402,6 +413,35 @@ class RuleEditorWindow:
         error_dialog.destroy()
       else:
         pass
+
+class FillerWindow:
+  def __init__(self):
+    try:
+    # try to get our widgets from the gladefile
+	wFillerList = gtk.glade.XML (gladefile, "FillerWindow")
+    except:
+    #inform the user there was an error and exit
+        gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, "Glade file not found, exiting.").run()
+        quit()
+
+    self.FillerWindow = wFillerList.get_widget("FillerWindow")
+
+    wFillerList.signal_autoconnect (self)
+
+    self.FillerWindow.show_all()
+
+    def on_Filler_Apply_clicked(self, widget):
+	    print "Apply_clicked"
+	    pass
+
+    def on_Filler_Cancel_clicked(self, widget):
+	   print "self destruction!"
+	   self.FillerWindow.destroy()
+	   
+    def on_FillerWindow_destroy(self, widget):
+	   print "self destruction!"
+	   self.FillerWindow.destroy()
+
 
 
 MainWindow = RulesListWindow()

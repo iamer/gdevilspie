@@ -9,10 +9,12 @@ def Get_Window_List():
     return screen.get_windows()
 
 #List of windowname strings
-def Get_Windowname_List(windowlist):
+def Get_Windowname_List():
+    windowlist = Get_Window_List()
     namelist = []
     for i in windowlist:
         namelist.append(i.get_name())
+    return windowlist , namelist
 
 #this function takes a window object (choosen by the user) and returns its matching criteria
 def Matchdict_Window(window):
@@ -52,4 +54,3 @@ winlist = Get_Window_List()
 def test():
     print Matchdict_Window(winlist[1])
     print Actiondict_Window(winlist[1])
-test()
