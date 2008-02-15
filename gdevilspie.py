@@ -26,6 +26,7 @@ try:
     pygtk.require('2.0')
     import gtk
     import gtk.glade
+    import filler
 except:
     print "pyGTK is not correctly installed, exiting."
     sys.exit(1)
@@ -380,7 +381,7 @@ class RuleEditorWindow:
     self.RuleEdit.destroy()
     
   def on_Fill_clicked(self,widget):
-    filler = FillerWindow()
+    self.filler_window = FillerWindow()
 
   def on_Cancel_clicked(self,widget):
     self.RuleEdit.destroy()
@@ -418,29 +419,43 @@ class FillerWindow:
   def __init__(self):
     try:
     # try to get our widgets from the gladefile
-	wFillerList = gtk.glade.XML (gladefile, "FillerWindow")
+	wFillerList = gtk.glade.XML (gladefile, "FillerDialog")
     except:
     #inform the user there was an error and exit
         gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, "Glade file not found, exiting.").run()
         quit()
 
-    self.FillerWindow = wFillerList.get_widget("FillerWindow")
+    self.FillerDialog = wFillerList.get_widget("FillerDialog")
+    self.cancel_button = wFillerList.get_widget("Filler_Cancel")
+    self.fill_button = wFillerList.get_widget("Filler_Apply")
+    self.window_tree = wFillerList.get_widget("FillerTree")
+    
+    self.cancel_button.connect("clicked", self.on_Filler_Cancel_clicked)
+    self.fill_button.connect("clicked", self.on_Filler_Apply_clicked)
+    self.FillerDialog.connect("destroy", self.on_FillerDialog_destroy)
+    self.window_liststore = gtk.ListStore(gobject.TYPE_STRING)
+    self.window_name_cell = gtk.CellRendererText()
+    self.window_names_column = gtk.TreeViewColumn("Available Windows", self.window_name_cell)
+    
+    
+    self.FillerDialog.show_all()
 
-    wFillerList.signal_autoconnect (self)
-
-    self.FillerWindow.show_all()
+    #wFillerList.signal_autoconnect (self.FillerDialog) why isn't this working
 
     def on_Filler_Apply_clicked(self, widget):
 	    print "Apply_clicked"
-	    pass
+	    self.FillerDialog.destroy()
 
+    def on_FillerDialog_destroy(self, widget):
+           self.FillerDialog.destroy()
+           
     def on_Filler_Cancel_clicked(self, widget):
 	   print "self destruction!"
-	   self.FillerWindow.destroy()
+	   self.FillerDialog.destroy()
 	   
     def on_FillerWindow_destroy(self, widget):
 	   print "self destruction!"
-	   self.FillerWindow.destroy()
+	   self.FillerDialog.destroy()
 
 
 
