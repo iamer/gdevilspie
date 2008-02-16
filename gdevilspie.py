@@ -126,7 +126,7 @@ window_types=["normal", "dialog", "menu", "toolbar", "splash-screen", "utility",
 
 # Dictionary of the actions for each of which we store a dictionary of help text and widgets
 actions_dict={
-		"geometry" : {"description" : "<b>Set position and size of window</b>", "widget" : None, "input" : { "xposition" : 0, "yposition" : 0, "width" : 0, "height" : 0 } },
+		"geometry" : {"description" : "<b>Set position and size of window</b>", "widget" : None, "input" : { "xposition" : None, "yposition" : None, "width" : None, "height" : None } },
 "fullscreen" : {"description" : "<b>Make the window fullscreen</b>", "widget" : None},
 "focus": {"description" : "<b>Focus the window</b>", "widget" : None},
 "center": {"description" : "<b>Center the position of the window</b>", "widget" : None},
@@ -143,18 +143,18 @@ actions_dict={
 "unpin": {"description" : "<b>Unpin the window from all workspaces</b>", "widget" : None},
 "stick": {"description" : "<b>Stick the window to all viewports</b>", "widget" : None},
 "unstick": {"description" : "<b>Unstick the window from all viewports</b>", "widget" : None},
-"set_workspace": {"description" : "<b>Move the window to a specific workspace number</b>", "widget" : None, "input" : { "workspace" : 0 } },
-"set_viewport": {"description" : "<b>Move the window to a specific viewport number</b>", "widget" : None, "input" : { "viewport" : 0 } },
+"set_workspace": {"description" : "<b>Move the window to a specific workspace number</b>", "widget" : None, "input" : { "workspace" : None } },
+"set_viewport": {"description" : "<b>Move the window to a specific viewport number</b>", "widget" : None, "input" : { "viewport" : None } },
 "skip_pager": {"description" : "<b>Remove the window from the window list</b>", "widget" : None},
 "skip_tasklist": {"description" : "<b>Remove the window from the pager</b>", "widget" : None},
 "above": {"description" : "<b>Set  the  current window to be above all normal windows</b>", "widget" : None},
 "below": {"description" : "<b>Set the current window to be below all normal  windows</b>", "widget" : None},
 "decorate": {"description" : "<b>Add  the  window  manager  decorations  to  the window</b>", "widget" : None},
 "undecorate": {"description" : "<b>Remove the window manager decorations from  the window</b>", "widget" : None},
-"wintype": {"description" : "<b>Set  the  window  type  of the window</b>", "widget" : None, "input" : { "type" : window_types } },
-"opacity": {"description" : "<b>Change  the  opacity level of the widnow</b>", "widget" : None, "input" : { "opacity" : 100 } },
-"spawn_async": {"description" : "<b>Execute a command in the background</b>", "widget" : None, "input" : { "command" : "str" } },
-"spawn_sync": {"description" : "<b>Execute a command in the foreground</b>", "widget" : None, "input" : { "command" : "str" } }
+"wintype": {"description" : "<b>Set  the  window  type  of the window</b>", "widget" : None, "input" : { "type" : None } },
+"opacity": {"description" : "<b>Change  the  opacity level of the widnow</b>", "widget" : None, "input" : { "opacity" : None } },
+"spawn_async": {"description" : "<b>Execute a command in the background</b>", "widget" : None, "input" : { "command" : None } },
+"spawn_sync": {"description" : "<b>Execute a command in the foreground</b>", "widget" : None, "input" : { "command" : None } }
 }
 
 def create_action_parameters_page(action_name):
@@ -169,6 +169,7 @@ def create_action_parameters_page(action_name):
 	  hbox = gtk.HBox()
           label = gtk.Label(key)
 	  entry = gtk.Entry()
+	  actions_dict[action_name]["input"][key] = entry
 	  hbox.pack_start(label, False, False)
 	  hbox.pack_end(entry, False, False)
 	  vbox.pack_start(hbox, True, True)
@@ -234,7 +235,7 @@ class RulesListWindow:
 
   # make a rule creator instance
   def on_AddRule_clicked(self,widget):
-    RuleEdit = RuleEditorWindow()
+    self.RuleEdit = RuleEditorWindow()
   
   # used to delete a rule
   def on_DeleteRule_clicked(self,widget):
@@ -441,24 +442,70 @@ class FillerWindow:
     
     self.window_tree.append_column(self.window_names_column)
     self.window_tree.set_model(self.window_liststore)
-    windowlist, namelist = filler.Get_Windowname_List()
-    if ("gDevilspie" in namelist): 
-      namelist.remove("gDevilspie")
-    if ("Rule Editor" in namelist):
-      namelist.remove("Rule Editor")
-    for name in namelist:
+    self.windowlist, self.namelist = filler.Get_Windowname_List()
+    for name in self.namelist:
       self.window_liststore.append([name])
     
     self.FillerDialog.show_all()
 
   def on_Filler_Apply_clicked(self, widget):
-	    self.FillerDialog.destroy()
+   selected_window = self.window_tree.get_selection()
+   ( model , iter ) = selected_window.get_selected()
+   path = model.get_path(iter)
+   window_object = self.windowlist[path[0]]
+   window_match_dict = filler.Matchdict_Window(window_object)
+   window_action_dict = filler.Actiondict_Window(window_object)
+   
+   for key in window_match_dict:
+     Entry = match_criteria[key]["entry_is"] 
+     Entry.set_text(str(window_match_dict[key]))
+   
+   Entry = actions_dict["geometry"]["input"]["xposition"] 
+   Entry.set_text(str(window_action_dict["xposition"]))
+   Entry = actions_dict["geometry"]["input"]["yposition"] 
+   Entry.set_text(str(window_action_dict["yposition"]))
+   Entry = actions_dict["geometry"]["input"]["width"] 
+   Entry.set_text(str(window_action_dict["width"]))
+   Entry = actions_dict["geometry"]["input"]["height"] 
+   Entry.set_text(str(window_action_dict["height"]))     
+   Entry = actions_dict["set_workspace"]["input"]["workspace"] 
+   Entry.set_text(str(window_action_dict["set_workspace"]))
+   
+   for row in MainWindow.RuleEdit.actions_list_store:
+     if ( row[1] == "fullscreen"):
+       if (window_action_dict["fullscreen"] == True):
+         row[0] = True
+     elif ( row[1] == "maximize"):
+       if (window_action_dict["maximize"] == True):
+         row[0] = True
+     elif ( row[1] == "maximize_horizontally"):
+       if (window_action_dict["maximize_horizontally"] == True):
+         row[0] = True
+     elif ( row[1] == "maximize_vertically"):
+       if (window_action_dict["maximize_vertically"] == True):
+         row[0] = True
+     elif ( row[1] == "minimize"):
+       if (window_action_dict["minimize"] == True):
+         row[0] = True
+     elif ( row[1] == "shade"):
+       if (window_action_dict["shade"] == True):
+         row[0] = True
+     elif ( row[1] == "pin"):
+       if (window_action_dict["pin"] == True):
+         row[0] = True
+     elif ( row[1] == "stick"):
+       if (window_action_dict["stick"] == True):
+         row[0] = True
+     else:
+       pass
+   
+   self.FillerDialog.destroy()
 
   def on_FillerDialog_destroy(self, widget):
-           self.FillerDialog.destroy()
+   self.FillerDialog.destroy()
            
   def on_Filler_Cancel_clicked(self, widget):
-	   self.FillerDialog.destroy()
+   self.FillerDialog.destroy()
 
 
 

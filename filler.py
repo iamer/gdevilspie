@@ -13,7 +13,10 @@ def Get_Windowname_List():
     windowlist = Get_Window_List()
     namelist = []
     for i in windowlist:
-        namelist.append(i.get_name())
+        if (i.get_name() == "gDevilspie") or (i.get_name() == "Rule Editor"):
+          windowlist.remove(i)
+	else:
+          namelist.append(i.get_name())
     return windowlist , namelist
 
 #this function takes a window object (choosen by the user) and returns its matching criteria
@@ -33,10 +36,10 @@ def Matchdict_Window(window):
 
 def Actiondict_Window(window):
     actiondict = {}
-    actiondict["geometry_x"] = window.get_geometry()[0]
-    actiondict["geometry_y"] = window.get_geometry()[1]
-    actiondict["geometry_w"] = window.get_geometry()[2]
-    actiondict["geometry_h"] = window.get_geometry()[3]
+    actiondict["xposition"] = window.get_geometry()[0]
+    actiondict["yposition"] = window.get_geometry()[1]
+    actiondict["width"] = window.get_geometry()[2]
+    actiondict["height"] = window.get_geometry()[3]
     actiondict["fullscreen"] = window.is_fullscreen()
     actiondict["maximize"] = window.is_maximized()
     actiondict["maximize_horizontally"] = window.is_maximized_horizontally()
