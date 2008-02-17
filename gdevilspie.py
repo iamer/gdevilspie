@@ -176,6 +176,28 @@ def create_action_parameters_page(action_name):
     return vbox
 
 
+# generated rule storage
+generated_rule = ""
+
+def generate_match_criteria():
+  for row in MainWindow.RuleEdit.match_list_store:
+    match_method = row[1]
+    if ( row[0] == True ):
+      print match_method
+      for prop in ["is", "contains", "matches"]:
+        entry = "entry_" + prop
+        negation = prop + "_not"
+        entry_text = match_criteria[match_method][entry].get_text()
+        negation_state = match_criteria[match_method][negation]
+        if ( entry_text != "" ):
+          print prop 
+          if ( negation_state == True ):
+            print "not"
+          print entry_text
+
+def generate_actions():
+  pass
+
 # Glade file used in all classes
 gladefile="gdevilspie.glade"
 
@@ -393,6 +415,11 @@ class RuleEditorWindow:
    
   def Save_Rule(self, str):
     #do stuff to generate the rule.
+    generate_match_criteria()
+    generate_actions()
+
+    if ( str == "" ):
+      return
     path = os.path.expanduser("~/.devilspie/")
     new_Rule_file_name = str + ".ds"
     rulefileslist = os.listdir(dir)
@@ -405,7 +432,7 @@ class RuleEditorWindow:
       try:
         new_Rule_file_name = path + new_Rule_file_name
         f = open( new_Rule_file_name, 'w' )
-        f.write( "# " + str )
+        f.write( "#generated_rule " + str )
         f.close()
         MainWindow.update_rules_list()
         self.RuleEdit.destroy()
