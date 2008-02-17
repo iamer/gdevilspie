@@ -179,31 +179,39 @@ def create_action_parameters_page(action_name):
 # generated rule storage
 generated_rule = ""
 
+def generate_rule(file):
+    string = generate_match_criteria()
+    file.write(string)
+    string = generate_actions()
+    file.write(string)
+
 def generate_match_criteria():
   for row in MainWindow.RuleEdit.match_list_store:
     match_method = row[1]
     if ( row[0] == True ):
-      print match_method
+      string = "\n" + match_method + "\n"
       for prop in ["is", "contains", "matches"]:
         entry = "entry_" + prop
         negation = prop + "_not"
         entry_text = match_criteria[match_method][entry].get_text()
         negation_state = match_criteria[match_method][negation]
         if ( entry_text != "" ):
-          print prop 
+          string = string + prop + "\n"
           if ( negation_state == True ):
-            print "not"
-          print entry_text
+            string = string + "not" + "\n"
+          string = string + entry_text + "\n"
+  return string
 
 def generate_actions():
     for row in MainWindow.RuleEdit.actions_list_store:
         action_name = row[1]
         if ( row[0] == True ):
-            print action_name
+            string = action_name + "\n"
             if actions_dict[action_name].has_key("input"):
                 for key in actions_dict[action_name]["input"]:
-                    print key
-                    print actions_dict[action_name]["input"][key].get_text()
+                    string = string + key + "\n"
+                    string = string + actions_dict[action_name]["input"][key].get_text() + "\n"
+    return string
 
 # Glade file used in all classes
 gladefile="gdevilspie.glade"
@@ -301,7 +309,7 @@ class RuleEditorWindow:
   def __init__(self):
   # try to get our widgets from the gladefile
     try:
-	wTreeEdit = gtk.glade.XML (gladefile, "RuleEdit")
+	    wTreeEdit = gtk.glade.XML (gladefile, "RuleEdit")
     except:
         gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, "Glade file not found, exiting.").run()
         quit()
@@ -439,7 +447,8 @@ class RuleEditorWindow:
       try:
         new_Rule_file_name = path + new_Rule_file_name
         f = open( new_Rule_file_name, 'w' )
-        f.write( "#generated_rule " + str )
+        f.write( "#generated_rule " + str + "\n")
+        generate_rule(f)
         f.close()
         MainWindow.update_rules_list()
         self.RuleEdit.destroy()
@@ -447,7 +456,7 @@ class RuleEditorWindow:
         error_dialog = gtk.MessageDialog(self.RuleEdit, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_CANCEL, "Could not save the rule, please check file permissions and try again.")
         response = error_dialog.run()
         error_dialog.destroy()
-      else:
+    else:
         pass
 
 class FillerWindow:
