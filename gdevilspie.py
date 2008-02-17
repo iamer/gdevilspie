@@ -196,7 +196,14 @@ def generate_match_criteria():
           print entry_text
 
 def generate_actions():
-  pass
+    for row in MainWindow.RuleEdit.actions_list_store:
+        action_name = row[1]
+        if ( row[0] == True ):
+            print action_name
+            if actions_dict[action_name].has_key("input"):
+                for key in actions_dict[action_name]["input"]:
+                    print key
+                    print actions_dict[action_name]["input"][key].get_text()
 
 # Glade file used in all classes
 gladefile="gdevilspie.glade"
