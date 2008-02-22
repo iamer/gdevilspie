@@ -13,10 +13,7 @@ def Get_Windowname_List():
     windowlist = Get_Window_List()
     namelist = []
     for i in windowlist:
-        if (i.get_name() == "gDevilspie") or (i.get_name() == "Rule Editor"):
-          windowlist.remove(i)
-	else:
-          namelist.append(i.get_name())
+		namelist.append(i.get_name())
     return windowlist , namelist
 
 #this function takes a window object (choosen by the user) and returns its matching criteria
@@ -53,7 +50,7 @@ def Actiondict_Window(window):
     return actiondict
 
 ## Use this for testing
-winlist = Get_Window_List()
-def test():
-    print Matchdict_Window(winlist[1])
-    print Actiondict_Window(winlist[1])
+#winlist = Get_Window_List()
+#def test():
+#    print Matchdict_Window(winlist[1])
+#    print Actiondict_Window(winlist[1])

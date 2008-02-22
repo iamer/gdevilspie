@@ -1,11 +1,16 @@
 import parser
 
+# open a file and pass it to parser.py
 foo = open('test.ds')
 z = parser.parse_file(foo)
+# clean some of the parser crap
 rule = z[0]
 
-ruledict = {}
+#the dicts we will use
+matdict = {}
+actiondict = {}
 
+#the reader part...
 if rule[0] == 'if':
     matcond = z[0][1]
     action = z[0][2]
@@ -15,12 +20,13 @@ print action
 
 for item in matcond:
     if item[0] == 'is':
-        ruledict[str(item[1])] = str(item[2])
+        matdict[str(item[1].pop())] = str(item[2])
 
 
 if action[0] == 'begin':
-    ruledict['actions'] = action[1:]
+    actiondict['actions'] = action[1:]
 else:
-    ruledict['actions'] = action[0]
+    actiondict['actions'] = action[0]
 
-print ruledict
+print matdict
+print actiondict
