@@ -14,6 +14,7 @@ when needed only.
 * Handle system wide rules, shown read only. Add unlock button for password entry to edit the system wide rules.
 * Show deamon status and ability to start / stop it.
 * tray icon, blinks when rule is matched.
+	* Add the tray icon as a glade custom widget.
 * Help text all over the place.
 * raw view of the to be generated rule.
 * Text box at the top to name the rule / file. DONE

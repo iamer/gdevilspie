@@ -26,11 +26,15 @@ try:
     pygtk.require('2.0')
     import gtk
     import gtk.glade
-    import filler
 except:
     print "pyGTK is not correctly installed, exiting."
     sys.exit(1)
 
+try:
+    import filler
+except:
+    print "Make sure that Python-Wnck is correctly installed for 'filler' module to run properly."
+    sys.exit(1)
 
 # List of possible match criteria
 match_criteria={
@@ -225,6 +229,16 @@ gladefile="gdevilspie.glade"
 
 # Directory where we store .ds files
 dir = os.path.expanduser("~/.devilspie")
+
+
+# Tray Icon (Not working properly yet)
+tray = gtk.StatusIcon()
+tray.set_from_file("window-new.png")
+tray.set_tooltip("gDevilspie")
+tray.set_blinking(True)
+
+
+
 
 # The main class which creates the main window where we list the rules
 class RulesListWindow:
