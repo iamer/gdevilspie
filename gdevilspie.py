@@ -235,7 +235,7 @@ dir = os.path.expanduser("~/.devilspie")
 tray = gtk.StatusIcon()
 tray.set_from_file("window-new.png")
 tray.set_tooltip("gDevilspie")
-tray.set_blinking(True)
+tray.set_blinking(False)
 
 
 
