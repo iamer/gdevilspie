@@ -189,17 +189,22 @@ def generate_match_criteria():
   for row in MainWindow.RuleEdit.match_list_store:
     match_method = row[1]
     if ( row[0] == True ):
-      storing = match_method + "\n"
       for prop in ["is", "contains", "matches"]:
         entry = "entry_" + prop
         negation = prop + "_not"
         entry_text = match_criteria[match_method][entry].get_text()
         negation_state = match_criteria[match_method][negation]
         if ( entry_text != "" ):
-          storing = storing + prop + "\n"
+          storing=""
           if ( negation_state == True ):
-            storing = storing + "not" + "\n"
-          storing = storing + entry_text + "\n"
+            storing = "( " + "not "+ "( " + prop
+          else:
+            storing = "( " + prop
+          storing = storing + " ( " + match_method + " ) "
+          storing = storing + '"' + entry_text + '"' + " )"
+          if ( negation_state == True ):
+            storing = storing + " )"
+          storing = storing + "\n"
       strous += storing
   return strous
 
@@ -445,7 +450,7 @@ class RuleEditorWindow:
       try:
         new_Rule_file_name = path + new_Rule_file_name
         f = open( new_Rule_file_name, 'w' )
-        f.write( "#generated_rule " + str + "\n")
+        f.write( "; generated_rule " + str + "\n")
         generated_rule = ""
         generated_rule = generate_rule(generated_rule)
         f.write( generated_rule )
