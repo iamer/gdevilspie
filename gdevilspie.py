@@ -30,11 +30,14 @@ except:
     print "pyGTK is not correctly installed, exiting."
     sys.exit(1)
 
+DISABLE_FILLER=""
 try:
     import filler
 except:
-    print "Make sure that Python-Wnck is correctly installed for 'filler' module to run properly."
-    sys.exit(1)
+    error = gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, "Make sure that Python-Wnck is correctly installed for 'filler' module to run properly.")
+    response = error.run()
+    error.destroy()
+    DISABLE_FILLER="True"
 
 # List of possible match criteria
 match_criteria={
@@ -183,9 +186,14 @@ def create_action_parameters_page(action_name):
 # generated rule storage
 
 def generate_rule(generated_rule):
-    generated_rule_part1 = generate_match_criteria()
-    generated_rule_part2 = generate_actions()
-    generated_rule = generated_rule_part1 + generated_rule_part2
+    part0 = "( if \n"
+    part1 = "( and \n"
+    part2 = generate_match_criteria()
+    part3 = ") \n" + "( begin \n"
+    part4 = generate_actions()
+    part5 = "( println \"match\" )\n"
+    part6 = ")\n)\n"
+    generated_rule = part0 + part1 + part2 + part3 + part4 + part5 + part6
     return generated_rule
 
 def generate_match_criteria():
@@ -217,11 +225,18 @@ def generate_actions():
     for row in MainWindow.RuleEdit.actions_list_store:
         action_name = row[1]
         if ( row[0] == True ):
-            storing = action_name + "\n"
+            storing = action_name
             if actions_dict[action_name].has_key("input"):
-                for key in actions_dict[action_name]["input"]:
-                    storing = storing + actions_dict[action_name]["input"][key].get_text() + "\n"
-            strous += storing
+                if ( action_name == "geometry" ):
+                  geomstring = actions_dict[action_name]["input"]["width"].get_text()
+                  geomstring = geomstring + "x" + actions_dict[action_name]["input"]["height"].get_text()
+                  geomstring = geomstring + "+" + actions_dict[action_name]["input"]["xposition"].get_text()
+                  geomstring = geomstring + "+" + actions_dict[action_name]["input"]["yposition"].get_text()
+                  storing = storing + "\"" + geomstring + "\""
+                else:
+                  for key in actions_dict[action_name]["input"]:
+                    storing = storing + " \"" + actions_dict[action_name]["input"][key].get_text() + "\""
+            strous += "( " + storing + " )\n"
     return strous
 
 # Glade file used in all classes
@@ -440,7 +455,12 @@ class RuleEditorWindow:
     self.RuleEdit.destroy()
     
   def on_Fill_clicked(self,widget):
-    self.filler_window = FillerWindow()
+    if (DISABLE_FILLER == "True"):
+      error = gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, "The filler is disabled.")
+      response = error.run()
+      error.destroy()
+    else:
+      self.filler_window = FillerWindow()
 
   def on_Cancel_clicked(self,widget):
     self.RuleEdit.destroy()
