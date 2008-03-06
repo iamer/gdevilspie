@@ -319,10 +319,16 @@ class RulesListWindow:
      RuleFile = os.path.expanduser("~/.devilspie/") + SelectedRule[0] + '.ds'
      if (os.path.exists(RuleFile)):
        try:
-         os.remove(RuleFile)
-         self.rules_list_store.remove(iter)
+         error_dialog = gtk.MessageDialog(self.RulesList, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_QUESTION, gtk.BUTTONS_YES_NO, "Are you sure you want to remove the rule " + SelectedRule[0] + "?")
+         response = error_dialog.run()
+         error_dialog.destroy()
+         if ( response == gtk.RESPONSE_YES ):
+           os.remove(RuleFile)
+           self.rules_list_store.remove(iter)
+         else:
+           return
        except:
-         error_dialog = gtk.MessageDialog(self.RuleEdit, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_CANCEL, "Could not save the rule, please check file permissions and try again.")
+         error_dialog = gtk.MessageDialog(self.RulesList, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_CANCEL, "Could not remove the rule, please check file permissions and try again.")
          response = error_dialog.run()
          error_dialog.destroy()
   
