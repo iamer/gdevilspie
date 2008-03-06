@@ -21,6 +21,10 @@
 try:
     import os
     import sys
+    import commands
+    import signal
+    import subprocess
+    import string
     import gobject
     import pygtk
     pygtk.require('2.0')
@@ -270,6 +274,9 @@ class RulesListWindow:
     # Get the widgets that we will work with RulesList is the window, and RulesTree is the tree list of rules
     self.RulesList = wTreeList.get_widget("RulesList")
     self.RulesTree = wTreeList.get_widget("RulesTree")
+    self.DaemonStatus = wTreeList.get_widget("DaemonStatus")
+    self.ToggleDaemon = wTreeList.get_widget("ToggleDaemon")
+    self.ToggleDaemonLabel = wTreeList.get_widget("ToggleDaemonLabel")
     
     # connect the signals to callbacks
     wTreeList.signal_autoconnect (self)
@@ -295,6 +302,8 @@ class RulesListWindow:
           print "~/.devilspie is a file, please remove it"
     else:
           os.makedirs(dir)
+    
+    self.UpdateDaemonStatus()
 
     # display the main window
     self.RulesList.show_all()  
@@ -309,6 +318,37 @@ class RulesListWindow:
   # make a rule creator instance
   def on_AddRule_clicked(self,widget):
     self.RuleEdit = RuleEditorWindow()
+  
+  def UpdateDaemonStatus(self):
+    prog = commands.getoutput("pgrep -x devilspie")
+    if ( prog == "" ):
+      # daemon not running
+      self.DaemonStatus.set_markup("<b>The devilspie daemon is <span foreground=\"red\">not</span> running  </b>")
+      self.ToggleDaemonLabel.set_markup("<span foreground=\"green\">Start it ?</span>")
+      return 1
+    else:
+      self.DaemonStatus.set_markup("<b>The devilspie daemon is <span foreground=\"green\">running</span>  </b>")
+      self.ToggleDaemonLabel.set_markup("<span foreground=\"red\">Stop it ?</span>")
+      return prog
+    
+  def toggle_daemon(self):
+    status = self.UpdateDaemonStatus()
+    if ( status == 1 ):
+      if (os.fork() == 0):
+        if (os.fork() == 0):
+          os.execvpe('devilspie', ['-a'] , os.environ)
+          sys.exit(0)
+        else:
+          sys.exit(0)
+      else:
+        os.wait()
+    else:
+      # kill it
+      os.kill(int(status),signal.SIGKILL)
+    status = self.UpdateDaemonStatus()
+    
+  def on_ToggleDaemon_clicked(self,widget):
+    self.toggle_daemon()
   
   # used to delete a rule
   def on_DeleteRule_clicked(self,widget):

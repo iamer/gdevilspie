@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.1 on Thu Mar  6 22:17:36 2008 -->
+<!--Generated with glade3 3.4.1 on Fri Mar  7 01:40:37 2008 -->
 <glade-interface>
   <widget class="GtkDialog" id="RulesList">
     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -48,12 +48,12 @@
                 <property name="visible">True</property>
                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                 <property name="border_width">8</property>
-                <property name="layout_style">GTK_BUTTONBOX_EDGE</property>
+                <property name="layout_style">GTK_BUTTONBOX_SPREAD</property>
                 <child>
                   <widget class="GtkLabel" id="DaemonStatus">
                     <property name="visible">True</property>
                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                    <property name="label" translatable="yes">&lt;b&gt;The devilspie daemon is not running.&lt;/b&gt;</property>
+                    <property name="label" translatable="yes">&lt;b&gt;The devilspie daemon is &lt;span foreground="red"&gt;not&lt;/span&gt; running.&lt;/b&gt;</property>
                     <property name="use_markup">True</property>
                   </widget>
                   <packing>
@@ -62,14 +62,21 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkToggleButton" id="ToggleDaemon">
+                  <widget class="GtkButton" id="ToggleDaemon">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                    <property name="label" translatable="yes">gtk-apply</property>
-                    <property name="use_stock">True</property>
                     <property name="response_id">0</property>
+                    <signal name="clicked" handler="on_ToggleDaemon_clicked"/>
+                    <child>
+                      <widget class="GtkLabel" id="ToggleDaemonLabel">
+                        <property name="visible">True</property>
+                        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                        <property name="label" translatable="yes">&lt;span foreground="green"&gt;Start it ?&lt;/span&gt;</property>
+                        <property name="use_markup">True</property>
+                      </widget>
+                    </child>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
