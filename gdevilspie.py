@@ -336,10 +336,10 @@ class RulesListWindow:
     if ( prog == "" ):
       # daemon not running
       self.DaemonStatus.set_markup("<b>The devilspie daemon is <span foreground=\"red\">not</span> running  </b>")
-      self.ToggleDaemonLabel.set_markup("<span foreground=\"green\">Start it ?</span>")
+      self.ToggleDaemonLabel.set_markup("<span foreground=\"dark green\">Start it ?</span>")
       return 1
     else:
-      self.DaemonStatus.set_markup("<b>The devilspie daemon is <span foreground=\"green\">running</span>  </b>")
+      self.DaemonStatus.set_markup("<b>The devilspie daemon is <span foreground=\"dark green\">running</span>  </b>")
       self.ToggleDaemonLabel.set_markup("<span foreground=\"red\">Stop it ?</span>")
       return prog
     
