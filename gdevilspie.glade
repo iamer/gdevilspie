@@ -472,8 +472,8 @@ You should have received a copy of the GNU General Public License along
 with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
 </property>
     <property name="authors">iamer
-thesamo
-cvirus</property>
+Kareem Kenawy (theSamo)
+Hamada(CVirus)</property>
     <property name="documenters"></property>
     <property name="logo">window-new.png</property>
     <property name="wrap_license">True</property>
