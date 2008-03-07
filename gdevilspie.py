@@ -249,16 +249,6 @@ gladefile="gdevilspie.glade"
 # Directory where we store .ds files
 dir = os.path.expanduser("~/.devilspie")
 
-
-# Tray Icon (Not working properly yet)
-tray = gtk.StatusIcon()
-tray.set_from_file("window-new.png")
-tray.set_tooltip("gDevilspie")
-tray.set_blinking(False)
-
-
-
-
 # The main class which creates the main window where we list the rules
 class RulesListWindow:
 # Initialization of the class
@@ -305,9 +295,23 @@ class RulesListWindow:
     
     self.UpdateDaemonStatus()
 
+    # Tray Icon (Not working properly yet)
+    self.tray = gtk.StatusIcon()
+    self.tray.set_from_file("window-new.png")
+    self.tray.set_tooltip("gDevilspie")
+    self.tray.set_blinking(False)
+    self.tray.connect("activate", self.on_tray_activate)
+
     # display the main window
     self.RulesList.show_all()  
 
+  def on_tray_activate(self, widget):
+    # toggle view of main window
+    if ( self.RulesList.get_property("visible") == True):
+      self.RulesList.hide_all()
+    elif ( self.RulesList.get_property("visible") == False):
+      self.RulesList.show_all()
+    
   # handle exiting the program  
   def on_RulesList_destroy(self,widget):
     gtk.main_quit()
