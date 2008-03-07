@@ -254,13 +254,15 @@ class RulesListWindow:
 # Initialization of the class
   def __init__(self):
     try:
-    # try to get our widgets from the gladefile
-	wTreeList = gtk.glade.XML (gladefile, "RulesList")
+      # try to get our widgets from the gladefile
+	  wTreeList = gtk.glade.XML (gladefile, "RulesList")
+	  wTreeAbout = gtk.glade.XML (gladefile, "AboutgDevilepie")
     except:
     #inform the user there was an error and exit
         gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, "Glade file not found, exiting.").run()
         quit()
 
+    self.AboutgDevilepie = wTreeAbout.get_widget("AboutgDevilepie")
     # Get the widgets that we will work with RulesList is the window, and RulesTree is the tree list of rules
     self.RulesList = wTreeList.get_widget("RulesList")
     self.RulesTree = wTreeList.get_widget("RulesTree")
@@ -301,6 +303,7 @@ class RulesListWindow:
     self.tray.set_tooltip("gDevilspie")
     self.tray.set_blinking(False)
     self.tray.connect("activate", self.on_tray_activate)
+    self.tray.connect("popup-menu", self.on_tray_popup)
 
     # display the main window
     self.RulesList.show_all()  
@@ -311,6 +314,11 @@ class RulesListWindow:
       self.RulesList.hide_all()
     elif ( self.RulesList.get_property("visible") == False):
       self.RulesList.show_all()
+  
+  def on_tray_popup(self, widget, button, activate_time):
+    self.AboutgDevilepie.show_all
+    response = self.AboutgDevilepie.run()
+    self.AboutgDevilepie.hide()
     
   # handle exiting the program  
   def on_RulesList_destroy(self,widget):
