@@ -256,6 +256,7 @@ class RulesListWindow:
     try:
       # try to get our widgets from the gladefile
 	  wTreeList = gtk.glade.XML (gladefile, "RulesList")
+	  wTreeStatusPopupMenu = gtk.glade.XML (gladefile, "StatusPopupMenu")
 	  wTreeAbout = gtk.glade.XML (gladefile, "AboutgDevilepie")
     except:
     #inform the user there was an error and exit
@@ -269,10 +270,10 @@ class RulesListWindow:
     self.DaemonStatus = wTreeList.get_widget("DaemonStatus")
     self.ToggleDaemon = wTreeList.get_widget("ToggleDaemon")
     self.ToggleDaemonLabel = wTreeList.get_widget("ToggleDaemonLabel")
-    
+    self.StatusPopupMenu = wTreeStatusPopupMenu.get_widget("StatusPopupMenu")
     # connect the signals to callbacks
-    wTreeList.signal_autoconnect (self)
-
+    wTreeList.signal_autoconnect(self)
+    wTreeStatusPopupMenu.signal_autoconnect(self)
     # create a liststore model which takes one string, the rule name
     self.rules_list_store = gtk.ListStore(str)
 
@@ -316,9 +317,15 @@ class RulesListWindow:
       self.RulesList.show_all()
   
   def on_tray_popup(self, widget, button, activate_time):
+    self.StatusPopupMenu.popup(None, None, None, button, activate_time)
+    
+  def on_About_activate(self, widget):
     self.AboutgDevilepie.show_all
     response = self.AboutgDevilepie.run()
     self.AboutgDevilepie.hide()
+  
+  def on_Quit_activate(self, widget):
+    gtk.main_quit()
     
   # handle exiting the program  
   def on_RulesList_destroy(self,widget):

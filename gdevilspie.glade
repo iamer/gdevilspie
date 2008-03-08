@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.1 on Fri Mar  7 16:49:46 2008 -->
+<!--Generated with glade3 3.4.1 on Sat Mar  8 04:28:27 2008 -->
 <glade-interface>
   <widget class="GtkDialog" id="RulesList">
     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -74,7 +74,7 @@
                       <widget class="GtkLabel" id="ToggleDaemonLabel">
                         <property name="visible">True</property>
                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                        <property name="label" translatable="yes">&lt;span foreground="green"&gt;Start it ?&lt;/span&gt;</property>
+                        <property name="label" translatable="yes">&lt;span foreground="dark green"&gt;Start it ?&lt;/span&gt;</property>
                         <property name="use_markup">True</property>
                       </widget>
                     </child>
@@ -496,6 +496,34 @@ Hamada(CVirus)</property>
             <property name="pack_type">GTK_PACK_END</property>
           </packing>
         </child>
+      </widget>
+    </child>
+  </widget>
+  <widget class="GtkMenu" id="StatusPopupMenu">
+    <property name="visible">True</property>
+    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+    <child>
+      <widget class="GtkImageMenuItem" id="About">
+        <property name="visible">True</property>
+        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+        <property name="tooltip" translatable="yes">About</property>
+        <property name="label" translatable="yes">gtk-about</property>
+        <property name="use_underline">True</property>
+        <property name="use_stock">True</property>
+        <signal name="activate_item" handler="on_About_activate"/>
+        <signal name="activate" handler="on_About_activate"/>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkImageMenuItem" id="Quit">
+        <property name="visible">True</property>
+        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+        <property name="tooltip" translatable="yes">Quit</property>
+        <property name="label" translatable="yes">gtk-quit</property>
+        <property name="use_underline">True</property>
+        <property name="use_stock">True</property>
+        <signal name="activate_item" handler="on_Quit_activate"/>
+        <signal name="activate" handler="on_Quit_activate"/>
       </widget>
     </child>
   </widget>
