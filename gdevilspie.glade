@@ -501,7 +501,7 @@ You should have received a copy of the GNU General Public License along with thi
 </property>
     <property name="authors">Islam Motab Amer (pharon)
 Kareem Kenawy (theSamo)
-Hamada(CVirus)</property>
+Mohamed Hazem(CVirus)</property>
     <property name="documenters"></property>
     <property name="logo">window-new.png</property>
     <property name="wrap_license">True</property>
