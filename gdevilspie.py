@@ -240,8 +240,8 @@ def generate_actions():
 				  geomstring = geomstring + "x" + actions_dict[action_name]["input"]["height"].get_text()
 				  geomstring = geomstring + "+" + actions_dict[action_name]["input"]["xposition"].get_text()
 				  geomstring = geomstring + "+" + actions_dict[action_name]["input"]["yposition"].get_text()
-				  storing = storing + "\"" + geomstring + "\""
-				if ( action_name == "set_viewport" ) or ( action_name == "set_workspace" ) or ( action_name == "opacity" ):
+				  storing = storing + " \"" + geomstring + "\""
+				elif ( action_name == "set_viewport" ) or ( action_name == "set_workspace" ) or ( action_name == "opacity" ):
 					for key in actions_dict[action_name]["input"]:
 						storing = storing + " " + str(actions_dict[action_name]["input"][key].get_value_as_int())
 				else:
@@ -350,11 +350,11 @@ class RulesListWindow:
 	if ( prog == "" ):
 	  # daemon not running
 	  self.DaemonStatus.set_markup("<b>The devilspie daemon is <span foreground=\"red\">not</span> running  </b>")
-	  self.ToggleDaemonLabel.set_markup("<span foreground=\"dark green\">Start it ?</span>")
+	  self.ToggleDaemonLabel.set_markup("<b><span foreground=\"dark green\">Start it ?</span></b>")
 	  return 1
 	else:
 	  self.DaemonStatus.set_markup("<b>The devilspie daemon is <span foreground=\"dark green\">running</span>  </b>")
-	  self.ToggleDaemonLabel.set_markup("<span foreground=\"red\">Stop it ?</span>")
+	  self.ToggleDaemonLabel.set_markup("<b><span foreground=\"red\">Stop it ?</span></b>")
 	  return prog
 	
   def toggle_daemon(self):
