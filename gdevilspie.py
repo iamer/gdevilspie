@@ -137,7 +137,7 @@ window_types=["normal", "dialog", "menu", "toolbar", "splash-screen", "utility",
 
 # Dictionary of the actions for each of which we store a dictionary of help text and widgets
 actions_dict={
-		"geometry" : {"description" : "<b>Set position and size of window</b>", "widget" : None, "input" : { "xposition" : None, "yposition" : None, "width" : None, "height" : None } },
+"geometry" : {"description" : "<b>Set position and size of window</b>", "widget" : None, "type" : "Text" , "input" : { "xposition" : None, "yposition" : None, "width" : None, "height" : None } },
 "fullscreen" : {"description" : "<b>Make the window fullscreen</b>", "widget" : None},
 "focus": {"description" : "<b>Focus the window</b>", "widget" : None},
 "center": {"description" : "<b>Center the position of the window</b>", "widget" : None},
@@ -154,18 +154,18 @@ actions_dict={
 "unpin": {"description" : "<b>Unpin the window from all workspaces</b>", "widget" : None},
 "stick": {"description" : "<b>Stick the window to all viewports</b>", "widget" : None},
 "unstick": {"description" : "<b>Unstick the window from all viewports</b>", "widget" : None},
-"set_workspace": {"description" : "<b>Move the window to a specific workspace number</b>", "widget" : None, "input" : { "workspace" : None } },
-"set_viewport": {"description" : "<b>Move the window to a specific viewport number</b>", "widget" : None, "input" : { "viewport" : None } },
+"set_workspace": {"description" : "<b>Move the window to a specific workspace number</b>", "widget" : None, "type" : "Spin" , "input" : { "workspace" : None } },
+"set_viewport": {"description" : "<b>Move the window to a specific viewport number</b>", "widget" : None, "type" : "Spin" , "input" : { "viewport" : None } },
 "skip_pager": {"description" : "<b>Remove the window from the window list</b>", "widget" : None},
 "skip_tasklist": {"description" : "<b>Remove the window from the pager</b>", "widget" : None},
 "above": {"description" : "<b>Set  the  current window to be above all normal windows</b>", "widget" : None},
 "below": {"description" : "<b>Set the current window to be below all normal  windows</b>", "widget" : None},
 "decorate": {"description" : "<b>Add  the  window  manager  decorations  to  the window</b>", "widget" : None},
 "undecorate": {"description" : "<b>Remove the window manager decorations from  the window</b>", "widget" : None},
-"wintype": {"description" : "<b>Set  the  window  type  of the window</b>", "widget" : None, "input" : { "type" : None } },
-"opacity": {"description" : "<b>Change  the  opacity level of the widnow</b>", "widget" : None, "input" : { "opacity" : None } },
-"spawn_async": {"description" : "<b>Execute a command in the background</b>", "widget" : None, "input" : { "command" : None } },
-"spawn_sync": {"description" : "<b>Execute a command in the foreground</b>", "widget" : None, "input" : { "command" : None } }
+"wintype": {"description" : "<b>Set  the  window  type  of the window</b>", "widget" : None, "type" : "Text" , "input" : { "widget" : None } },
+"opacity": {"description" : "<b>Change  the  opacity level of the widnow</b>", "widget" : None, "type" : "Spin" , "input" : { "opacity" : None } },
+"spawn_async": {"description" : "<b>Execute a command in the background</b>", "widget" : None, "type" : "Text" , "input" : { "command" : None } },
+"spawn_sync": {"description" : "<b>Execute a command in the foreground</b>", "widget" : None, "type" : "Text" , "input" : { "command" : None } }
 }
 
 def create_action_parameters_page(action_name):
@@ -176,11 +176,15 @@ def create_action_parameters_page(action_name):
 	description_text.set_line_wrap(True)
 	vbox.pack_start(description_text, True, False)
 	if ( actions_dict[action_name].has_key("input") ):
+		InputType = actions_dict[action_name]["type"]
 		for key in actions_dict[action_name]["input"]:
+			if ( InputType == "Text" ):
+				entry = gtk.Entry()
+			elif ( InputType == "Spin" ):
+				entry = gtk.SpinButton(gtk.Adjustment(0, 0, 100, 1, 0, 0) , 1, 0)
+			actions_dict[action_name]["input"][key] = entry
 			hbox = gtk.HBox()
 			label = gtk.Label(key)
-			entry = gtk.Entry()
-			actions_dict[action_name]["input"][key] = entry
 			hbox.pack_start(label, False, False)
 			hbox.pack_end(entry, False, False)
 			vbox.pack_start(hbox, True, True)
@@ -239,7 +243,7 @@ def generate_actions():
 				  storing = storing + "\"" + geomstring + "\""
 				if ( action_name == "set_viewport" ) or ( action_name == "set_workspace" ) or ( action_name == "opacity" ):
 					for key in actions_dict[action_name]["input"]:
-						storing = storing + " " + actions_dict[action_name]["input"][key].get_text()
+						storing = storing + " " + str(actions_dict[action_name]["input"][key].get_value_as_int())
 				else:
 				  for key in actions_dict[action_name]["input"]:
 					storing = storing + " \"" + actions_dict[action_name]["input"][key].get_text() + "\""
