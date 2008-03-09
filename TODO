@@ -2,14 +2,10 @@ Pending :
 
 * Finish GUI of rules creation dialog.
 * Later on we can use inotify to automatcially refresh.
-* Button to retrieve data from a currently open window using target cursor. NOT NEEDED
 * Add an optional alternate action notebook page, to allow for if -- then -- else rule creation.
 * Possibililty to edit already available rules files. ( parser )
 * Handle system wide rules, shown read only. Add unlock button for password entry to edit the system wide rules.
-* Tray icon to hide and show the gui.
-* Add the tray icon as a glade custom widget. 
 * Help text all over the place.
-* raw view of the to be generated rule.
 
 DONE :
 
@@ -22,3 +18,6 @@ DONE :
 * Fill up relevant comboboxes with data from libwnck to allow for easy selection of properties of currently open windows. DONE
 * Show deamon status and ability to start / stop it. DONE
 * Text box at the top to name the rule / file. DONE
+* Tray icon to hide and show the gui. DONE
+* raw view of the to be generated rule. DONE
+

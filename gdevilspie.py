@@ -440,6 +440,12 @@ class RuleEditorWindow:
 	self.ActionsParameters_notebook = wTreeEdit.get_widget("ActionsParameters_notebook")
 	# rule name text box
 	self.RuleName_entry = wTreeEdit.get_widget("RuleName_entry")
+	# rule notebook
+	self.RuleNotebook = wTreeEdit.get_widget("RuleNotebook")
+	# Raw rule text view
+	self.RawRule = wTreeEdit.get_widget("RawRule")
+	# the text buffer to hold the raw rule.
+	self.buffer = gtk.TextBuffer(None)
 
 	# Connect to our signals
 	wTreeEdit.signal_autoconnect (self)
@@ -503,6 +509,13 @@ class RuleEditorWindow:
 	
 	self.RuleEdit.show_all()
 	
+  def on_RuleNotebook_change_current_page(self, widget, page, pagenum):
+  	if ( pagenum == 2 ):
+  		generated_rule = ""
+		generated_rule = generate_rule(generated_rule)
+		self.buffer.set_text(generated_rule)
+		self.RawRule.set_buffer(buffer)
+  
   def Actions_selected(self, widget):
 	selected_row = self.ActionsTree.get_selection()
 	(model, iter) = selected_row.get_selected()
@@ -665,7 +678,6 @@ class FillerWindow:
 		   
   def on_Filler_Cancel_clicked(self, widget):
    self.FillerDialog.destroy()
-
 
 
 MainWindow = RulesListWindow()
