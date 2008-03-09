@@ -26,7 +26,7 @@ def Matchdict_Window(window):
     matchdict["application_name"] = window.get_application().get_name()
     matchdict["window_property"] = "" #Is that even relevant? nobody uses it.
     if window.get_workspace() != None:
-        matchdict["window_workspace"] = window.get_workspace().get_name()
+        matchdict["window_workspace"] = window.get_workspace().get_number()
     else:
         matchdict["window_workspace"] = ""
     return matchdict
@@ -46,7 +46,7 @@ def Actiondict_Window(window):
     actiondict["pin"] = window.is_pinned()
     actiondict["stick"] = window.is_sticky()
     if window.get_workspace() != None:
-        actiondict["set_workspace"] = window.get_workspace().get_name()
+        actiondict["set_workspace"] = window.get_workspace().get_number()
     return actiondict
 
 ## Use this for testing

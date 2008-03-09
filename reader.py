@@ -21,9 +21,9 @@ print action
 for item in matcond:
     if item[0] == 'is':
         matdict[str(item[1].pop())] = ["is", str(item[2])]
-	elif item[0] == 'matches':
+    elif item[0] == 'matches':
 		matdict[str(item[1].pop())] = ["matches", str(item[2])]
-	elif item[0]== 'contains':
+    elif item[0]== 'contains':
 		matdict[str(item[1].pop())] = ["contains", str(item[2])]
 
 # FIXME: handling matches/contains and NOT		
