@@ -237,6 +237,9 @@ def generate_actions():
 				  geomstring = geomstring + "+" + actions_dict[action_name]["input"]["xposition"].get_text()
 				  geomstring = geomstring + "+" + actions_dict[action_name]["input"]["yposition"].get_text()
 				  storing = storing + "\"" + geomstring + "\""
+				if ( action_name == "set_viewport" ) or ( action_name == "set_workspace" ) or ( action_name == "opacity" ):
+					for key in actions_dict[action_name]["input"]:
+						storing = storing + " " + actions_dict[action_name]["input"][key].get_text()
 				else:
 				  for key in actions_dict[action_name]["input"]:
 					storing = storing + " \"" + actions_dict[action_name]["input"][key].get_text() + "\""
@@ -514,7 +517,7 @@ class RuleEditorWindow:
   		generated_rule = ""
 		generated_rule = generate_rule(generated_rule)
 		self.buffer.set_text(generated_rule)
-		self.RawRule.set_buffer(buffer)
+		self.RawRule.set_buffer(self.buffer)
   
   def Actions_selected(self, widget):
 	selected_row = self.ActionsTree.get_selection()

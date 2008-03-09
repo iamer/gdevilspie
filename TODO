@@ -1,5 +1,6 @@
 Pending :
-
+* Validate created rules correctness.
+* Flash the tray icon when a rule is matched.
 * Finish GUI of rules creation dialog.
 * Later on we can use inotify to automatcially refresh.
 * Add an optional alternate action notebook page, to allow for if -- then -- else rule creation.
