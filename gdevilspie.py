@@ -170,13 +170,11 @@ actions_dict={
 
 def create_action_parameters_page(action_name):
 	vbox = gtk.VBox()
-	hbox1 = gtk.HBox()
 	str = actions_dict[action_name]["description"]
 	description_text = gtk.Label(str)
 	description_text.set_use_markup(True)
 	description_text.set_line_wrap(True)
-	hbox1.pack_start(description_text, True, True)
-	vbox.pack_start(hbox1, True, False)
+	vbox.pack_start(description_text, True, True)
 	if ( actions_dict[action_name].has_key("input") ):
 		InputType = actions_dict[action_name]["type"]
 		for key in actions_dict[action_name]["input"]:
@@ -190,11 +188,11 @@ def create_action_parameters_page(action_name):
 					entry.append_text(choice)
 					entry.set_active(0)
 			actions_dict[action_name]["input"][key] = entry
-			hbox2 = gtk.HBox()
+			hbox = gtk.HBox()
 			label = gtk.Label(key)
-			hbox2.pack_start(label, True, True)
-			hbox2.pack_end(entry, True, True)
-			vbox.pack_start(hbox2, True, False)
+			hbox.pack_start(label, True, True)
+			hbox.pack_start(entry, True, False)
+			vbox.pack_start(hbox, True, False)
 	return vbox
 
 
