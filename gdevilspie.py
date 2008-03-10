@@ -133,7 +133,7 @@ def create_match_parameters_page(match_criteria_name):
 	return vbox
 	
 
-window_types=["normal", "dialog", "menu", "toolbar", "splash-screen", "utility", "dock", "desktop"]
+
 
 # Dictionary of the actions for each of which we store a dictionary of help text and widgets
 actions_dict={
@@ -162,7 +162,7 @@ actions_dict={
 "below": {"description" : "<b>Set the current window to be below all normal  windows</b>", "widget" : None},
 "decorate": {"description" : "<b>Add  the  window  manager  decorations  to  the window</b>", "widget" : None},
 "undecorate": {"description" : "<b>Remove the window manager decorations from  the window</b>", "widget" : None},
-"wintype": {"description" : "<b>Set  the  window  type  of the window</b>", "widget" : None, "type" : "Text" , "input" : { "widget" : None } },
+"wintype": {"description" : "<b>Set  the  window  type  of the window</b>", "widget" : None, "type" : "Combo" , "Choices" : ["normal", "dialog", "menu", "toolbar", "splash-screen", "utility", "dock", "desktop"] , "input" : { "wintype" : None } },
 "opacity": {"description" : "<b>Change  the  opacity level of the widnow</b>", "widget" : None, "type" : "Spin" , "input" : { "opacity" : None } },
 "spawn_async": {"description" : "<b>Execute a command in the background</b>", "widget" : None, "type" : "Text" , "input" : { "command" : None } },
 "spawn_sync": {"description" : "<b>Execute a command in the foreground</b>", "widget" : None, "type" : "Text" , "input" : { "command" : None } }
@@ -170,11 +170,13 @@ actions_dict={
 
 def create_action_parameters_page(action_name):
 	vbox = gtk.VBox()
+	hbox1 = gtk.HBox()
 	str = actions_dict[action_name]["description"]
 	description_text = gtk.Label(str)
 	description_text.set_use_markup(True)
 	description_text.set_line_wrap(True)
-	vbox.pack_start(description_text, True, False)
+	hbox1.pack_start(description_text, True, True)
+	vbox.pack_start(hbox1, True, False)
 	if ( actions_dict[action_name].has_key("input") ):
 		InputType = actions_dict[action_name]["type"]
 		for key in actions_dict[action_name]["input"]:
@@ -182,12 +184,17 @@ def create_action_parameters_page(action_name):
 				entry = gtk.Entry()
 			elif ( InputType == "Spin" ):
 				entry = gtk.SpinButton(gtk.Adjustment(0, 0, 100, 1, 0, 0) , 1, 0)
+			elif (InputType == "Combo" ):
+				entry = gtk.combo_box_new_text()
+				for choice in actions_dict[action_name]["Choices"]:
+					entry.append_text(choice)
+					entry.set_active(0)
 			actions_dict[action_name]["input"][key] = entry
-			hbox = gtk.HBox()
+			hbox2 = gtk.HBox()
 			label = gtk.Label(key)
-			hbox.pack_start(label, False, False)
-			hbox.pack_end(entry, False, False)
-			vbox.pack_start(hbox, True, True)
+			hbox2.pack_start(label, True, True)
+			hbox2.pack_end(entry, True, True)
+			vbox.pack_start(hbox2, True, False)
 	return vbox
 
 
@@ -244,6 +251,9 @@ def generate_actions():
 				elif ( action_name == "set_viewport" ) or ( action_name == "set_workspace" ) or ( action_name == "opacity" ):
 					for key in actions_dict[action_name]["input"]:
 						storing = storing + " " + str(actions_dict[action_name]["input"][key].get_value_as_int())
+				elif ( action_name == "wintype" ):
+					for key in actions_dict[action_name]["input"]:
+						storing = storing + " \"" + actions_dict[action_name]["input"][key].get_active_text() + "\""
 				else:
 				  for key in actions_dict[action_name]["input"]:
 					storing = storing + " \"" + actions_dict[action_name]["input"][key].get_text() + "\""
