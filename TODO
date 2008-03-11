@@ -1,4 +1,6 @@
 Pending :
+* handle system wide install.
+* Package 0.1 release
 * Validate created rules correctness.
 * Flash the tray icon when a rule is matched.
 * Finish GUI of rules creation dialog.
