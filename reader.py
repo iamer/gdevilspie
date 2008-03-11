@@ -1,7 +1,7 @@
 import parser
 
 # open a file and pass it to parser.py
-foo = open('test2.ds')
+foo = open('test3.ds')
 z = parser.parse_file(foo)
 # clean some of the parser crap
 rule = z[0]
@@ -18,19 +18,33 @@ if rule[0] == 'if':
 print matcond
 print action
 
-for item in matcond:
-    if item[0] == 'is':
-        matdict[str(item[1].pop())] = ["is", str(item[2])]
-    elif item[0] == 'matches':
+def not_checker(matdict,item):
+	if item[0] == 'is':
+		matdict[str(item[1].pop())] = ["is","not", str(item[2])]
+	elif item[0] == 'matches':
+		matdict[str(item[1].pop())] = ["matches","not", str(item[2])]
+	elif item[0]== 'contains':
+		matdict[str(item[1].pop())] = ["contains","not", str(item[2])]
+    
+def condition_checker(matdict,item):    
+	if item[0] == 'is':
+		matdict[str(item[1].pop())] = ["is", str(item[2])]
+	elif item[0] == 'matches':
 		matdict[str(item[1].pop())] = ["matches", str(item[2])]
-    elif item[0]== 'contains':
+	elif item[0]== 'contains':
 		matdict[str(item[1].pop())] = ["contains", str(item[2])]
+	elif item[0]== "not":
+		not_checker(matdict,item[1])
 
-# FIXME: handling matches/contains and NOT		
-
+if matcond[0] == "and":
+	for item in matcond:
+		condition_checker(matdict, item)
+else:
+	condition_checker(matdict, matcond)
+		
 
 if action[0] == 'begin':
-    #actiondict['actions'] = action[1:]
+	#FIXME: Handle Actions correctly.
 	for i in action[1:]:
 		print i
 		if len(i) > 1:
