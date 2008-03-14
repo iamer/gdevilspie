@@ -4,21 +4,24 @@ import string
 def geo_parse(gstring):
 	return
 
+def stripper(listitem):
+	return listitem.strip('"')
+
 def not_checker(matdict,item):
 	if item[0] == 'is':
-		matdict[str(item[1].pop())] = ["is","not", str(item[2])]
+		matdict[str(item[1].pop())] = ["is","not", stripper(item[2])]
 	elif item[0] == 'matches':
-		matdict[str(item[1].pop())] = ["matches","not", str(item[2])]
+		matdict[str(item[1].pop())] = ["matches","not", stripper(item[2])]
 	elif item[0]== 'contains':
-		matdict[str(item[1].pop())] = ["contains","not", str(item[2])]
+		matdict[str(item[1].pop())] = ["contains","not", stripper(item[2])]
     
-def condition_checker(matdict,item):    
+def condition_checker(matdict,item):
 	if item[0] == 'is':
-		matdict[str(item[1].pop())] = ["is", str(item[2])]
+		matdict[str(item[1].pop())] = ["is", stripper(item[2])]
 	elif item[0] == 'matches':
-		matdict[str(item[1].pop())] = ["matches", str(item[2])]
+		matdict[str(item[1].pop())] = ["matches", stripper(item[2])]
 	elif item[0]== 'contains':
-		matdict[str(item[1].pop())] = ["contains", str(item[2])]
+		matdict[str(item[1].pop())] = ["contains", stripper(item[2])]
 	elif item[0]== "not":
 		not_checker(matdict,item[1])
 
@@ -49,7 +52,7 @@ def read_file(filename):
 		#FIXME: Handle Actions correctly.
 		for i in action[1:]:
 			if len(i) > 1:
-				actiondict[i[0]] = i[1]
+				actiondict[i[0]] = stripper(i[1])
 			elif i[0][:2] != "un":
 				actiondict[i[0]] = "True"
 			elif i[0][:2] == "un":
@@ -60,5 +63,5 @@ def read_file(filename):
 
 	return [matdict,actiondict]
 
-print read_file("test.ds")
+print read_file("test2.ds")
 geo_parse("FIXME: Write that part phaeron :P")
