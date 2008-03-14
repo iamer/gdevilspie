@@ -174,7 +174,7 @@ def create_action_parameters_page(action_name):
 	description_text = gtk.Label(str)
 	description_text.set_use_markup(True)
 	description_text.set_line_wrap(True)
-	vbox.pack_start(description_text, True, True)
+	vbox.pack_start(description_text, False, False, 10)
 	if ( actions_dict[action_name].has_key("input") ):
 		InputType = actions_dict[action_name]["type"]
 		for key in actions_dict[action_name]["input"]:
@@ -190,9 +190,9 @@ def create_action_parameters_page(action_name):
 			actions_dict[action_name]["input"][key] = entry
 			hbox = gtk.HBox()
 			label = gtk.Label(key)
-			hbox.pack_start(label, True, True)
-			hbox.pack_start(entry, True, False)
-			vbox.pack_start(hbox, True, False)
+			hbox.pack_start(label, True, True, 10)
+			hbox.pack_start(entry, True, False, 10)
+			vbox.pack_start(hbox, True, False, 10)
 	return vbox
 
 
@@ -357,12 +357,12 @@ class RulesListWindow:
 	prog = commands.getoutput("pgrep -x devilspie")
 	if ( prog == "" ):
 	  # daemon not running
-	  self.DaemonStatus.set_markup("<b>The devilspie daemon is <span foreground=\"red\">not</span> running  </b>")
-	  self.ToggleDaemonLabel.set_markup("<b><span foreground=\"dark green\">Start it ?</span></b>")
+	  self.DaemonStatus.set_markup("<b>The devilspie daemon is <span foreground=\"red\">not</span> running.</b>")
+	  self.ToggleDaemonLabel.set_markup("<b><span foreground=\"dark green\">Start</span></b>")
 	  return 1
 	else:
-	  self.DaemonStatus.set_markup("<b>The devilspie daemon is <span foreground=\"dark green\">running</span>  </b>")
-	  self.ToggleDaemonLabel.set_markup("<b><span foreground=\"red\">Stop it ?</span></b>")
+	  self.DaemonStatus.set_markup("<b>The devilspie daemon is <span foreground=\"dark green\">running.</span></b>")
+	  self.ToggleDaemonLabel.set_markup("<b><span foreground=\"red\">Stop</span></b>")
 	  return prog
 	
   def toggle_daemon(self):
@@ -497,7 +497,9 @@ class RuleEditorWindow:
 	self.ActionsEnable_cell.connect("toggled", self.ActionsEnable_toggle)
 	# Flip the notebook pages when the selection changes
 	self.ActionsTree.connect("cursor-changed", self.Actions_selected)
-	
+	# Select first action for consistent look
+	self.ActionsTree.set_cursor(0, None, False)
+
 	# Match tree has two columns with two cells. One cell is a checkbox and the other is text
 	self.MatchPropertyNames_column=gtk.TreeViewColumn('Property')
 	self.MatchPropertyEnable_column=gtk.TreeViewColumn('')
@@ -521,6 +523,8 @@ class RuleEditorWindow:
 	
 	self.MatchPropertyEnable_cell.connect("toggled", self.MatchPropertyEnable_toggle)
 	self.MatchTree.connect("cursor-changed", self.MatchPropertyRow_selected)
+	#select first row
+	self.MatchTree.set_cursor(0, None, False)
 	
 	self.RuleEdit.show_all()
 	
@@ -632,8 +636,11 @@ class FillerWindow:
 	self.windowlist, self.namelist = filler.Get_Windowname_List()
 	for name in self.namelist:
 	  self.window_liststore.append([name])
-	
+	self.window_tree.connect("row-activated", self.on_window_tree_row_activated)
 	self.FillerDialog.show_all()
+
+  def on_window_tree_row_activated(self, widget, path, view_column):
+	self.on_Filler_Apply_clicked(widget)  
 
   def on_Filler_Apply_clicked(self, widget):
    selected_window = self.window_tree.get_selection()

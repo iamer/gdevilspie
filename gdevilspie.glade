@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.1 on Sun Mar  9 17:35:52 2008 -->
+<!--Generated with glade3 3.4.2 on Fri Mar 14 16:31:28 2008 -->
 <glade-interface>
   <widget class="GtkDialog" id="RulesList">
     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">gDevilspie</property>
     <property name="window_position">GTK_WIN_POS_CENTER</property>
-    <property name="default_width">400</property>
-    <property name="default_height">400</property>
+    <property name="default_width">300</property>
+    <property name="default_height">300</property>
     <property name="icon">window-new.png</property>
     <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
     <property name="has_separator">False</property>
@@ -49,7 +49,6 @@
                 <property name="visible">True</property>
                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                 <property name="border_width">8</property>
-                <property name="layout_style">GTK_BUTTONBOX_SPREAD</property>
                 <child>
                   <widget class="GtkLabel" id="DaemonStatus">
                     <property name="visible">True</property>
@@ -74,7 +73,7 @@
                       <widget class="GtkLabel" id="ToggleDaemonLabel">
                         <property name="visible">True</property>
                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                        <property name="label" translatable="yes">&lt;span foreground="dark green"&gt;Start it ?&lt;/span&gt;</property>
+                        <property name="label" translatable="yes">&lt;b&gt;&lt;span foreground="dark green"&gt;Start&lt;/span&gt;&lt;/b&gt;</property>
                         <property name="use_markup">True</property>
                       </widget>
                     </child>
@@ -104,15 +103,13 @@
             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
             <property name="layout_style">GTK_BUTTONBOX_END</property>
             <child>
-              <widget class="GtkButton" id="DeleteRule">
+              <widget class="GtkButton" id="button1">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                <property name="label" translatable="yes">gtk-delete</property>
+                <property name="label" translatable="yes">gtk-edit</property>
                 <property name="use_stock">True</property>
                 <property name="response_id">0</property>
-                <signal name="clicked" handler="on_DeleteRule_clicked"/>
               </widget>
             </child>
             <child>
@@ -131,6 +128,21 @@
               </packing>
             </child>
             <child>
+              <widget class="GtkButton" id="DeleteRule">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                <property name="label" translatable="yes">gtk-delete</property>
+                <property name="use_stock">True</property>
+                <property name="response_id">0</property>
+                <signal name="clicked" handler="on_DeleteRule_clicked"/>
+              </widget>
+              <packing>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
               <widget class="GtkButton" id="Quit">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -142,7 +154,7 @@
                 <signal name="clicked" handler="on_Quit_clicked"/>
               </widget>
               <packing>
-                <property name="position">2</property>
+                <property name="position">3</property>
               </packing>
             </child>
           </widget>
@@ -442,18 +454,6 @@
             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
             <property name="layout_style">GTK_BUTTONBOX_END</property>
             <child>
-              <widget class="GtkButton" id="Filler_Cancel">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                <property name="label" translatable="yes">gtk-cancel</property>
-                <property name="use_stock">True</property>
-                <property name="response_id">0</property>
-                <signal name="clicked" handler="on_Filler_Cancel_clicked"/>
-              </widget>
-            </child>
-            <child>
               <widget class="GtkButton" id="Filler_Apply">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -463,6 +463,18 @@
                 <property name="use_stock">True</property>
                 <property name="response_id">0</property>
                 <signal name="clicked" handler="on_Filler_Apply_clicked"/>
+              </widget>
+            </child>
+            <child>
+              <widget class="GtkButton" id="Filler_Cancel">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                <property name="label" translatable="yes">gtk-cancel</property>
+                <property name="use_stock">True</property>
+                <property name="response_id">0</property>
+                <signal name="clicked" handler="on_Filler_Cancel_clicked"/>
               </widget>
               <packing>
                 <property name="position">1</property>
