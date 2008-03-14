@@ -63,5 +63,6 @@ def read_file(filename):
 
 	return [matdict,actiondict]
 
-print read_file("test2.ds")
-geo_parse("FIXME: Write that part phaeron :P")
+
+#print read_file("test.ds")
+#geo_parse("FIXME: Write that part phaeron :P")

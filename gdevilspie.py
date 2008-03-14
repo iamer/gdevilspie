@@ -16,15 +16,16 @@
 # You should have received a copy of the GNU General Public License along
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Import needed models
+# Import needed modules
 
+import os
+import sys
+import commands
+import signal
+import subprocess
+import string
+import reader
 try:
-	import os
-	import sys
-	import commands
-	import signal
-	import subprocess
-	import string
 	import gobject
 	import pygtk
 	pygtk.require('2.0')
@@ -48,31 +49,38 @@ match_criteria={
 "window_name" : { 
 "description" : "<b>Any window whose name</b>", "widget" : None, 
 "entry_is" : None, "entry_contains" : None, "entry_matches" : None,
-"is_not" : False, "contains_not" : False, "matches_not" : False }, 
+"is_not" : False, "contains_not" : False, "matches_not" : False,
+"is_not_checkbox" : None, "contains_not_checkbox" : None, "matches_not_checkbox" : None  }, 
 
 "window_role" : { "description" : "<b>Any window whose role</b>", "widget" : None, 
 "entry_is" : None, "entry_contains" : None, "entry_matches" : None ,
-"is_not" : False, "contains_not" : False, "matches_not" : False }, 
+"is_not" : False, "contains_not" : False, "matches_not" : False,
+"is_not_checkbox" : None, "contains_not_checkbox" : None, "matches_not_checkbox" : None }, 
 
 "window_class" : { "description" : "<b>Any window whose class</b>", "widget" : None, 
 "entry_is" : None, "entry_contains" : None, "entry_matches" : None ,
-"is_not" : False, "contains_not" : False, "matches_not" : False }, 
+"is_not" : False, "contains_not" : False, "matches_not" : False, 
+"is_not_checkbox" : None, "contains_not_checkbox" : None, "matches_not_checkbox" : None }, 
 
 "window_xid" : { "description" : "<b>Any window whose xid</b>", "widget" : None, 
 "entry_is" : None, "entry_contains" : None, "entry_matches" : None ,
-"is_not" : False, "contains_not" : False, "matches_not" : False }, 
+"is_not" : False, "contains_not" : False, "matches_not" : False,
+"is_not_checkbox" : None, "contains_not_checkbox" : None, "matches_not_checkbox" : None }, 
 
 "application_name" : { "description" : "<b>Any window whose application name</b>", "widget" : None,
 "entry_is" : None, "entry_contains" : None, "entry_matches" : None ,
-"is_not" : False, "contains_not" : False, "matches_not" : False }, 
+"is_not" : False, "contains_not" : False, "matches_not" : False,
+"is_not_checkbox" : None, "contains_not_checkbox" : None, "matches_not_checkbox" : None }, 
 
 "window_property" : { "description" : "<b>Any window whose property</b>", "widget" : None, 
 "entry_is" : None, "entry_contains" : None, "entry_matches" : None ,
-"is_not" : False, "contains_not" : False, "matches_not" : False }, 
+"is_not" : False, "contains_not" : False, "matches_not" : False,
+"is_not_checkbox" : None, "contains_not_checkbox" : None, "matches_not_checkbox" : None }, 
 
 "window_workspace" : { "description" : "<b>Any window whose workspace</b>", "widget" : None, 
 "entry_is" : None, "entry_contains" : None, "entry_matches" : None ,
-"is_not" : False, "contains_not" : False, "matches_not" : False } 
+"is_not" : False, "contains_not" : False, "matches_not" : False,
+"is_not_checkbox" : None, "contains_not_checkbox" : None, "matches_not_checkbox" : None } 
 }
 
 def toggle_this(widget, str, match_criteria_name):
@@ -91,11 +99,18 @@ def create_match_parameters_page(match_criteria_name):
 	hbox_is, hbox_contains, hbox_matches = gtk.HBox(), gtk.HBox(), gtk.HBox()
 
 	# Three Check boxes for negation
-	negate_checkbox_is, negate_checkbox_contains, negate_checkbox_matches = gtk.CheckButton("does not"), gtk.CheckButton("does not"), gtk.CheckButton("does not")
+	match_criteria[match_criteria_name]["is_not_checkbox"] = gtk.CheckButton("does not")
+	match_criteria[match_criteria_name]["contains_not_checkbox"] = gtk.CheckButton("does not")
+	match_criteria[match_criteria_name]["matches_not_checkbox"] = gtk.CheckButton("does not")
+	
+	is_not_checkbox = match_criteria[match_criteria_name]["is_not_checkbox"]
+	contains_not_checkbox = match_criteria[match_criteria_name]["contains_not_checkbox"]
+	matches_not_checkbox = match_criteria[match_criteria_name]["matches_not_checkbox"]
+
 	# We have to reflect the check box state somewhere
-	negate_checkbox_is.connect("toggled", toggle_this, "is", match_criteria_name)
-	negate_checkbox_contains.connect("toggled", toggle_this, "contains", match_criteria_name)
-	negate_checkbox_matches.connect("toggled", toggle_this, "matches", match_criteria_name)
+	is_not_checkbox.connect("toggled", toggle_this, "is", match_criteria_name)
+	contains_not_checkbox.connect("toggled", toggle_this, "contains", match_criteria_name)
+	matches_not_checkbox.connect("toggled", toggle_this, "matches", match_criteria_name)
 	   
 	# Three text entries
 	match_criteria[match_criteria_name]["entry_is"] = gtk.Entry()
@@ -112,9 +127,9 @@ def create_match_parameters_page(match_criteria_name):
 	MatchMethod_text_matches=gtk.Label("match(es)")
 	
 	# Pack the triads
-	hbox_is.pack_start(negate_checkbox_is, False, False)
-	hbox_contains.pack_start(negate_checkbox_contains, False, False)
-	hbox_matches.pack_start(negate_checkbox_matches, False, False)
+	hbox_is.pack_start(is_not_checkbox, False, False)
+	hbox_contains.pack_start(contains_not_checkbox, False, False)
+	hbox_matches.pack_start(matches_not_checkbox, False, False)
 	
 	hbox_is.pack_end(entry_is, False, False)
 	hbox_contains.pack_end(entry_contains, False, False)
@@ -310,6 +325,7 @@ class RulesListWindow:
 		  print "~/.devilspie is a file, please remove it"
 	else:
 		  os.makedirs(dir)
+	self.RulesTree.set_cursor(0, None, False)
 	
 	self.UpdateDaemonStatus()
 
@@ -350,9 +366,44 @@ class RulesListWindow:
 	gtk.main_quit()
 
   # make a rule creator instance
-  def on_AddRule_clicked(self,widget):
+  def on_AddRule_clicked(self, widget):
 	self.RuleEdit = RuleEditorWindow()
-  
+
+  def on_EditRule_clicked(self, widget): 
+    self.RuleEdit = RuleEditorWindow()
+    SelectedRow = self.RulesTree.get_selection()
+    (model, iter) = SelectedRow.get_selected()
+    if (iter != None):
+        SelectedRule = self.rules_list_store.get(iter, 0)
+        RuleFile = os.path.expanduser("~/.devilspie/") + SelectedRule[0] + '.ds'
+        if (os.path.exists(RuleFile)):
+            matdict , actiondict = reader.read_file(RuleFile)
+            for key in matdict:
+                for match_row in self.RuleEdit.match_list_store:
+                    if ( match_row[1] == key ):
+                        match_row[0] = True
+                if 'is' in matdict[key]:
+                    if 'not' in matdict[key]:
+                        matdict[key].remove('not')
+                        match_criteria[key]["is_not_checkbox"].toggled()
+                        match_criteria[key]["is_not_checkbox"].set_active(True)
+                    matdict[key].remove('is')
+                    match_criteria[key]["entry_is"].set_text(matdict[key][0])
+                if 'contains' in matdict[key]:
+                    if 'not' in matdict[key]:
+                        matdict[key].remove('not')
+                        match_criteria[key]["contains_not_checkbox"].toggled()
+                        match_criteria[key]["contains_not_checkbox"].set_active(True)
+                    matdict[key].remove('contains')
+                    match_criteria[key]["entry_contains"].set_text(matdict[key][0])
+                if 'matches' in matdict[key]:
+                    if 'not' in matdict[key]:
+                        matdict[key].remove('not')
+                        match_criteria[key]["matches_not_checkbox"].toggled()
+                        match_criteria[key]["matches_not_checkbox"].set_active(True)
+                    matdict[key].remove('matches')
+                    match_criteria[key]["entry_matches"].set_text(matdict[key][0])
+
   def UpdateDaemonStatus(self):
 	prog = commands.getoutput("pgrep -x devilspie")
 	if ( prog == "" ):
@@ -580,6 +631,8 @@ class RuleEditorWindow:
    
   def Save_Rule(self, str):
 	if ( str == "" ):
+	  self.RuleName_entry.grab_focus()
+	  self.RuleName_entry.set_tooltip_markup("<span foreground=\"dark red\">Choose a name for the rule.</span>")
 	  return
 	path = os.path.expanduser("~/.devilspie/")
 	new_Rule_file_name = str + ".ds"

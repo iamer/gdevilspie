@@ -47,6 +47,8 @@ def Actiondict_Window(window):
     actiondict["stick"] = window.is_sticky()
     if window.get_workspace() != None:
         actiondict["set_workspace"] = window.get_workspace().get_number()
+    else:
+        actiondict["set_workspace"] = "" 
     return actiondict
 
 ## Use this for testing
