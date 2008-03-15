@@ -377,6 +377,7 @@ class RulesListWindow:
 		SelectedRule = self.rules_list_store.get(iter, 0)
 		RuleFile = os.path.expanduser("~/.devilspie/") + SelectedRule[0] + '.ds'
 		if (os.path.exists(RuleFile)):
+			self.RuleEdit.RuleName_entry.set_text(SelectedRule[0])
 			matdict , actiondict = reader.read_file(RuleFile)
 			for key in matdict:
 				for match_row in self.RuleEdit.match_list_store:
@@ -419,7 +420,6 @@ class RulesListWindow:
 										index = actions_dict[key]["Choices"].index(actiondict[key])
 										actions_dict[key]["input"][input_field].set_active(index)
 									
-
   def UpdateDaemonStatus(self):
 	prog = commands.getoutput("pgrep -x devilspie")
 	if ( prog == "" ):
