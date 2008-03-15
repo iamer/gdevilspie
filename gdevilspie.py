@@ -370,39 +370,55 @@ class RulesListWindow:
 	self.RuleEdit = RuleEditorWindow()
 
   def on_EditRule_clicked(self, widget): 
-    self.RuleEdit = RuleEditorWindow()
-    SelectedRow = self.RulesTree.get_selection()
-    (model, iter) = SelectedRow.get_selected()
-    if (iter != None):
-        SelectedRule = self.rules_list_store.get(iter, 0)
-        RuleFile = os.path.expanduser("~/.devilspie/") + SelectedRule[0] + '.ds'
-        if (os.path.exists(RuleFile)):
-            matdict , actiondict = reader.read_file(RuleFile)
-            for key in matdict:
-                for match_row in self.RuleEdit.match_list_store:
-                    if ( match_row[1] == key ):
-                        match_row[0] = True
-                if 'is' in matdict[key]:
-                    if 'not' in matdict[key]:
-                        matdict[key].remove('not')
-                        match_criteria[key]["is_not_checkbox"].toggled()
-                        match_criteria[key]["is_not_checkbox"].set_active(True)
-                    matdict[key].remove('is')
-                    match_criteria[key]["entry_is"].set_text(matdict[key][0])
-                if 'contains' in matdict[key]:
-                    if 'not' in matdict[key]:
-                        matdict[key].remove('not')
-                        match_criteria[key]["contains_not_checkbox"].toggled()
-                        match_criteria[key]["contains_not_checkbox"].set_active(True)
-                    matdict[key].remove('contains')
-                    match_criteria[key]["entry_contains"].set_text(matdict[key][0])
-                if 'matches' in matdict[key]:
-                    if 'not' in matdict[key]:
-                        matdict[key].remove('not')
-                        match_criteria[key]["matches_not_checkbox"].toggled()
-                        match_criteria[key]["matches_not_checkbox"].set_active(True)
-                    matdict[key].remove('matches')
-                    match_criteria[key]["entry_matches"].set_text(matdict[key][0])
+	  self.RuleEdit = RuleEditorWindow()
+	  SelectedRow = self.RulesTree.get_selection()
+	  (model, iter) = SelectedRow.get_selected()
+	  if (iter != None):
+		SelectedRule = self.rules_list_store.get(iter, 0)
+		RuleFile = os.path.expanduser("~/.devilspie/") + SelectedRule[0] + '.ds'
+		if (os.path.exists(RuleFile)):
+			matdict , actiondict = reader.read_file(RuleFile)
+			for key in matdict:
+				for match_row in self.RuleEdit.match_list_store:
+					if ( match_row[1] == key ):
+						match_row[0] = True
+				if 'is' in matdict[key]:
+					if 'not' in matdict[key]:
+						matdict[key].remove('not')
+						match_criteria[key]["is_not_checkbox"].set_active(True)
+						match_criteria[key]["is_not"] = True
+					matdict[key].remove('is')
+					match_criteria[key]["entry_is"].set_text(matdict[key][0])
+				if 'contains' in matdict[key]:
+					if 'not' in matdict[key]:
+						matdict[key].remove('not')
+						match_criteria[key]["contains_not_checkbox"].set_active(True)
+						match_criteria[key]["contains_not"] = True
+					matdict[key].remove('contains')
+					match_criteria[key]["entry_contains"].set_text(matdict[key][0])
+				if 'matches' in matdict[key]:
+					if 'not' in matdict[key]:
+						matdict[key].remove('not')
+						match_criteria[key]["matches_not_checkbox"].set_active(True)
+						match_criteria[key]["matches_not"] = True
+					matdict[key].remove('matches')
+					match_criteria[key]["entry_matches"].set_text(matdict[key][0])
+			for key in actiondict:
+				for action_row in self.RuleEdit.actions_list_store:
+					if ( action_row[1] == key ):
+						if ( actiondict[key] != "False" ):
+							action_row[0] = True
+							if ( actions_dict[key].has_key("input") ):
+								input_type = actions_dict[key]["type"]
+								for input_field in actions_dict[key]["input"]:
+									if ( input_type == "Text" ):
+										actions_dict[key]["input"][input_field].set_text(actiondict[key])
+									elif ( input_type == "Spin" ):
+										actions_dict[key]["input"][input_field].set_value(int(actiondict[key]))
+									elif ( input_type == "Combo" ):
+										index = actions_dict[key]["Choices"].index(actiondict[key])
+										actions_dict[key]["input"][input_field].set_active(index)
+									
 
   def UpdateDaemonStatus(self):
 	prog = commands.getoutput("pgrep -x devilspie")
