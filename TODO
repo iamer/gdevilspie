@@ -1,9 +1,6 @@
 Pending :
-* select first item in tree of matches and actions.
-* Skip Desktop window.
 * notify user to enter a name.
 * Fill Dialog can hide behind rule editor.
-* Double click in fill dialog.
 * handle system wide install.
 * Package 0.1 release.
 * Validate created rules correctness.
@@ -28,4 +25,7 @@ DONE :
 * Text box at the top to name the rule / file. DONE
 * Tray icon to hide and show the gui. DONE
 * raw view of the to be generated rule. DONE
+* select first item in tree of rules list, matches and actions.
+* Skip Desktop window. Fixed bug instead
+* Double click in fill dialog.
 
