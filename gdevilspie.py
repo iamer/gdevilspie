@@ -25,6 +25,7 @@ import signal
 import subprocess
 import string
 import reader
+import tempfile
 try:
 	import gobject
 	import pygtk
@@ -256,10 +257,22 @@ def generate_actions():
 			storing = action_name
 			if actions_dict[action_name].has_key("input"):
 				if ( action_name == "geometry" ):
-				  geomstring = actions_dict[action_name]["input"]["width"].get_text()
-				  geomstring = geomstring + "x" + actions_dict[action_name]["input"]["height"].get_text()
-				  geomstring = geomstring + "+" + actions_dict[action_name]["input"]["xposition"].get_text()
-				  geomstring = geomstring + "+" + actions_dict[action_name]["input"]["yposition"].get_text()
+				  width = actions_dict[action_name]["input"]["width"].get_text()
+				  print width
+				  height = actions_dict[action_name]["input"]["height"].get_text()
+				  print height
+				  if ( width == "" ) or ( height == "" ):
+				  	size = ""
+				  	print size
+				  else:
+				  	size = width + "x" + height
+				  	print size
+				  xposition = "+" + actions_dict[action_name]["input"]["xposition"].get_text()
+				  print xposition
+				  yposition = "+" + actions_dict[action_name]["input"]["yposition"].get_text()
+				  print yposition
+				  geomstring = size + xposition + yposition
+				  print geomstring
 				  storing = storing + " \"" + geomstring + "\""
 				elif ( action_name == "set_viewport" ) or ( action_name == "set_workspace" ) or ( action_name == "opacity" ):
 					for key in actions_dict[action_name]["input"]:
@@ -379,6 +392,9 @@ class RulesListWindow:
 		if (os.path.exists(RuleFile)):
 			self.RuleEdit.RuleName_entry.set_text(SelectedRule[0])
 			matdict , actiondict = reader.read_file(RuleFile)
+			self.Parse_EditRule(matdict, actiondict)
+			
+  def Parse_EditRule(self, matdict, actiondict):
 			for key in matdict:
 				for match_row in self.RuleEdit.match_list_store:
 					if ( match_row[1] == key ):
@@ -413,13 +429,33 @@ class RulesListWindow:
 								input_type = actions_dict[key]["type"]
 								for input_field in actions_dict[key]["input"]:
 									if ( input_type == "Text" ):
-										actions_dict[key]["input"][input_field].set_text(actiondict[key])
+										if ( key == "geometry" ):
+											geom_parts = self.parse_geom(input_field, actiondict[key])
+											actions_dict[key]["input"][input_field].set_text(geom_parts[input_field])
+										else:
+											actions_dict[key]["input"][input_field].set_text(actiondict[key])
 									elif ( input_type == "Spin" ):
 										actions_dict[key]["input"][input_field].set_value(int(actiondict[key]))
 									elif ( input_type == "Combo" ):
 										index = actions_dict[key]["Choices"].index(actiondict[key])
 										actions_dict[key]["input"][input_field].set_active(index)
-									
+  
+  def parse_geom(self, input_field, geom_string):
+  	if ( geom_string[0] == '+' ):
+  		geom_string = geom_string[1:]
+  	split1 = geom_string.split('+')
+  	if ( len(split1) == 1 ):
+  		split2 = split1.split('x')
+  		parsed_geom = { "xposition" : split2[0] , "yposition" : split2[1] , "height" : "" , "width" : "" }
+  		return parsed_geom
+  	elif (len(split1) == 2 ):
+  		parsed_geom = { "xposition" : "" , "yposition" : "" , "height" : split1[0] , "width" : split1[1] }
+  		return parsed_geom
+  	elif (len(split1) == 3 ):
+  		split2 = split1[0].split('x')
+  		parsed_geom = { "xposition" : split2[0] , "yposition" : split2[1] , "height" : split1[1] , "width" : split1[2] }
+  		return parsed_geom
+  					
   def UpdateDaemonStatus(self):
 	prog = commands.getoutput("pgrep -x devilspie")
 	if ( prog == "" ):
@@ -596,7 +632,16 @@ class RuleEditorWindow:
 	self.RuleEdit.show_all()
 	
   def on_RuleNotebook_change_current_page(self, widget, page, pagenum):
-  	if ( pagenum == 2 ):
+	if ( self.RuleNotebook.get_current_page() == 2 ):
+		NewRule = self.buffer.get_text(self.buffer.get_start_iter(),self.buffer.get_end_iter(),False)
+		TempFile , TempFileName = tempfile.mkstemp(dir='/tmp')
+		TempFile = open(TempFileName, 'w' )
+		TempFile.write(NewRule)
+		TempFile.close()
+		matdict , actiondict = reader.read_file(TempFileName)
+		MainWindow.Parse_EditRule(matdict, actiondict)
+		os.remove(TempFileName)		
+	elif ( pagenum == 2 ):
   		generated_rule = ""
 		generated_rule = generate_rule(generated_rule)
 		self.buffer.set_text(generated_rule)

@@ -2,6 +2,7 @@ import parser
 import string
 
 def geo_parse(gstring):
+	print gstring
 	return
 
 def stripper(listitem):
@@ -52,13 +53,19 @@ def read_file(filename):
 		#FIXME: Handle Actions correctly.
 		for i in action[1:]:
 			if len(i) > 1:
-				actiondict[i[0]] = stripper(i[1])
+				if ( i[1] == "'" ):
+					last = len(i) - 1
+					joint = string.join(i[2:last])
+					actiondict[i[0]] = stripper(joint)
+				else:
+					actiondict[i[0]] = stripper(i[1])
 			elif i[0][:2] != "un":
 				actiondict[i[0]] = "True"
 			elif i[0][:2] == "un":
 				actiondict[i[0][2:]] = "False"
 				actiondict[i[0]] = "True"
 	else:
+		print action[1]
 		actiondict[action[0]] = action[1]
 
 	return [matdict,actiondict]
