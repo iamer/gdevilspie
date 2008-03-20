@@ -441,8 +441,9 @@ class RulesListWindow:
 										actions_dict[key]["input"][input_field].set_active(index)
   
   def parse_geom(self, input_field, geom_string):
-  	if ( geom_string[0] == '+' ):
-  		geom_string = geom_string[1:]
+	geom_string = geom_string.strip('"')
+	if ( geom_string[0] == '+' ):
+		geom_string = geom_string[1:]
   	split1 = geom_string.split('+')
   	if ( len(split1) == 1 ):
   		split2 = split1.split('x')

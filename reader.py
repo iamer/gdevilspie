@@ -2,7 +2,6 @@ import parser
 import string
 
 def geo_parse(gstring):
-	print gstring
 	return
 
 def stripper(listitem):
@@ -65,7 +64,6 @@ def read_file(filename):
 				actiondict[i[0][2:]] = "False"
 				actiondict[i[0]] = "True"
 	else:
-		print action[1]
 		actiondict[action[0]] = action[1]
 
 	return [matdict,actiondict]
