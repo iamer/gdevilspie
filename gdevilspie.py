@@ -257,22 +257,15 @@ def generate_actions():
 			storing = action_name
 			if actions_dict[action_name].has_key("input"):
 				if ( action_name == "geometry" ):
-				  width = actions_dict[action_name]["input"]["width"].get_text()
-				  print width
+				  xposition = actions_dict[action_name]["input"]["xposition"].get_text()
+				  yposition = actions_dict[action_name]["input"]["yposition"].get_text()
 				  height = actions_dict[action_name]["input"]["height"].get_text()
-				  print height
+				  width = actions_dict[action_name]["input"]["width"].get_text()
 				  if ( width == "" ) or ( height == "" ):
 				  	size = ""
-				  	print size
 				  else:
 				  	size = width + "x" + height
-				  	print size
-				  xposition = "+" + actions_dict[action_name]["input"]["xposition"].get_text()
-				  print xposition
-				  yposition = "+" + actions_dict[action_name]["input"]["yposition"].get_text()
-				  print yposition
-				  geomstring = size + xposition + yposition
-				  print geomstring
+				  geomstring = size + "+" + xposition + "+" + yposition
 				  storing = storing + " \"" + geomstring + "\""
 				elif ( action_name == "set_viewport" ) or ( action_name == "set_workspace" ) or ( action_name == "opacity" ):
 					for key in actions_dict[action_name]["input"]:
@@ -447,14 +440,14 @@ class RulesListWindow:
   	split1 = geom_string.split('+')
   	if ( len(split1) == 1 ):
   		split2 = split1.split('x')
-  		parsed_geom = { "xposition" : split2[0] , "yposition" : split2[1] , "height" : "" , "width" : "" }
+  		parsed_geom = { "width" : split2[0] , "height" : split2[1] , "xposition" : "" , "ypostion" : "" }
   		return parsed_geom
   	elif (len(split1) == 2 ):
-  		parsed_geom = { "xposition" : "" , "yposition" : "" , "height" : split1[0] , "width" : split1[1] }
+  		parsed_geom = { "width" : "" , "height" : "" , "xposition" : split1[0] , "yposition" : split1[1] }
   		return parsed_geom
   	elif (len(split1) == 3 ):
   		split2 = split1[0].split('x')
-  		parsed_geom = { "xposition" : split2[0] , "yposition" : split2[1] , "height" : split1[1] , "width" : split1[2] }
+  		parsed_geom = { "width" : split2[0] , "height" : split2[1] , "xposition" : split1[1] , "yposition" : split1[2] }
   		return parsed_geom
   					
   def UpdateDaemonStatus(self):
