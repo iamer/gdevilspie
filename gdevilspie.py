@@ -463,7 +463,6 @@ class RulesListWindow:
 	  return prog
 	
   def toggle_daemon(self):
-	if ( os.path.isfile("/usr/bin/devilspie") ):
 	  status = self.UpdateDaemonStatus()
 	  if ( status == 1 ):
 		if (os.fork() == 0):
@@ -472,7 +471,7 @@ class RulesListWindow:
 			  os.execvpe('devilspie', ['-a'] , os.environ)
 			  sys.exit(0)
 			except:  
-			  error = gtk.MessageDialog(self.RulesList, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK, "There was an error starting the devilspie daemon. Please check permissions and try again.")
+			  error = gtk.MessageDialog(self.RulesList, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK, "There was an error starting the devilspie daemon. Please check that it is installed somewhere included in the PATH and try again.")
 			  response = error.run()
 			  error.destroy()
 		  else:
@@ -484,11 +483,7 @@ class RulesListWindow:
 		# kill it
 		os.kill(int(status),signal.SIGKILL)
 		status = self.UpdateDaemonStatus()
-	else:
-		error = gtk.MessageDialog(self.RulesList, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK, "The devilspie daemon is not installed. Please install it and try again.")
-		response = error.run()
-		error.destroy()
-		return
+	  return
 		
   def on_ToggleDaemon_clicked(self,widget):
 	self.toggle_daemon()
