@@ -679,10 +679,14 @@ class RuleEditorWindow:
    str = self.RuleName_entry.get_text()
    self.Save_Rule(str)
    
+  def on_RuleName_entry_activate(self, widget, event):
+    self.RuleName_entry.set_text("")
+    self.RuleName_entry.disconnect(self.handler_id)
+   
   def Save_Rule(self, str):
 	if ( str == "" ):
-	  self.RuleName_entry.grab_focus()
-	  self.RuleName_entry.set_tooltip_markup("<span foreground=\"dark red\">Choose a name for the rule.</span>")
+	  self.RuleName_entry.set_text("Please enter a name for the rule.")
+	  self.handler_id = self.RuleName_entry.connect("focus-in-event", self.on_RuleName_entry_activate)
 	  return
 	path = os.path.expanduser("~/.devilspie/")
 	new_Rule_file_name = str + ".ds"
