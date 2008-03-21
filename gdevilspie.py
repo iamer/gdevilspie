@@ -463,27 +463,26 @@ class RulesListWindow:
 	  return prog
 	
   def toggle_daemon(self):
-	  status = self.UpdateDaemonStatus()
-	  if ( status == 1 ):
-		if (os.fork() == 0):
-		  if (os.fork() == 0):
-			try:
-			  os.execvpe('devilspie', ['-a'] , os.environ)
-			  sys.exit(0)
-			except:  
-			  error = gtk.MessageDialog(self.RulesList, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK, "There was an error starting the devilspie daemon. Please check that it is installed somewhere included in the PATH and try again.")
-			  response = error.run()
-			  error.destroy()
-		  else:
-			sys.exit(0)
-		else:
-		  os.wait()
-		status = self.UpdateDaemonStatus()
-	  else:
-		# kill it
-		os.kill(int(status),signal.SIGKILL)
-		status = self.UpdateDaemonStatus()
-	  return
+  	status = self.UpdateDaemonStatus()
+	if ( status == 1 ):
+			#gtk.gdk.threads_enter()
+  			if (os.fork() == 0):
+				if (os.fork() == 0):
+					try:
+						os.execvpe('devilspie', ['-a'] , os.environ)
+						os.wait()
+					except OSError:
+						pass
+						#error = gtk.MessageDialog(self.RulesList, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK, "There was an error starting the devilspie daemon. Please check that it is installed somewhere included in the PATH and try again.")
+						#response = error.run()
+						#error.destroy()
+				sys.exit(0)
+			os.wait()
+			#gtk.gdk.threads_leave()
+  	else: # kill it
+  		os.kill(int(status),signal.SIGKILL)
+  	status = self.UpdateDaemonStatus()
+  	return
 		
   def on_ToggleDaemon_clicked(self,widget):
 	self.toggle_daemon()
@@ -814,6 +813,6 @@ class FillerWindow:
   def on_Filler_Cancel_clicked(self, widget):
    self.FillerDialog.destroy()
 
-
+gtk.gdk.threads_init()
 MainWindow = RulesListWindow()
 gtk.main()
