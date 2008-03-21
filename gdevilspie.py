@@ -465,22 +465,23 @@ class RulesListWindow:
   def toggle_daemon(self):
   	status = self.UpdateDaemonStatus()
 	if ( status == 1 ):
-			#gtk.gdk.threads_enter()
-  			if (os.fork() == 0):
-				if (os.fork() == 0):
-					try:
-						os.execvpe('devilspie', ['-a'] , os.environ)
-						os.wait()
-					except OSError:
-						pass
-						#error = gtk.MessageDialog(self.RulesList, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK, "There was an error starting the devilspie daemon. Please check that it is installed somewhere included in the PATH and try again.")
-						#response = error.run()
-						#error.destroy()
-				sys.exit(0)
-			os.wait()
-			#gtk.gdk.threads_leave()
+		try:
+			self.devilspie_process = subprocess.Popen(['devilspie','-a'] , stdin=None, stdout=None, stderr=None, env=os.environ)
+		except OSError:
+			error = gtk.MessageDialog(self.RulesList, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK, "There was an error starting the devilspie daemon. Please check that it is installed somewhere included in the PATH and try again.")
+			response = error.run()
+			error.destroy()
   	else: # kill it
-  		os.kill(int(status),signal.SIGKILL)
+  		if ( self.__dict__.has_key("devilspie_process") ):
+  			os.kill(int(status),signal.SIGKILL)
+  			self.devilspie_process.wait()
+  			del self.__dict__["devilspie_process"]
+  		else:
+			error = gtk.MessageDialog(self.RulesList, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO, gtk.BUTTONS_OK, "The devilspie daemon was started somewhere else. Trying to restart it now.")
+			response = error.run()
+			error.destroy()
+			os.kill(int(status),signal.SIGKILL)
+			self.toggle_daemon()
   	status = self.UpdateDaemonStatus()
   	return
 		
