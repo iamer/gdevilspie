@@ -683,12 +683,14 @@ class RuleEditorWindow:
    
   def on_RuleName_entry_activate(self, widget, event):
     self.RuleName_entry.set_text("")
+    self.RuleName_entry.modify_text(gtk.STATE_NORMAL, gtk.gdk.color_parse("black"))
     self.RuleName_entry.disconnect(self.handler_id)
     self.Save_button.set_sensitive(True)
    
   def Save_Rule(self, str):
 	if ( str == "" ):
 	  self.Save_button.set_sensitive(False)
+	  self.RuleName_entry.modify_text(gtk.STATE_NORMAL, gtk.gdk.color_parse("red"))
 	  self.RuleName_entry.set_text("Please enter a name for the rule.")
 	  self.handler_id = self.RuleName_entry.connect("focus-in-event", self.on_RuleName_entry_activate)
 	  return
