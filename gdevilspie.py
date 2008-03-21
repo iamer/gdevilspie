@@ -553,6 +553,8 @@ class RuleEditorWindow:
 	self.RawRule = wTreeEdit.get_widget("RawRule")
 	# the text buffer to hold the raw rule.
 	self.buffer = gtk.TextBuffer(None)
+	# The save button
+	self.Save_button = wTreeEdit.get_widget("Save")
 
 	# Connect to our signals
 	wTreeEdit.signal_autoconnect (self)
@@ -682,9 +684,11 @@ class RuleEditorWindow:
   def on_RuleName_entry_activate(self, widget, event):
     self.RuleName_entry.set_text("")
     self.RuleName_entry.disconnect(self.handler_id)
+    self.Save_button.set_sensitive(True)
    
   def Save_Rule(self, str):
 	if ( str == "" ):
+	  self.Save_button.set_sensitive(False)
 	  self.RuleName_entry.set_text("Please enter a name for the rule.")
 	  self.handler_id = self.RuleName_entry.connect("focus-in-event", self.on_RuleName_entry_activate)
 	  return
