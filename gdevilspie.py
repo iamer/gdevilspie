@@ -312,7 +312,8 @@ class RulesListWindow:
 	wTreeStatusPopupMenu.signal_autoconnect(self)
 	# create a liststore model which takes one string, the rule name
 	self.rules_list_store = gtk.ListStore(str)
-
+	self.RulesTree.connect("row-activated", self.on_RulesTree_row_activated)
+	
 	# connect the model to the tree view
 	self.RulesTree.set_model(self.rules_list_store)
 
@@ -375,6 +376,9 @@ class RulesListWindow:
   def on_AddRule_clicked(self, widget):
 	self.RuleEdit = RuleEditorWindow()
 
+  def on_RulesTree_row_activated(self, widget, path, view_column):
+	self.on_EditRule_clicked(widget)  
+	
   def on_EditRule_clicked(self, widget): 
 	  self.RuleEdit = RuleEditorWindow()
 	  SelectedRow = self.RulesTree.get_selection()
@@ -473,14 +477,20 @@ class RulesListWindow:
 			error.destroy()
   	else: # kill it
   		if ( self.__dict__.has_key("devilspie_process") ):
-  			os.kill(int(status),signal.SIGKILL)
+  			try:
+	  			os.kill(int(status),signal.SIGKILL)
+  			except OSError:
+				pass
   			self.devilspie_process.wait()
   			del self.__dict__["devilspie_process"]
   		else:
-			error = gtk.MessageDialog(self.RulesList, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO, gtk.BUTTONS_OK, "The devilspie daemon was started somewhere else. Trying to restart it now.")
+			error = gtk.MessageDialog(self.RulesList, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO, gtk.BUTTONS_OK, "The devilspie daemon was started somewhere else. Trying to handle it here.")
 			response = error.run()
 			error.destroy()
-			os.kill(int(status),signal.SIGKILL)
+			try:
+				os.kill(int(status),signal.SIGKILL)
+			except OSError:
+				pass
 			self.toggle_daemon()
   	status = self.UpdateDaemonStatus()
   	return
