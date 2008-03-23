@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.2 on Sat Mar 22 12:35:11 2008 -->
+<!--Generated with glade3 3.4.2 on Sun Mar 23 03:00:21 2008 -->
 <glade-interface>
   <widget class="GtkDialog" id="RulesList">
+    <property name="width_request">400</property>
     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">gDevilspie</property>

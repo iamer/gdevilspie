@@ -466,7 +466,7 @@ class RulesListWindow:
 	  self.ToggleDaemonLabel.set_markup("<b><span foreground=\"red\">Stop</span></b>")
 	  return prog
 	
-  def toggle_daemon(self):
+  def toggle_daemon(self, request):
   	status = self.UpdateDaemonStatus()
 	if ( status == 1 ):
 		try:
@@ -484,19 +484,20 @@ class RulesListWindow:
   			self.devilspie_process.wait()
   			del self.__dict__["devilspie_process"]
   		else:
-			error = gtk.MessageDialog(self.RulesList, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO, gtk.BUTTONS_OK, "The devilspie daemon was started somewhere else. Trying to handle it here.")
-			response = error.run()
-			error.destroy()
+			#error = gtk.MessageDialog(self.RulesList, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO, gtk.BUTTONS_OK, "The devilspie daemon was started somewhere else. Trying to handle it here.")
+			#response = error.run()
+			#error.destroy()
 			try:
 				os.kill(int(status),signal.SIGKILL)
 			except OSError:
 				pass
-			self.toggle_daemon()
+			if ( request == "Start" ):
+				self.toggle_daemon(None)
   	status = self.UpdateDaemonStatus()
   	return
 		
   def on_ToggleDaemon_clicked(self,widget):
-	self.toggle_daemon()
+	self.toggle_daemon(self.ToggleDaemonLabel.get_text())
   
   # used to delete a rule
   def on_DeleteRule_clicked(self,widget):
