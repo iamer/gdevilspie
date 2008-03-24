@@ -488,7 +488,9 @@ class RulesListWindow:
 			#response = error.run()
 			#error.destroy()
 			try:
-				os.kill(int(status),signal.SIGKILL)
+				status = status.split()
+				for instance in status :
+					os.kill(int(instance),signal.SIGKILL)
 			except OSError:
 				pass
 			if ( request == "Start" ):
