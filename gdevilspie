@@ -280,7 +280,13 @@ def generate_actions():
 	return strous
 
 # Glade file used in all classes
-gladefile="gdevilspie.glade"
+if os.path.isfile(os.path.dirname(sys.argv[0])+'/gdevilspie.glade'):
+	gladefile = os.path.dirname(sys.argv[0])+'/gdevilspie.glade'
+elif os.path.isfile(os.path.dirname(sys.argv[0]) + '/../share/gdevilspie/gdevilspie.glade'):
+	gladefile = os.path.dirname(sys.argv[0])+'/../share/gdevilspie/gdevilspie.glade'
+else:
+	gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, "Glade file not found, exiting.").run()
+	quit()
 
 # Directory where we store .ds files
 dir = os.path.expanduser("~/.devilspie")
