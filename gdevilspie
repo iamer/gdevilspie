@@ -338,7 +338,7 @@ class RulesListWindow:
 
 	# Tray Icon (Not working properly yet)
 	self.tray = gtk.StatusIcon()
-	self.tray.set_from_file("window-new.png")
+	self.tray.set_from_file("gdevilspie.png")
 	self.tray.set_tooltip("gDevilspie")
 	self.tray.set_blinking(False)
 	self.tray.connect("activate", self.on_tray_activate)
