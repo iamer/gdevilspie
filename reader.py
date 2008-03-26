@@ -1,4 +1,4 @@
-import parser
+import s-parser
 import string
 
 def geo_parse(gstring):

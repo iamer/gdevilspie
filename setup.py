@@ -14,4 +14,4 @@ setup(name='gdevilspie',
 	  data_files=[('share/gdevilspie',['gdevilspie.glade', 'gdevilspie.png']),
 		  ('share/pixmaps/',['gdevilspie.png'])],
      ) 
-
+#FIXME: Add README, etc.
