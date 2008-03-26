@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.2 on Wed Mar 26 00:55:55 2008 -->
+<!--Generated with glade3 3.4.2 on Wed Mar 26 01:55:17 2008 -->
 <glade-interface>
   <widget class="GtkDialog" id="RulesList">
     <property name="width_request">400</property>
@@ -206,7 +206,7 @@
     <property name="default_width">500</property>
     <property name="default_height">500</property>
     <property name="destroy_with_parent">True</property>
-    <property name="icon">window-new.png</property>
+    <property name="icon">gdevilspie.png</property>
     <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
     <property name="skip_taskbar_hint">True</property>
     <property name="transient_for">RulesList</property>

@@ -288,6 +288,15 @@ else:
 	gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, "Glade file not found, exiting.").run()
 	quit()
 
+
+# icon used
+if os.path.isfile(os.path.dirname(sys.argv[0])+'/gdevilspie.png'):
+	gdevilspie_icon = os.path.dirname(sys.argv[0])+'/gdevilspie.png'
+elif os.path.isfile(os.path.dirname(sys.argv[0]) + '/../share/gdevilspie/gdevilspie.png'):
+	gdevilspie_icon = os.path.dirname(sys.argv[0])+'/../share/gdevilspie/gdevilspie.png'
+else:
+	gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, "Icon file not found.").run()
+
 # Directory where we store .ds files
 dir = os.path.expanduser("~/.devilspie")
 
@@ -344,7 +353,7 @@ class RulesListWindow:
 
 	# Tray Icon (Not working properly yet)
 	self.tray = gtk.StatusIcon()
-	self.tray.set_from_file("gdevilspie.png")
+	self.tray.set_from_file(gdevilspie_icon)
 	self.tray.set_tooltip("gDevilspie")
 	self.tray.set_blinking(False)
 	self.tray.connect("activate", self.on_tray_activate)
