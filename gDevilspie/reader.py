@@ -1,4 +1,4 @@
-import s-parser
+import gDevilspie.s-parser
 import string
 
 def geo_parse(gstring):

@@ -9,9 +9,9 @@ setup(name='gdevilspie',
       author_email='iamer@open-craft.com',
       url='http://code.google.com/p/gdevilspie/',
 	  license='GPLv2',
-      py_modules=['parser', 'reader','filler'],
+      packages=['gDevilspie'],
 	  scripts=['gdevilspie'],
 	  data_files=[('share/gdevilspie',['gdevilspie.glade', 'gdevilspie.png']),
 		  ('share/pixmaps/',['gdevilspie.png'])],
      ) 
-#FIXME: Add README, etc.
+#FIXME: Add README, etc.	
