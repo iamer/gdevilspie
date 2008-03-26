@@ -1,9 +1,7 @@
 Pending :
+* Code refactoring
 * Fill Dialog can hide behind rule editor.
-* handle system wide install.
-* Validate created rules correctness.
 * Flash the tray icon when a rule is matched.
-* Later on we can use inotify to automatcially refresh.
 * Add an optional alternate action notebook page, to allow for if -- then -- else rule creation.
 * Handle system wide rules, shown read only. Add unlock button for password entry to edit the system wide rules.
 * Help text all over the place.
@@ -28,4 +26,6 @@ DONE :
 * Package 0.1 release.
 * Possibililty to edit already available rules files. ( parser )
 * Finish GUI of rules creation dialog.
+* handle system wide install.
+* Validate created rules correctness.
 
