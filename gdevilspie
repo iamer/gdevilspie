@@ -24,7 +24,7 @@ import commands
 import signal
 import subprocess
 import string
-import gDevilspie.reader
+import gDevilspie.reader as reader
 import tempfile
 try:
 	import gobject
@@ -38,7 +38,7 @@ except:
 
 DISABLE_FILLER=""
 try:
-	import gDevilspie.filler
+	import gDevilspie.filler as filler
 except:
 	error = gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, "Make sure that Python-Wnck is correctly installed for 'filler' module to run properly.")
 	response = error.run()
