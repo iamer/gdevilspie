@@ -541,7 +541,7 @@
     <property name="skip_pager_hint">True</property>
     <property name="transient_for">RulesList</property>
     <property name="program_name">gDevilspie</property>
-    <property name="version">0.1</property>
+    <property name="version">svn</property>
     <property name="copyright" translatable="yes">Copyright (C) Islam Amer 2008 &lt;iamer@open-craft.com&gt;</property>
     <property name="comments" translatable="yes">A user friendly interface to the devilspie window matching daemon, to create rules easily. </property>
     <property name="website">http://code.google.com/p/gdevilspie/</property>

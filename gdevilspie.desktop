@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=gDevilspie
+Comment=GUI for devilspie matching daemon
+Exec=gdevilspie
+Terminal=false
+Type=Application
+StartupNotify=true
+Icon=gdevilspie
+Categories=GNOME;Utility;
