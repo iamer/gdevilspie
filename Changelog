@@ -1,3 +1,10 @@
+* 1  April 2008 Release version 0.3
+	* Rewrote devilspie daemon handling. Should be more robust.
+	* Minor visual enhancements.
+	* Handle system wide install, done using setup.py
+	* Restructure modules.
+	* Added README, COPYING, and .desktop
+
 * 21 March 2008 Release version 0.2
 	* Correct parsing of actions that have arguments, specially geometry. 
 	* Make the window list scrollable.
