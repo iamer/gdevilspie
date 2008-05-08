@@ -1,0 +1,18 @@
+Source: gdevilspie 
+Section: python
+Priority: optional
+Maintainer: 
+Build-Depends: debhelper (>= 5.0.38), python-central (>= 0.5.6)
+XS-Python-Standards-Version: 0.4
+XS-Python-Version: 2.5 
+Standards-Version: 3.7.2
+
+Package: gdevilspie
+Architecture: any
+Depends:  python-central (>= 0.5.6), devilspie, python-gtk2 ( >= 2.12)
+Provides:
+Conflicts: 
+Replaces: 
+Suggests: 
+Recommends: python-gnome2-desktop ( >= 2.22 )
+Description: a pyGTK interface to devilspie
