@@ -45,40 +45,51 @@ except:
 	error.destroy()
 	DISABLE_FILLER="True"
 
+import gettext
+_ = gettext.gettext
+PACKAGE = "gdevilspie"
+# FIXME
+# LOCALEDIR = @localedir@
+LOCALEDIR = "locale"
+gettext.bindtextdomain(PACKAGE, LOCALEDIR)
+gettext.textdomain(PACKAGE)
+gtk.glade.bindtextdomain(PACKAGE, LOCALEDIR)
+gtk.glade.textdomain(PACKAGE)
+
 # List of possible match criteria
 match_criteria={
 "window_name" : { 
-"description" : "<b>Any window whose name</b>", "widget" : None, 
+"description" : _("<b>Any window whose name</b>"), "widget" : None, 
 "entry_is" : None, "entry_contains" : None, "entry_matches" : None,
 "is_not" : False, "contains_not" : False, "matches_not" : False,
 "is_not_checkbox" : None, "contains_not_checkbox" : None, "matches_not_checkbox" : None  }, 
 
-"window_role" : { "description" : "<b>Any window whose role</b>", "widget" : None, 
+"window_role" : { "description" : _("<b>Any window whose role</b>"), "widget" : None, 
 "entry_is" : None, "entry_contains" : None, "entry_matches" : None ,
 "is_not" : False, "contains_not" : False, "matches_not" : False,
 "is_not_checkbox" : None, "contains_not_checkbox" : None, "matches_not_checkbox" : None }, 
 
-"window_class" : { "description" : "<b>Any window whose class</b>", "widget" : None, 
+"window_class" : { "description" : _("<b>Any window whose class</b>"), "widget" : None, 
 "entry_is" : None, "entry_contains" : None, "entry_matches" : None ,
 "is_not" : False, "contains_not" : False, "matches_not" : False, 
 "is_not_checkbox" : None, "contains_not_checkbox" : None, "matches_not_checkbox" : None }, 
 
-"window_xid" : { "description" : "<b>Any window whose xid</b>", "widget" : None, 
+"window_xid" : { "description" : _("<b>Any window whose xid</b>"), "widget" : None, 
 "entry_is" : None, "entry_contains" : None, "entry_matches" : None ,
 "is_not" : False, "contains_not" : False, "matches_not" : False,
 "is_not_checkbox" : None, "contains_not_checkbox" : None, "matches_not_checkbox" : None }, 
 
-"application_name" : { "description" : "<b>Any window whose application name</b>", "widget" : None,
+"application_name" : { "description" : _("<b>Any window whose application name</b>"), "widget" : None,
 "entry_is" : None, "entry_contains" : None, "entry_matches" : None ,
 "is_not" : False, "contains_not" : False, "matches_not" : False,
 "is_not_checkbox" : None, "contains_not_checkbox" : None, "matches_not_checkbox" : None }, 
 
-"window_property" : { "description" : "<b>Any window whose property</b>", "widget" : None, 
+"window_property" : { "description" : _("<b>Any window whose property</b>"), "widget" : None, 
 "entry_is" : None, "entry_contains" : None, "entry_matches" : None ,
 "is_not" : False, "contains_not" : False, "matches_not" : False,
 "is_not_checkbox" : None, "contains_not_checkbox" : None, "matches_not_checkbox" : None }, 
 
-"window_workspace" : { "description" : "<b>Any window whose workspace</b>", "widget" : None, 
+"window_workspace" : { "description" : _("<b>Any window whose workspace</b>"), "widget" : None, 
 "entry_is" : None, "entry_contains" : None, "entry_matches" : None ,
 "is_not" : False, "contains_not" : False, "matches_not" : False,
 "is_not_checkbox" : None, "contains_not_checkbox" : None, "matches_not_checkbox" : None } 
@@ -123,9 +134,9 @@ def create_match_parameters_page(match_criteria_name):
 	entry_matches = match_criteria[match_criteria_name]["entry_matches"]
 
 	# Three labels
-	MatchMethod_text_is=gtk.Label("equal(s)")
-	MatchMethod_text_contains=gtk.Label("contain(s)")
-	MatchMethod_text_matches=gtk.Label("match(es)")
+	MatchMethod_text_is=gtk.Label(_("equal(s)"))
+	MatchMethod_text_contains=gtk.Label(_("contain(s)"))
+	MatchMethod_text_matches=gtk.Label(_("match(es)"))
 	
 	# Pack the triads
 	hbox_is.pack_start(is_not_checkbox, False, False)
@@ -153,35 +164,35 @@ def create_match_parameters_page(match_criteria_name):
 
 # Dictionary of the actions for each of which we store a dictionary of help text and widgets
 actions_dict={
-"geometry" : {"description" : "<b>Set position and size of window</b>", "widget" : None, "type" : "Text" , "input" : { "xposition" : None, "yposition" : None, "width" : None, "height" : None } },
-"fullscreen" : {"description" : "<b>Make the window fullscreen</b>", "widget" : None},
-"focus": {"description" : "<b>Focus the window</b>", "widget" : None},
-"center": {"description" : "<b>Center the position of the window</b>", "widget" : None},
-"maximize": {"description" : "<b>Maximize the window</b>", "widget" : None},
-"maximize_vertically": {"description" : "<b>Maximize the window vertically only</b>", "widget" : None},
-"maximize_horizontally": {"description" : "<b>Maximize the window horizontally only</b>", "widget" : None},
-"unmaximize": {"description" : "<b>Unmaximize the window</b>", "widget" : None},
-"minimize": {"description" : "<b>Minimize the window</b>", "widget" : None},
-"unminimize": {"description" : "<b>Unminimize the window</b>", "widget" : None},
-"shade": {"description" : "<b>Roll up the window</b>", "widget" : None},
-"unshade": {"description" : "<b>Roll down the window</b>", "widget" : None},
-"close": {"description" : "<b>Close the window</b>", "widget" : None},
-"pin": {"description" : "<b>Pin the window to all workspaces</b>", "widget" : None},
-"unpin": {"description" : "<b>Unpin the window from all workspaces</b>", "widget" : None},
-"stick": {"description" : "<b>Stick the window to all viewports</b>", "widget" : None},
-"unstick": {"description" : "<b>Unstick the window from all viewports</b>", "widget" : None},
-"set_workspace": {"description" : "<b>Move the window to a specific workspace number</b>", "widget" : None, "type" : "Spin" , "input" : { "workspace" : None } },
-"set_viewport": {"description" : "<b>Move the window to a specific viewport number</b>", "widget" : None, "type" : "Spin" , "input" : { "viewport" : None } },
-"skip_pager": {"description" : "<b>Remove the window from the window list</b>", "widget" : None},
-"skip_tasklist": {"description" : "<b>Remove the window from the pager</b>", "widget" : None},
-"above": {"description" : "<b>Set  the  current window to be above all normal windows</b>", "widget" : None},
-"below": {"description" : "<b>Set the current window to be below all normal  windows</b>", "widget" : None},
-"decorate": {"description" : "<b>Add  the  window  manager  decorations  to  the window</b>", "widget" : None},
-"undecorate": {"description" : "<b>Remove the window manager decorations from  the window</b>", "widget" : None},
-"wintype": {"description" : "<b>Set  the  window  type  of the window</b>", "widget" : None, "type" : "Combo" , "Choices" : ["normal", "dialog", "menu", "toolbar", "splash-screen", "utility", "dock", "desktop"] , "input" : { "wintype" : None } },
-"opacity": {"description" : "<b>Change  the  opacity level of the widnow</b>", "widget" : None, "type" : "Spin" , "input" : { "opacity" : None } },
-"spawn_async": {"description" : "<b>Execute a command in the background</b>", "widget" : None, "type" : "Text" , "input" : { "command" : None } },
-"spawn_sync": {"description" : "<b>Execute a command in the foreground</b>", "widget" : None, "type" : "Text" , "input" : { "command" : None } }
+"geometry" : {"description" : _("<b>Set position and size of window</b>"), "widget" : None, "type" : "Text" , "input" : { "xposition" : None, "yposition" : None, "width" : None, "height" : None } },
+"fullscreen" : {"description" : _("<b>Make the window fullscreen</b>"), "widget" : None},
+"focus": {"description" : _("<b>Focus the window</b>"), "widget" : None},
+"center": {"description" : _("<b>Center the position of the window</b>"), "widget" : None},
+"maximize": {"description" : _("<b>Maximize the window</b>"), "widget" : None},
+"maximize_vertically": {"description" : _("<b>Maximize the window vertically only</b>"), "widget" : None},
+"maximize_horizontally": {"description" : _("<b>Maximize the window horizontally only</b>"), "widget" : None},
+"unmaximize": {"description" : _("<b>Unmaximize the window</b>"), "widget" : None},
+"minimize": {"description" : _("<b>Minimize the window</b>"), "widget" : None},
+"unminimize": {"description" : _("<b>Unminimize the window</b>"), "widget" : None},
+"shade": {"description" : _("<b>Roll up the window</b>"), "widget" : None},
+"unshade": {"description" : _("<b>Roll down the window</b>"), "widget" : None},
+"close": {"description" : _("<b>Close the window</b>"), "widget" : None},
+"pin": {"description" : _("<b>Pin the window to all workspaces</b>"), "widget" : None},
+"unpin": {"description" : _("<b>Unpin the window from all workspaces</b>"), "widget" : None},
+"stick": {"description" : _("<b>Stick the window to all viewports</b>"), "widget" : None},
+"unstick": {"description" : _("<b>Unstick the window from all viewports</b>"), "widget" : None},
+"set_workspace": {"description" : _("<b>Move the window to a specific workspace number</b>"), "widget" : None, "type" : "Spin" , "input" : { "workspace" : None } },
+"set_viewport": {"description" : _("<b>Move the window to a specific viewport number</b>"), "widget" : None, "type" : "Spin" , "input" : { "viewport" : None } },
+"skip_pager": {"description" : _("<b>Remove the window from the window list</b>"), "widget" : None},
+"skip_tasklist": {"description" : _("<b>Remove the window from the pager</b>"), "widget" : None},
+"above": {"description" : _("<b>Set  the  current window to be above all normal windows</b>"), "widget" : None},
+"below": {"description" : _("<b>Set the current window to be below all normal  windows</b>"), "widget" : None},
+"decorate": {"description" : _("<b>Add  the  window  manager  decorations  to  the window</b>"), "widget" : None},
+"undecorate": {"description" : _("<b>Remove the window manager decorations from  the window</b>"), "widget" : None},
+"wintype": {"description" : _("<b>Set  the  window  type  of the window</b>"), "widget" : None, "type" : "Combo" , "Choices" : ["normal", "dialog", "menu", "toolbar", "splash-screen", "utility", "dock", "desktop"] , "input" : { "wintype" : None } },
+"opacity": {"description" : _("<b>Change  the  opacity level of the widnow</b>"), "widget" : None, "type" : "Spin" , "input" : { "opacity" : None } },
+"spawn_async": {"description" : _("<b>Execute a command in the background</b>"), "widget" : None, "type" : "Text" , "input" : { "command" : None } },
+"spawn_sync": {"description" : _("<b>Execute a command in the foreground</b>"), "widget" : None, "type" : "Text" , "input" : { "command" : None } }
 }
 
 def create_action_parameters_page(action_name):
@@ -311,7 +322,7 @@ class RulesListWindow:
 	  wTreeAbout = gtk.glade.XML (gladefile, "AboutgDevilepie")
 	except:
 	#inform the user there was an error and exit
-		gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, "Glade file not found, exiting.").run()
+		gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, _("Glade file not found, exiting.")).run()
 		quit()
 
 	self.AboutgDevilepie = wTreeAbout.get_widget("AboutgDevilepie")
@@ -344,7 +355,7 @@ class RulesListWindow:
 	  if (os.path.isdir(dir)):
 		self.fill_rules_list()
 	  else:
-		  print "~/.devilspie is a file, please remove it"
+		  print _("~/.devilspie is a file, please remove it")
 	else:
 		  os.makedirs(dir)
 	self.RulesTree.set_cursor(0, None, False)
@@ -354,7 +365,7 @@ class RulesListWindow:
 	# Tray Icon (Not working properly yet)
 	self.tray = gtk.StatusIcon()
 	self.tray.set_from_file(gdevilspie_icon)
-	self.tray.set_tooltip("gDevilspie")
+	self.tray.set_tooltip(_("gDevilspie"))
 	self.tray.set_blinking(False)
 	self.tray.connect("activate", self.on_tray_activate)
 	self.tray.connect("popup-menu", self.on_tray_popup)
@@ -473,12 +484,12 @@ class RulesListWindow:
 	prog = commands.getoutput("pgrep -x devilspie")
 	if ( prog == "" ):
 	  # daemon not running
-	  self.DaemonStatus.set_markup("<b>The devilspie daemon is <span foreground=\"red\">not</span> running.</b>")
-	  self.ToggleDaemonLabel.set_markup("<b><span foreground=\"dark green\">Start</span></b>")
+	  self.DaemonStatus.set_markup(_("<b>The devilspie daemon is <span foreground=\"red\">not</span> running.</b>"))
+	  self.ToggleDaemonLabel.set_markup(_("<b><span foreground=\"dark green\">Start</span></b>"))
 	  return 1
 	else:
-	  self.DaemonStatus.set_markup("<b>The devilspie daemon is <span foreground=\"dark green\">running.</span></b>")
-	  self.ToggleDaemonLabel.set_markup("<b><span foreground=\"red\">Stop</span></b>")
+	  self.DaemonStatus.set_markup(_("<b>The devilspie daemon is <span foreground=\"dark green\">running.</span></b>"))
+	  self.ToggleDaemonLabel.set_markup(_("<b><span foreground=\"red\">Stop</span></b>"))
 	  return prog
 	
   def toggle_daemon(self, request):
@@ -487,7 +498,7 @@ class RulesListWindow:
 		try:
 			self.devilspie_process = subprocess.Popen(['devilspie','-a'] , stdin=None, stdout=None, stderr=None, env=os.environ)
 		except OSError:
-			error = gtk.MessageDialog(self.RulesList, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK, "There was an error starting the devilspie daemon. Please check that it is installed somewhere included in the PATH and try again.")
+			error = gtk.MessageDialog(self.RulesList, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK, _("There was an error starting the devilspie daemon. Please check that it is installed somewhere included in the PATH and try again."))
 			response = error.run()
 			error.destroy()
   	else: # kill it
@@ -525,7 +536,7 @@ class RulesListWindow:
 	 RuleFile = os.path.expanduser("~/.devilspie/") + SelectedRule[0] + '.ds'
 	 if (os.path.exists(RuleFile)):
 	   try:
-		 error_dialog = gtk.MessageDialog(self.RulesList, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_QUESTION, gtk.BUTTONS_YES_NO, "Are you sure you want to remove the rule " + SelectedRule[0] + "?")
+		 error_dialog = gtk.MessageDialog(self.RulesList, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_QUESTION, gtk.BUTTONS_YES_NO, _("Are you sure you want to remove the rule ") + SelectedRule[0] + "?")
 		 response = error_dialog.run()
 		 error_dialog.destroy()
 		 if ( response == gtk.RESPONSE_YES ):
@@ -534,7 +545,7 @@ class RulesListWindow:
 		 else:
 		   return
 	   except:
-		 error_dialog = gtk.MessageDialog(self.RulesList, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_CANCEL, "Could not remove the rule, please check file permissions and try again.")
+		 error_dialog = gtk.MessageDialog(self.RulesList, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_CANCEL, _("Could not remove the rule, please check file permissions and try again."))
 		 response = error_dialog.run()
 		 error_dialog.destroy()
   
@@ -559,7 +570,7 @@ class RuleEditorWindow:
 	try:
 		wTreeEdit = gtk.glade.XML (gladefile, "RuleEdit")
 	except:
-		gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, "Glade file not found, exiting.").run()
+		gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, _("Glade file not found, exiting.")).run()
 		quit()
 
 	# get the widgets that we use
@@ -696,7 +707,7 @@ class RuleEditorWindow:
 	
   def on_Fill_clicked(self,widget):
 	if (DISABLE_FILLER == "True"):
-	  error = gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, "The filler is disabled.")
+	  error = gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, _("The filler is disabled."))
 	  response = error.run()
 	  error.destroy()
 	else:
@@ -719,7 +730,7 @@ class RuleEditorWindow:
 	if ( str == "" ):
 	  self.Save_button.set_sensitive(False)
 	  self.RuleName_entry.modify_text(gtk.STATE_NORMAL, gtk.gdk.color_parse("red"))
-	  self.RuleName_entry.set_text("Please enter a name for the rule.")
+	  self.RuleName_entry.set_text(_("Please enter a name for the rule."))
 	  self.handler_id = self.RuleName_entry.connect("focus-in-event", self.on_RuleName_entry_activate)
 	  return
 	path = os.path.expanduser("~/.devilspie/")
@@ -727,7 +738,7 @@ class RuleEditorWindow:
 	rulefileslist = os.listdir(dir)
 	response = gtk.RESPONSE_YES
 	if ( new_Rule_file_name in rulefileslist ):
-	  error_dialog = gtk.MessageDialog(self.RuleEdit, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_QUESTION, gtk.BUTTONS_YES_NO, "The rule name you entered is already in use, do you want to overwrite it?")
+	  error_dialog = gtk.MessageDialog(self.RuleEdit, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_QUESTION, gtk.BUTTONS_YES_NO, _("The rule name you entered is already in use, do you want to overwrite it?"))
 	  response = error_dialog.run()
 	  error_dialog.destroy()
 	if ( response == gtk.RESPONSE_YES ):
@@ -742,7 +753,7 @@ class RuleEditorWindow:
 		MainWindow.update_rules_list()
 		self.RuleEdit.destroy()
 	  except:
-		error_dialog = gtk.MessageDialog(self.RuleEdit, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_CANCEL, "Could not save the rule, please check file permissions and try again.")
+		error_dialog = gtk.MessageDialog(self.RuleEdit, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_CANCEL, _("Could not save the rule, please check file permissions and try again."))
 		response = error_dialog.run()
 		error_dialog.destroy()
 	else:
@@ -755,7 +766,7 @@ class FillerWindow:
 		wFillerList = gtk.glade.XML (gladefile, "FillerDialog")
 	except:
 	#inform the user there was an error and exit
-		gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, "Glade file not found, exiting.").run()
+		gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, _("Glade file not found, exiting.")).run()
 		quit()
 
 	self.FillerDialog = wFillerList.get_widget("FillerDialog")
