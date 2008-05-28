@@ -1,0 +1,305 @@
+# translation of ar.po to Arabic
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Khaled Hosny <khaledhosny@eglug.org>, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: ar\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-05-28 17:39+0300\n"
+"PO-Revision-Date: 2008-05-28 17:47+0300\n"
+"Last-Translator: Khaled Hosny <khaledhosny@eglug.org>\n"
+"Language-Team: Arabic <doc@arabeyes.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: gdevilspie:62
+msgid "<b>Any window whose name</b>"
+msgstr "<b>أي نافذة اسمها</b>"
+
+#: gdevilspie:67
+msgid "<b>Any window whose role</b>"
+msgstr ""
+
+#: gdevilspie:72
+msgid "<b>Any window whose class</b>"
+msgstr ""
+
+#: gdevilspie:77
+msgid "<b>Any window whose xid</b>"
+msgstr ""
+
+#: gdevilspie:82
+msgid "<b>Any window whose application name</b>"
+msgstr "<b>أي تطبيق اسمه</b>"
+
+#: gdevilspie:87
+msgid "<b>Any window whose property</b>"
+msgstr ""
+
+#: gdevilspie:92
+msgid "<b>Any window whose workspace</b>"
+msgstr ""
+
+#: gdevilspie:137
+msgid "equal(s)"
+msgstr "تساوي"
+
+#: gdevilspie:138
+msgid "contain(s)"
+msgstr "تحتوي"
+
+#: gdevilspie:139
+msgid "match(es)"
+msgstr "تطابق"
+
+#: gdevilspie:167
+msgid "<b>Set position and size of window</b>"
+msgstr ""
+
+#: gdevilspie:168
+msgid "<b>Make the window fullscreen</b>"
+msgstr ""
+
+#: gdevilspie:169
+msgid "<b>Focus the window</b>"
+msgstr ""
+
+#: gdevilspie:170
+msgid "<b>Center the position of the window</b>"
+msgstr ""
+
+#: gdevilspie:171
+msgid "<b>Maximize the window</b>"
+msgstr ""
+
+#: gdevilspie:172
+msgid "<b>Maximize the window vertically only</b>"
+msgstr ""
+
+#: gdevilspie:173
+msgid "<b>Maximize the window horizontally only</b>"
+msgstr ""
+
+#: gdevilspie:174
+msgid "<b>Unmaximize the window</b>"
+msgstr ""
+
+#: gdevilspie:175
+msgid "<b>Minimize the window</b>"
+msgstr ""
+
+#: gdevilspie:176
+msgid "<b>Unminimize the window</b>"
+msgstr ""
+
+#: gdevilspie:177
+msgid "<b>Roll up the window</b>"
+msgstr ""
+
+#: gdevilspie:178
+msgid "<b>Roll down the window</b>"
+msgstr ""
+
+#: gdevilspie:179
+msgid "<b>Close the window</b>"
+msgstr ""
+
+#: gdevilspie:180
+msgid "<b>Pin the window to all workspaces</b>"
+msgstr ""
+
+#: gdevilspie:181
+msgid "<b>Unpin the window from all workspaces</b>"
+msgstr ""
+
+#: gdevilspie:182
+msgid "<b>Stick the window to all viewports</b>"
+msgstr ""
+
+#: gdevilspie:183
+msgid "<b>Unstick the window from all viewports</b>"
+msgstr ""
+
+#: gdevilspie:184
+msgid "<b>Move the window to a specific workspace number</b>"
+msgstr ""
+
+#: gdevilspie:185
+msgid "<b>Move the window to a specific viewport number</b>"
+msgstr ""
+
+#: gdevilspie:186
+msgid "<b>Remove the window from the window list</b>"
+msgstr ""
+
+#: gdevilspie:187
+msgid "<b>Remove the window from the pager</b>"
+msgstr ""
+
+#: gdevilspie:188
+msgid "<b>Set  the  current window to be above all normal windows</b>"
+msgstr ""
+
+#: gdevilspie:189
+msgid "<b>Set the current window to be below all normal  windows</b>"
+msgstr ""
+
+#: gdevilspie:190
+msgid "<b>Add  the  window  manager  decorations  to  the window</b>"
+msgstr ""
+
+#: gdevilspie:191
+msgid "<b>Remove the window manager decorations from  the window</b>"
+msgstr ""
+
+#: gdevilspie:192
+msgid "<b>Set  the  window  type  of the window</b>"
+msgstr ""
+
+#: gdevilspie:193
+msgid "<b>Change  the  opacity level of the widnow</b>"
+msgstr ""
+
+#: gdevilspie:194
+msgid "<b>Execute a command in the background</b>"
+msgstr ""
+
+#: gdevilspie:195
+msgid "<b>Execute a command in the foreground</b>"
+msgstr ""
+
+#: gdevilspie:325 gdevilspie:573 gdevilspie:769
+msgid "Glade file not found, exiting."
+msgstr ""
+
+#: gdevilspie:358
+msgid "~/.devilspie is a file, please remove it"
+msgstr ""
+
+#: gdevilspie:368 gdevilspie.glade:9
+msgid "gDevilspie"
+msgstr "ج‌ديڤيل‌سپاي"
+
+#: gdevilspie:487
+msgid "<b>The devilspie daemon is <span foreground=\"red\">not</span> running.</b>"
+msgstr "<b>جني devilspie <span foreground=\"red\">لا</span> يعمل حاليا.</b>"
+
+#: gdevilspie:488 gdevilspie.glade:104
+msgid "<b><span foreground=\"dark green\">Start</span></b>"
+msgstr "<b><span foreground=\"dark green\">ابدأ</span></b>"
+
+#: gdevilspie:491
+msgid ""
+"<b>The devilspie daemon is <span foreground=\"dark green\">running.</span></"
+"b>"
+msgstr ""
+
+#: gdevilspie:492
+msgid "<b><span foreground=\"red\">Stop</span></b>"
+msgstr "<b><span foreground=\"red\">أوقف</span></b>"
+
+#: gdevilspie:501
+msgid ""
+"There was an error starting the devilspie daemon. Please check that it is "
+"installed somewhere included in the PATH and try again."
+msgstr ""
+
+#: gdevilspie:539
+msgid "Are you sure you want to remove the rule "
+msgstr ""
+
+#: gdevilspie:548
+msgid "Could not remove the rule, please check file permissions and try again."
+msgstr ""
+
+#: gdevilspie:710
+msgid "The filler is disabled."
+msgstr ""
+
+#: gdevilspie:733
+msgid "Please enter a name for the rule."
+msgstr ""
+
+#: gdevilspie:741
+msgid "The rule name you entered is already in use, do you want to overwrite it?"
+msgstr ""
+
+#: gdevilspie:756
+msgid "Could not save the rule, please check file permissions and try again."
+msgstr ""
+
+#: gdevilspie.glade:71
+msgid "<b>  The devilspie daemon is <span foreground=\"red\">not</span> running.</b>"
+msgstr ""
+
+#: gdevilspie.glade:203
+msgid "Rule Editor"
+msgstr ""
+
+#: gdevilspie.glade:227
+msgid "<b>Create a new rule named :              </b>"
+msgstr ""
+
+#: gdevilspie.glade:294
+msgid "Matching"
+msgstr ""
+
+#: gdevilspie.glade:349
+msgid "Actions"
+msgstr ""
+
+#: gdevilspie.glade:381
+msgid "Raw"
+msgstr ""
+
+#: gdevilspie.glade:406
+msgid "Get"
+msgstr ""
+
+#: gdevilspie.glade:457
+msgid "Window Selector"
+msgstr ""
+
+#: gdevilspie.glade:535
+msgid "About gDevilspie"
+msgstr "عن ج‌ديڤيل‌سپاي"
+
+#: gdevilspie.glade:545
+msgid "Copyright (C) Islam Amer 2008 <iamer@open-craft.com>"
+msgstr "حقوق النشر 2008 إسلام عمر <iamer@open-craft.com>"
+
+#: gdevilspie.glade:546
+msgid ""
+"A user friendly interface to the devilspie window matching daemon, to create "
+"rules easily. "
+msgstr ""
+
+#: gdevilspie.glade:548
+msgid ""
+"gdevilspie.py is free software: you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation, either version 3 of the License, or (at your option) "
+"any later version.\n"
+" \n"
+"gdevilspie.py is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"this program.  If not, see <http://www.gnu.org/licenses/>.\n"
+msgstr ""
+
+#: gdevilspie.glade:586
+msgid "About"
+msgstr "عنْ"
+
+#: gdevilspie.glade:598
+msgid "Quit"
+msgstr "أغلق"
+
