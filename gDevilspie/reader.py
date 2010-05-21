@@ -41,7 +41,7 @@ def read_file(filename):
 		matcond = z[0][1]
 		action = z[0][2]
 
-	if matcond[0] == "and":
+	if matcond[0] in "and" or "begin":
 		for item in matcond:
 			condition_checker(matdict, item)
 	else:

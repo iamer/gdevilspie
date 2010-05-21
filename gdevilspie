@@ -227,7 +227,7 @@ def create_action_parameters_page(action_name):
 
 def generate_rule(generated_rule):
 	part0 = "( if \n"
-	part1 = "( and \n"
+	part1 = "( begin \n"
 	part2 = generate_match_criteria()
 	part3 = ") \n" + "( begin \n"
 	part4 = generate_actions()
