@@ -481,7 +481,7 @@ class RulesListWindow:
   		return parsed_geom
   					
   def UpdateDaemonStatus(self):
-	prog = commands.getoutput("pgrep -x devilspie")
+	prog = commands.getoutput("pgrep -x devilspie -u $USER")
 	if ( prog == "" ):
 	  # daemon not running
 	  self.DaemonStatus.set_markup(_("<b>The devilspie daemon is <span foreground=\"red\">not</span> running.</b>"))
