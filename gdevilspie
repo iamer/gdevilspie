@@ -45,6 +45,15 @@ except:
 	error.destroy()
 	DISABLE_FILLER="True"
 
+DISABLE_XDG=""
+try:
+    import xdg.DesktopEntry
+except:
+	error = gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, "Make sure that Python-xdg is correctly installed if you need autostart handling.")
+	response = error.run()
+	error.destroy()
+	DISABLE_XDG="True"
+
 import gettext
 _ = gettext.gettext
 PACKAGE = "gdevilspie"
@@ -308,6 +317,15 @@ elif os.path.isfile(os.path.dirname(sys.argv[0]) + '/../share/gdevilspie/gdevils
 else:
 	gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, "Icon file not found.").run()
 
+# dekstop file 
+if os.path.isfile(os.path.dirname(sys.argv[0])+'/gdevilspie.desktop'):
+	gdevilspie_desktop = os.path.dirname(sys.argv[0])+'/gdevilspie.desktop'
+elif os.path.isfile(os.path.dirname(sys.argv[0]) + '/../share/applications/gdevilspie.desktop'):
+	gdevilspie_desktop = os.path.dirname(sys.argv[0])+'/../share/applications/gdevilspie.desktop'
+else:
+	gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, "Desktop file not found.").run()
+	DISABLE_XDG="True"
+
 # Directory where we store .ds files
 dir = os.path.expanduser("~/.devilspie")
 
@@ -331,6 +349,7 @@ class RulesListWindow:
 	self.RulesTree = wTreeList.get_widget("RulesTree")
 	self.DaemonStatus = wTreeList.get_widget("DaemonStatus")
 	self.ToggleDaemon = wTreeList.get_widget("ToggleDaemon")
+	self.DaemonAutostart = wTreeList.get_widget("DaemonAutostart")
 	self.ToggleDaemonLabel = wTreeList.get_widget("ToggleDaemonLabel")
 	self.StatusPopupMenu = wTreeStatusPopupMenu.get_widget("StatusPopupMenu")
 	# connect the signals to callbacks
@@ -360,7 +379,8 @@ class RulesListWindow:
 		  os.makedirs(dir)
 	self.RulesTree.set_cursor(0, None, False)
 	
-	self.UpdateDaemonStatus()
+	self.UpdateDaemonStatus() 
+	self.UpdateAutostartStatus()
 
 	# Tray Icon (Not working properly yet)
 	self.tray = gtk.StatusIcon()
@@ -526,7 +546,34 @@ class RulesListWindow:
 		
   def on_ToggleDaemon_clicked(self,widget):
 	self.toggle_daemon(self.ToggleDaemonLabel.get_text())
-  
+ 
+  def UpdateAutostartStatus(self):
+		if ( DISABLE_XDG == "True" ):
+				self.DaemonAutostart.set_sensitive(False)
+		else:
+				if (os.path.exists(xdg.DesktopEntry.xdg_config_home + "/autostart/devilspie.desktop")):
+					df = xdg.DesktopEntry.DesktopEntry(xdg.DesktopEntry.xdg_config_home + "/autostart/devilspie.desktop")
+					if (df.get('X-GNOME-Autostart-enabled') == 'true'):
+							self.DaemonAutostart.set_active(True)
+				else:
+						import shutil
+						shutil.copy(gdevilspie_desktop,xdg.DesktopEntry.xdg_config_home + "/autostart/devilspie.desktop")
+						df = xdg.DesktopEntry.DesktopEntry(xdg.DesktopEntry.xdg_config_home + "/autostart/devilspie.desktop")
+						df.set('Name','Devilspie')
+						df.set('Exec','devilspie')
+						df.set('X-GNOME-Autostart-enabled','false')
+						df.write()
+
+					
+  def on_DaemonAutostart_toggled(self,widget):
+			df = xdg.DesktopEntry.DesktopEntry(xdg.DesktopEntry.xdg_config_home + "/autostart/devilspie.desktop")
+			if (widget.get_active()):
+					df.set('X-GNOME-Autostart-enabled','true')
+					df.write()
+			else:
+					df.set('X-GNOME-Autostart-enabled','false')
+					df.write()
+
   # used to delete a rule
   def on_DeleteRule_clicked(self,widget):
    SelectedRow = self.RulesTree.get_selection()
