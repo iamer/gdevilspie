@@ -317,15 +317,6 @@ elif os.path.isfile(os.path.dirname(sys.argv[0]) + '/../share/gdevilspie/gdevils
 else:
 	gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, "Icon file not found.").run()
 
-# dekstop file 
-if os.path.isfile(os.path.dirname(sys.argv[0])+'/gdevilspie.desktop'):
-	gdevilspie_desktop = os.path.dirname(sys.argv[0])+'/gdevilspie.desktop'
-elif os.path.isfile(os.path.dirname(sys.argv[0]) + '/../share/applications/gdevilspie.desktop'):
-	gdevilspie_desktop = os.path.dirname(sys.argv[0])+'/../share/applications/gdevilspie.desktop'
-else:
-	gtk.MessageDialog(None, 0, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, "Desktop file not found.").run()
-	DISABLE_XDG="True"
-
 # Directory where we store .ds files
 dir = os.path.expanduser("~/.devilspie")
 
@@ -556,8 +547,6 @@ class RulesListWindow:
 					if (df.get('X-GNOME-Autostart-enabled') == 'true'):
 							self.DaemonAutostart.set_active(True)
 				else:
-						import shutil
-						shutil.copy(gdevilspie_desktop,xdg.DesktopEntry.xdg_config_home + "/autostart/devilspie.desktop")
 						df = xdg.DesktopEntry.DesktopEntry(xdg.DesktopEntry.xdg_config_home + "/autostart/devilspie.desktop")
 						df.set('Name','Devilspie')
 						df.set('Exec','devilspie')
